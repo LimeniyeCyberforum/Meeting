@@ -8,8 +8,12 @@ using System.Windows;
 
 namespace WPFView
 {
-    public partial class MainWindow : Window
+    public class ChatViewModel : BaseInpc
     {
+        private string _message;
+
+        public string Message { get => _message; set => Set(ref _message, value); }
+
         public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>()
         {
             new Message(Guid.NewGuid(), "Hello world", false, MessageStatus.Readed, DateTime.Now)
@@ -22,20 +26,6 @@ namespace WPFView
 
         private void OnSendMessageExecute()
         {
-
-        }
-
-        private bool CanSendMessageExecute()
-        {
-            return true;
-        }
-        #endregion
-
-        public MainWindow()
-        {
-            InitializeComponent();
-            DataContext = this;
-
             var httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
 
@@ -43,10 +33,22 @@ namespace WPFView
             using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
             var client = new Greeter.GreeterClient(channel);
 
-            var replay = client.SayHello(new HelloRequest() { Name = "Hello World!" });
+            var replay = client.SayHello(new HelloRequest() { Name = "limeniye" });
+        }
 
+        private bool CanSendMessageExecute()
+        {
+            return true;
+        }
+        #endregion
+    }
 
-            Debug.WriteLine(replay.Message);
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            DataContext = new ChatViewModel();
         }
     }
 }

@@ -28,7 +28,9 @@
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
 
-                <RichTextBox Grid.Column="0" Padding="0,5,0,5"/>
+                <TextBox Grid.Column="0" Padding="0,5,0,5" AcceptsReturn="True"
+                         Text="{Binding Message}" TextWrapping="Wrap"/>
+                
                 <Button Grid.Column="1" Content="Send"
                         Command="{Binding SendMessageCommand}"/>
             </Grid>
