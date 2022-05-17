@@ -18,5 +18,17 @@ namespace GrpsServer.Services
                 Message = "Hello " + request.Name
             });
         }
+
+        public override async Task SayHelloStream(IAsyncStreamReader<HelloRequest> requestStream, 
+            IServerStreamWriter<HelloReply> responseStream, ServerCallContext context)
+        {
+            await foreach (var request in requestStream.ReadAllAsync())
+            {
+                await responseStream.WriteAsync(new HelloReply()
+                {
+                    Message = "Hello " + request.Name + " " + DateTime.UtcNow
+                });
+            }
+        }
     }
 }
