@@ -15,6 +15,22 @@ namespace WPFView
             new Message(Guid.NewGuid(), "Hello world", false, MessageStatus.Readed, DateTime.Now)
         };
 
+        #region SendMessageCommand
+        private RelayCommand _sendMessageCommand;
+        public RelayCommand SendMessageCommand => _sendMessageCommand ?? (
+            _sendMessageCommand = new RelayCommand(OnSendMessageExecute, CanSendMessageExecute));
+
+        private void OnSendMessageExecute()
+        {
+
+        }
+
+        private bool CanSendMessageExecute()
+        {
+            return true;
+        }
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
