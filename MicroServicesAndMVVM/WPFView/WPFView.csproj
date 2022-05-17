@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GrpsServer\GrpsServer.csproj" />
+  </ItemGroup>
+
 </Project>
