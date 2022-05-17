@@ -1,11 +1,11 @@
 {
   "profiles": {
-    "Grpc": {
+    "GrpsServer": {
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5142;https://localhost:7142",
+      "applicationUrl": "http://localhost:5129;https://localhost:7129",
       "dotnetRunMessages": true
     },
     "Docker": {
