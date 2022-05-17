@@ -1,9 +1,11 @@
-﻿using Grpc.Net.Client;
+﻿using Grpc.Core;
+using Grpc.Net.Client;
 using GrpsServer;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace WPFView
@@ -26,14 +28,12 @@ namespace WPFView
 
         private void OnSendMessageExecute()
         {
-            var httpHandler = new HttpClientHandler();
-            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            _call.RequestStream.WriteAsync(new HelloRequest() { Name = Message});
+
+            //call.RequestStream.CompleteAsync();
 
 
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
-            var client = new Greeter.GreeterClient(channel);
-
-            var replay = client.SayHello(new HelloRequest() { Name = "limeniye" });
+            //var replay = client.SayHello(new HelloRequest() { Name = "limeniye" });
         }
 
         private bool CanSendMessageExecute()
@@ -41,6 +41,30 @@ namespace WPFView
             return true;
         }
         #endregion
+
+
+        private readonly AsyncDuplexStreamingCall<HelloRequest, HelloReply> _call;
+
+        public ChatViewModel()
+        {
+            var httpHandler = new HttpClientHandler();
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
+            var client = new Greeter.GreeterClient(channel);
+
+            using var call = client.SayHelloStream();
+            _call = call;
+
+            Task.Run(async () =>
+            {
+                await foreach (var response in _call.ResponseStream.ReadAllAsync())
+                {
+                    Messages.Add(new Message(Guid.NewGuid(), response.Message, false, MessageStatus.Readed, DateTime.Now));
+                }
+            });
+        }
     }
 
     public partial class MainWindow : Window
