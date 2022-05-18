@@ -16,7 +16,7 @@ namespace GrpsServer.Services
         {
             return Task.FromResult(new MessageResponse
             {
-                Time = GetCurrentTime(),
+                Time = Timestamp.FromDateTime(DateTime.UtcNow),
                 Username = request.Username,
             });
         }
@@ -30,19 +30,9 @@ namespace GrpsServer.Services
                 {
                     Username = request.Username,
                     Message = request.Message,
-                    Time = GetCurrentTime()
+                    Time = Timestamp.FromDateTime(DateTime.UtcNow)
                 });
             }
-        }
-
-        private Timestamp GetCurrentTime()
-        {
-            Timestamp timestamp = new Timestamp()
-            {
-                Seconds = DateTime.Now.Second,
-                Nanos = DateTime.Now.Second * 100
-            };
-            return timestamp;
         }
     }
 }
