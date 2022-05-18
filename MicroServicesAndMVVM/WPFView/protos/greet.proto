@@ -7,7 +7,7 @@ import "google/protobuf/timestamp.proto";
 
 service Messanger {
   rpc SendMessage (MessageRequest) returns (MessageResponse);
-  rpc MessageStream (stream MessageRequest) returns (stream MessageResponse);
+  rpc MessageStream (stream MessageRequest) returns (stream MessageReplay);
 }
 
 message MessageRequest {
@@ -15,8 +15,13 @@ message MessageRequest {
   string message = 2;
 }
 
-
 message MessageResponse {
   string username = 1;
-  google.protobuf.Timestamp receipttime = 2;
+  google.protobuf.Timestamp time = 2;
+}
+
+message MessageReplay {
+  string username = 1;
+  string message = 2;
+  google.protobuf.Timestamp time = 3;
 }
