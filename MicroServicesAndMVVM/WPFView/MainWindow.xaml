@@ -29,7 +29,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBox Grid.Column="0" Padding="0,5,0,5" AcceptsReturn="True"
-                         Text="{Binding Message}" TextWrapping="Wrap"/>
+                         Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
                 
                 <Button Grid.Column="1" Content="Send"
                         Command="{Binding SendMessageCommand}"/>

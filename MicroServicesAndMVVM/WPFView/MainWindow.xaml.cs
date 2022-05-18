@@ -26,22 +26,22 @@ namespace WPFView
         };
 
         #region SendMessageCommand
-        private RelayCommand _sendMessageCommand;
-        public RelayCommand SendMessageCommand => _sendMessageCommand ?? (
-            _sendMessageCommand = new RelayCommand(OnSendMessageExecute, CanSendMessageExecute));
+        private RelayCommandAsync _sendMessageCommand;
+        public RelayCommandAsync SendMessageCommand => _sendMessageCommand ?? (
+            _sendMessageCommand = new RelayCommandAsync(OnSendMessageExecute, CanSendMessageExecute));
 
-        private void OnSendMessageExecute()
+        private async void OnSendMessageExecute()
         {
-            //_call.RequestStream.WriteAsync(new HelloRequest() { Name = Message});
+            await _call.RequestStream.WriteAsync(new MessageRequest() { Username = "limeniye", Message = Message });
+            Message = String.Empty;
+            //_call.RequestStream.CompleteAsync();
 
-            //call.RequestStream.CompleteAsync();
-
-            var replay = _client.SendMessage(new MessageRequest() { Username = "limeniye", Message =  Message });
+            //var replay = _client.SendMessage(new MessageRequest() { Username = "limeniye", Message =  Message });
         }
 
         private bool CanSendMessageExecute()
         {
-            return true;
+            return string.IsNullOrEmpty(Message) || Message == "" ? false : true;
         }
         #endregion
 
@@ -54,7 +54,6 @@ namespace WPFView
         {
             var httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-
 
             using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
             _client = new Messanger.MessangerClient(channel);
