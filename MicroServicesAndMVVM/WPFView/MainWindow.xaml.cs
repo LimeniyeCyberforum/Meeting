@@ -13,6 +13,9 @@ namespace WPFView
 {
     public class ChatViewModel : BaseInpc
     {
+        private AsyncDuplexStreamingCall<MessageRequest, MessageReplay> _call;
+        private Messanger.MessangerClient? _client;
+
         private string _message;
 
         public string Message { get => _message; set => Set(ref _message, value); }
@@ -29,11 +32,11 @@ namespace WPFView
 
         private void OnSendMessageExecute()
         {
-            _call.RequestStream.WriteAsync(new HelloRequest() { Name = Message});
+            //_call.RequestStream.WriteAsync(new HelloRequest() { Name = Message});
 
             //call.RequestStream.CompleteAsync();
 
-
+            var replay = _client.SendMessage(new MessageRequest() { Username = "limeniye", Message =  Message });
         }
 
         private bool CanSendMessageExecute()
@@ -41,9 +44,6 @@ namespace WPFView
             return true;
         }
         #endregion
-
-
-        private AsyncDuplexStreamingCall<HelloRequest, HelloReply> _call;
 
         public ChatViewModel()
         {
@@ -57,26 +57,22 @@ namespace WPFView
 
 
             using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
-            var client = new Greeter.GreeterClient(channel);
+            _client = new Messanger.MessangerClient(channel);
+            _call = _client.MessageStream();
 
-            var replay = client.SayHello(new HelloRequest() { Name = "limeniye" });
-
-
-            _call = client.SayHelloStream();
-            //= call;
             var dispatcher = Application.Current.Dispatcher;
-
             await Task.Run(async () =>
             {
                 await foreach (var response in _call.ResponseStream.ReadAllAsync())
                 {
+                    var newMessage = new Message(Guid.NewGuid(), response.Message, false, MessageStatus.Readed, response.Time.ToDateTime());
                     if (dispatcher.CheckAccess())
                     {
-                        Messages.Add(new Message(Guid.NewGuid(), response.Message, false, MessageStatus.Readed, DateTime.Now));
+                        Messages.Add(newMessage);
                     }
                     else
                     {
-                        _ = dispatcher.BeginInvoke(() => Messages.Add(new Message(Guid.NewGuid(), response.Message, false, MessageStatus.Readed, DateTime.Now)));
+                        _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
                     }
                 }
             });
