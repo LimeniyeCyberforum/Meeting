@@ -1,14 +1,14 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
 using GrpsServer;
-using Meeting.Abstractions.Interfaces.Messanger;
-using Meeting.Abstractions.Messanger;
-using Meeting.DataTypes.Messanger;
+using MeetingRepository.Abstractions.Interfaces.Messanger;
+using MeetingRepository.Abstractions.Messanger;
+using MeetingRepository.DataTypes.Messanger;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Meeting.Grpc.Messanger
+namespace MeetingRepository.Grpc.Messanger
 {
     internal class MessageServiceGrpc : MessageServiceAbstract, IMessageService
     {

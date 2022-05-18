@@ -7,7 +7,7 @@ namespace MeetingRepository.Abstractions.Messanger
 {
     internal abstract partial class MessageServiceAbstract
     {
-        private Dictionary<Guid, MessageDto> messages = new Dictionary<Guid, MessageDto>();
+        private readonly Dictionary<Guid, MessageDto> messages = new Dictionary<Guid, MessageDto>();
 
         public IReadOnlyDictionary<Guid, MessageDto> Messages { get; }
 
