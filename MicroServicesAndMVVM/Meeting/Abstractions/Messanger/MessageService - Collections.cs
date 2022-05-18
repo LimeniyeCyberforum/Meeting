@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Meeting.Messanger
+namespace Meeting.Abstractions.Messanger
 {
-    public partial class MessageService
+    public abstract partial class MessageService
     {
         private Dictionary<Guid, MessageDto> messages = new Dictionary<Guid, MessageDto>();
 

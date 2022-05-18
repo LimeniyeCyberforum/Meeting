@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Meeting.Messanger
+namespace Meeting.Abstractions.Messanger
 {
-    public partial class MessageService : IMessageService
+    public abstract partial class MessageService : IMessageService
     {
         public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, MessageDto>> MessagesChanged;
 
