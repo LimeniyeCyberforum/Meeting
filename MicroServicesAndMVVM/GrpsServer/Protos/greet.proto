@@ -2,21 +2,21 @@ syntax = "proto3";
 
 option csharp_namespace = "GrpsServer";
 
-package greet;
+package messanger;
+import "google/protobuf/timestamp.proto";
 
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply);
-  rpc SayHelloStream (stream HelloRequest) returns (stream HelloReply);
+service Messanger {
+  rpc SendMessage (MessageRequest) returns (MessageResponse);
+  rpc MessageStream (stream MessageRequest) returns (stream MessageResponse);
 }
 
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message MessageRequest {
+  string username = 1;
+  string message = 2;
 }
 
-// The response message containing the greetings.
-message HelloReply {
-  string message = 1;
+
+message MessageResponse {
+  string username = 1;
+  google.protobuf.Timestamp receipttime = 2;
 }
