@@ -1,4 +1,6 @@
-﻿namespace Meeting.DataTypes.Messanger
+﻿using System;
+
+namespace Meeting.DataTypes.Messanger
 {
     public class MessageDto : IEquatable<MessageDto>
     {
