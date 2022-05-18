@@ -1,8 +1,6 @@
 ﻿using Meeting.Abstractions.Interfaces.Messanger;
 using Meeting.Grpc.Messanger;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Meeting
 {

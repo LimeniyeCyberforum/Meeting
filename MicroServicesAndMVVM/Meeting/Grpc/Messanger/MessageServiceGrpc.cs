@@ -3,6 +3,7 @@ using Grpc.Net.Client;
 using GrpsServer;
 using Meeting.Abstractions.Interfaces.Messanger;
 using Meeting.Abstractions.Messanger;
+using Meeting.DataTypes.Messanger;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -32,10 +33,10 @@ namespace Meeting.Grpc.Messanger
         public MessageServiceGrpc()
             :base()
         {
-
+            InitializeStream();
         }
 
-        private async Task InitializeStream()
+        private async void InitializeStream()
         {
             var httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
@@ -44,11 +45,11 @@ namespace Meeting.Grpc.Messanger
             _client = new GrpsServer.Messanger.MessangerClient(channel);
             _call = _client.MessageStream();
 
-            await Task.Run(async () =>
+            await Task.Run(async () => 
             {
                 await foreach (var response in _call.ResponseStream.ReadAllAsync())
                 {
-                    _ = dispatcher.BeginInvoke(() => Messages.Add(new Message(Guid.NewGuid(), response.Message, false, false, MessageStatus.Readed, response.Time.ToDateTime())));
+                    RaiseMessagesChangedEvent(Common.EventArgs.NotifyDictionaryChangedAction.Added, new MessageDto(Guid.NewGuid(), response.Message, response.Username, response.Time.ToDateTime()));
                 }
             });
         }
