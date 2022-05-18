@@ -3,18 +3,48 @@ using Grpc.Net.Client;
 using GrpsServer;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace WPFView
 {
+    public class MessageItemDataTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate OwnerMessage { get; set; }
+        public DataTemplate AnotherMessage { get; set; }
+
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+            if (item is bool isOwner)
+            {
+                return SelectTemplateCore(isOwner);
+            }
+
+            throw new System.NotImplementedException($"Uknown DataTemplate parameter. \nType: {nameof(MessageItemDataTemplateSelector)}\nParametr: {item}");
+        }
+
+        private DataTemplate SelectTemplateCore(bool isOwner)
+        {
+            if (isOwner)
+            {
+                return OwnerMessage;
+            }
+            else
+            {
+                return AnotherMessage;
+            }
+        }
+    }
+
     public class ChatViewModel : BaseInpc
     {
+        private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private AsyncDuplexStreamingCall<MessageRequest, MessageReplay> _call;
         private Messanger.MessangerClient? _client;
+
 
         private string _message;
 
@@ -22,7 +52,7 @@ namespace WPFView
 
         public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>()
         {
-            new Message(Guid.NewGuid(), "Hello world", false, MessageStatus.Readed, DateTime.Now)
+            new Message(Guid.NewGuid(), "Hello world", false, true, MessageStatus.Readed, DateTime.Now)
         };
 
         #region SendMessageCommand
@@ -32,11 +62,25 @@ namespace WPFView
 
         private async void OnSendMessageExecute()
         {
-            await _call.RequestStream.WriteAsync(new MessageRequest() { Username = "limeniye", Message = Message });
+            //await _call.RequestStream.WriteAsync(new MessageRequest() { Username = "limeniye", Message = Message });
+            var newMessage = new Message(Guid.NewGuid(), Message, false, false, MessageStatus.Readed, null);
             Message = String.Empty;
-            //_call.RequestStream.CompleteAsync();
 
-            //var replay = _client.SendMessage(new MessageRequest() { Username = "limeniye", Message =  Message });
+            _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
+
+            var response = await _client.SendMessageAsync(new MessageRequest() { Username = "limeniye", Message = Message });
+
+            var messageIndex = Messages.IndexOf(newMessage);
+            if (messageIndex > -1)
+            {
+                _ = dispatcher.BeginInvoke(() => Messages[messageIndex] =
+                       new Message(Guid.NewGuid(), Message, false, false, MessageStatus.Readed, response.Time.ToDateTime()));
+            }
+        }
+
+        private void StreamComplete()
+        {
+            _call.RequestStream.CompleteAsync();
         }
 
         private bool CanSendMessageExecute()
@@ -59,24 +103,17 @@ namespace WPFView
             _client = new Messanger.MessangerClient(channel);
             _call = _client.MessageStream();
 
-            var dispatcher = Application.Current.Dispatcher;
             await Task.Run(async () =>
             {
                 await foreach (var response in _call.ResponseStream.ReadAllAsync())
                 {
-                    var newMessage = new Message(Guid.NewGuid(), response.Message, false, MessageStatus.Readed, response.Time.ToDateTime());
-                    if (dispatcher.CheckAccess())
-                    {
-                        Messages.Add(newMessage);
-                    }
-                    else
-                    {
-                        _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
-                    }
+                    _ = dispatcher.BeginInvoke(() => Messages.Add(new Message(Guid.NewGuid(), response.Message, false, false, MessageStatus.Readed, response.Time.ToDateTime())));
                 }
             });
         }
     }
+
+
 
     public partial class MainWindow : Window
     {
