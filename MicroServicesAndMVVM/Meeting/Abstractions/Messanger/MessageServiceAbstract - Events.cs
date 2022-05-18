@@ -1,12 +1,12 @@
 ﻿using Common.EventArgs;
 using Common.Extensions;
-using Meeting.Abstractions.Interfaces.Messanger;
-using Meeting.DataTypes.Messanger;
+using MeetingRepository.Abstractions.Interfaces.Messanger;
+using MeetingRepository.DataTypes.Messanger;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Meeting.Abstractions.Messanger
+namespace MeetingRepository.Abstractions.Messanger
 {
     internal abstract partial class MessageServiceAbstract : IMessageService
     {

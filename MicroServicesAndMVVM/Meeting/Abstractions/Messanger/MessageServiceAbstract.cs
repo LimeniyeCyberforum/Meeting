@@ -1,8 +1,8 @@
-﻿using Meeting.Abstractions.Interfaces.Messanger;
+﻿using MeetingRepository.Abstractions.Interfaces.Messanger;
 using System;
 using System.Threading.Tasks;
 
-namespace Meeting.Abstractions.Messanger
+namespace MeetingRepository.Abstractions.Messanger
 {
     internal abstract partial class MessageServiceAbstract : IMessageService
     {
