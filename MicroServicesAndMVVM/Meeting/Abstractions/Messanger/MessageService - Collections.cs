@@ -5,13 +5,13 @@ using System.Collections.ObjectModel;
 
 namespace Meeting.Abstractions.Messanger
 {
-    public abstract partial class MessageService
+    internal abstract partial class MessageServiceAbstract
     {
         private Dictionary<Guid, MessageDto> messages = new Dictionary<Guid, MessageDto>();
 
         public IReadOnlyDictionary<Guid, MessageDto> Messages { get; }
 
-        public MessageService()
+        public MessageServiceAbstract()
         {
             Messages = new ReadOnlyDictionary<Guid, MessageDto>(messages);
         }

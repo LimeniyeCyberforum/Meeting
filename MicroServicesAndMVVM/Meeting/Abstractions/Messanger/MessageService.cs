@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Meeting.Abstractions.Messanger
 {
-    public abstract partial class MessageService : IMessageService
+    internal abstract partial class MessageServiceAbstract : IMessageService
     {
         public abstract void SendMessage(Guid guid, string username, string message);
 
