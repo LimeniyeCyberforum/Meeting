@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace WPFView
 {
@@ -33,7 +34,6 @@ namespace WPFView
             //call.RequestStream.CompleteAsync();
 
 
-            //var replay = client.SayHello(new HelloRequest() { Name = "limeniye" });
         }
 
         private bool CanSendMessageExecute()
@@ -43,9 +43,14 @@ namespace WPFView
         #endregion
 
 
-        private readonly AsyncDuplexStreamingCall<HelloRequest, HelloReply> _call;
+        private AsyncDuplexStreamingCall<HelloRequest, HelloReply> _call;
 
         public ChatViewModel()
+        {
+            InitializeStream();
+        }
+
+        private async Task InitializeStream()
         {
             var httpHandler = new HttpClientHandler();
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
@@ -54,14 +59,25 @@ namespace WPFView
             using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
             var client = new Greeter.GreeterClient(channel);
 
-            using var call = client.SayHelloStream();
-            _call = call;
+            var replay = client.SayHello(new HelloRequest() { Name = "limeniye" });
 
-            Task.Run(async () =>
+
+            _call = client.SayHelloStream();
+            //= call;
+            var dispatcher = Application.Current.Dispatcher;
+
+            await Task.Run(async () =>
             {
                 await foreach (var response in _call.ResponseStream.ReadAllAsync())
                 {
-                    Messages.Add(new Message(Guid.NewGuid(), response.Message, false, MessageStatus.Readed, DateTime.Now));
+                    if (dispatcher.CheckAccess())
+                    {
+                        Messages.Add(new Message(Guid.NewGuid(), response.Message, false, MessageStatus.Readed, DateTime.Now));
+                    }
+                    else
+                    {
+                        _ = dispatcher.BeginInvoke(() => Messages.Add(new Message(Guid.NewGuid(), response.Message, false, MessageStatus.Readed, DateTime.Now)));
+                    }
                 }
             });
         }
