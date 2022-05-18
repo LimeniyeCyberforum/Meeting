@@ -15,7 +15,7 @@ namespace Meeting
     {
         private static MeetingService _instance = null;
 
-        public IMessageService MeetingConnector { get; private set; }
+        public IMessageService Message { get; private set; }
 
         protected MeetingService() { }
 
@@ -39,7 +39,7 @@ namespace Meeting
             switch (dataInteracting)
             {
                 case DataInteractingType.Grpc:
-                    MeetingConnector = new MessageServiceGrpc();
+                    Message = new MessageServiceGrpc();
                     break;
                 default:
                     throw new NotImplementedException();
