@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MeetingRepository.Grpc.Messanger
 {
-    internal class MessageServiceGrpc : MessageServiceAbstract, IMessageService
+    public class MessageService : BaseMessageServiceAbstract, IMessageService
     {
         private AsyncDuplexStreamingCall<MessageRequest, MessageReplay> _call;
         private GrpsServer.Messanger.MessangerClient _client;
@@ -30,7 +30,7 @@ namespace MeetingRepository.Grpc.Messanger
             _call.RequestStream.CompleteAsync();
         }
 
-        public MessageServiceGrpc()
+        public MessageService()
             :base()
         {
             InitializeStream();
