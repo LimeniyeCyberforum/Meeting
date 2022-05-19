@@ -18,6 +18,179 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
+        
+        <Grid Grid.Column="0"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+                    <TextBlock
+                Margin="10"
+                VerticalAlignment="Center"
+                Text="Device: " />
+                    <ComboBox
+                x:Name="cmbCameraDevices"
+                Width="450"
+                VerticalAlignment="Center">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                    Width="80"
+                                    FontWeight="SemiBold"
+                                    Text="Name:" />
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                    Width="80"
+                                    FontWeight="SemiBold"
+                                    Text="OpenCvId:" />
+                                        <TextBlock Text="{Binding OpenCvId}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                    Width="80"
+                                    FontWeight="SemiBold"
+                                    Text="DeviceId:" />
+                                        <TextBlock Text="{Binding DeviceId}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                    </ComboBox>
+                </StackPanel>
+
+                <Grid
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <StackPanel
+                x:Name="cameraLoading"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+
+                        <ProgressBar
+                    Width="100"
+                    Height="15"
+                    IsIndeterminate="True" />
+
+                        <TextBlock Text="Webcam loading..." />
+
+                    </StackPanel>
+
+
+                    <Border
+                x:Name="webcamContainer"
+                Grid.Column="0"
+                Width="300"
+                Height="300"
+                BorderBrush="Black"
+                BorderThickness="2">
+
+                        <Image x:Name="webcamPreview" />
+
+                    </Border>
+
+                    <Grid Grid.Column="1">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <CheckBox
+                    x:Name="chkQRCode"
+                    Grid.Row="0"
+                    Margin="10"
+                    VerticalAlignment="Center"
+                    Checked="chkQRCode_Checked"
+                    Content="Enable QRCode read"
+                    IsEnabled="False"
+                    Unchecked="chkQRCode_Unchecked" />
+
+                        <CheckBox
+                    x:Name="chkFlip"
+                    Grid.Row="1"
+                    Margin="10"
+                    VerticalAlignment="Center"
+                    Checked="chkFlip_Checked"
+                    Content="Enable flip horizontal"
+                    IsEnabled="False"
+                    Unchecked="chkFlip_Unchecked" />
+
+                        <RichTextBox
+                    x:Name="txtQRCodeData"
+                    Grid.Row="2"
+                    Margin="10,0"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    VerticalScrollBarVisibility="Auto" />
+
+                        <Button
+                    x:Name="btnClearQRCodeOutput"
+                    Grid.Row="3"
+                    Height="40"
+                    Margin="10"
+                    Click="btnClearQRCodeOutput_Click"
+                    Content="Clear" />
+
+                    </Grid>
+
+                </Grid>
+
+
+                <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+
+                    <Button
+                x:Name="btnStart"
+                Width="100"
+                Margin="10"
+                Padding="10"
+                Click="btnStart_Click"
+                Content="Start" />
+                    <Button
+                x:Name="btnStop"
+                Width="100"
+                Margin="10"
+                Padding="10"
+                Click="btnStop_Click"
+                Content="Stop"
+                IsEnabled="False" />
+                </StackPanel>
+
+            </Grid>
+
+
+        </Grid>
+        
         <Grid Grid.Column="1" Width="200">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
