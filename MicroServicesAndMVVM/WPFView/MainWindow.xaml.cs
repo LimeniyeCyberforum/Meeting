@@ -1,8 +1,14 @@
-﻿using MeetingRepository.Abstractions.Messanger;
+﻿using ImageProcessor;
+using ImageProcessor.Imaging;
+using MeetingRepository.Abstractions.Messanger;
 using Microsoft.Extensions.DependencyInjection;
 using OpenCvSharp;
+using OpenCvSharp.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,9 +47,199 @@ namespace WPFView
         }
     }
 
+    public sealed class WebcamStreaming0 : IDisposable
+    {
+        private System.Drawing.Bitmap _lastFrame;
+        private Task _previewTask;
+
+        private CancellationTokenSource _cancellationTokenSource;
+        private readonly Image _imageControlForRendering;
+        private readonly int _frameWidth;
+        private readonly int _frameHeight;
+
+        public int CameraDeviceId { get; private set; }
+        public byte[] LastPngFrame { get; private set; }
+        public bool FlipHorizontally { get; set; }
+
+        public event EventHandler OnQRCodeRead;
+        private readonly OpenCVQRCodeReader _qrCodeReader;
+
+        private int _currentBarcodeReadFrameCount = 0;
+        private const int _readBarcodeEveryNFrame = 10;
+
+        public WebcamStreaming0(
+            Image imageControlForRendering,
+            int frameWidth,
+            int frameHeight,
+            int cameraDeviceId)
+        {
+            _imageControlForRendering = imageControlForRendering;
+            _frameWidth = frameWidth;
+            _frameHeight = frameHeight;
+            CameraDeviceId = cameraDeviceId;
+            _qrCodeReader = new OpenCVQRCodeReader();
+        }
+
+        public async Task Start()
+        {
+            // Never run two parallel tasks for the webcam streaming
+            if (_previewTask != null && !_previewTask.IsCompleted)
+                return;
+
+            var initializationSemaphore = new SemaphoreSlim(5, 5);
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            _previewTask = Task.Run(async () =>
+            {
+                try
+                {
+                    // Creation and disposal of this object should be done in the same thread 
+                    // because if not it throws disconnectedContext exception
+                    var videoCapture = new VideoCapture();
+
+                    if (!videoCapture.Open(CameraDeviceId))
+                    {
+                        throw new ApplicationException("Cannot connect to camera");
+                    }
+
+                    using (var frame = new Mat())
+                    {
+                        while (!_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            videoCapture.Read(frame);
+
+                            if (!frame.Empty())
+                            {
+                                var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
+                                await messageService.SendCameraCaptureAsync(frame.ToMemoryStream());
+
+                                if (OnQRCodeRead != null)
+                                {
+                                    // Try read the barcode every n frames to reduce latency
+                                    if (_currentBarcodeReadFrameCount % _readBarcodeEveryNFrame == 0)
+                                    {
+                                        try
+                                        {
+                                            string qrCodeData = _qrCodeReader.DetectBarcode(frame);
+                                            OnQRCodeRead.Invoke(
+                                                this,
+                                                new QRCodeReadEventArgs(qrCodeData));
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Debug.WriteLine(ex);
+                                        }
+                                    }
+
+                                    _currentBarcodeReadFrameCount += 1 % _readBarcodeEveryNFrame;
+                                }
+
+                                // Releases the lock on first not empty frame
+                                if (initializationSemaphore != null)
+                                    initializationSemaphore.Release();
+
+                                _lastFrame = FlipHorizontally
+                                    ? BitmapConverter.ToBitmap(frame.Flip(FlipMode.Y))
+                                    : BitmapConverter.ToBitmap(frame);
+
+                                var lastFrameBitmapImage = _lastFrame.ToBitmapSource();
+                                lastFrameBitmapImage.Freeze();
+                                _imageControlForRendering.Dispatcher.Invoke(
+                                    () => _imageControlForRendering.Source = lastFrameBitmapImage);
+                            }
+
+                            // 30 FPS
+                            await Task.Delay(33);
+                        }
+                    }
+
+                    videoCapture?.Dispose();
+                }
+                finally
+                {
+                    if (initializationSemaphore != null)
+                        initializationSemaphore.Release();
+                }
+
+            }, _cancellationTokenSource.Token);
+
+            // Async initialization to have the possibility to show an animated loader without freezing the GUI
+            // The alternative was the long polling. (while !variable) await Task.Delay
+            await initializationSemaphore.WaitAsync();
+            initializationSemaphore.Dispose();
+            initializationSemaphore = null;
+
+            if (_previewTask.IsFaulted)
+            {
+                // To let the exceptions exit
+                await _previewTask;
+            }
+        }
+
+        public async Task Stop()
+        {
+            // If "Dispose" gets called before Stop
+            if (_cancellationTokenSource.IsCancellationRequested)
+                return;
+
+            if (!_previewTask.IsCompleted)
+            {
+                _cancellationTokenSource.Cancel();
+
+                // Wait for it, to avoid conflicts with read/write of _lastFrame
+                await _previewTask;
+            }
+
+            if (_lastFrame != null)
+            {
+                using (var imageFactory = new ImageFactory())
+                using (var stream = new MemoryStream())
+                {
+                    imageFactory
+                        .Load(_lastFrame)
+                        .Resize(new ResizeLayer(
+                            size: new System.Drawing.Size(_frameWidth, _frameHeight),
+                            resizeMode: ImageProcessor.Imaging.ResizeMode.Crop,
+                            anchorPosition: AnchorPosition.Center))
+                        .Save(stream);
+
+                    LastPngFrame = stream.ToArray();
+                }
+            }
+            else
+            {
+                LastPngFrame = null;
+            }
+        }
+
+        public void Dispose()
+        {
+            _cancellationTokenSource?.Cancel();
+            _lastFrame?.Dispose();
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public partial class MainWindow : System.Windows.Window
     {
-        private WebcamStreaming _webcamStreaming;
+        private WebcamStreaming0 _webcamStreaming;
 
         public MainWindow()
         {
@@ -61,7 +257,7 @@ namespace WPFView
             chkQRCode.IsEnabled = true;
             chkFlip.IsEnabled = true;
             cameraLoading.Visibility = Visibility.Visible;
-            webcamContainer.Visibility = Visibility.Hidden;
+            //webcamContainer.Visibility = Visibility.Hidden;
             btnStop.IsEnabled = false;
             btnStart.IsEnabled = false;
 
@@ -69,7 +265,7 @@ namespace WPFView
             if (_webcamStreaming == null || _webcamStreaming.CameraDeviceId != selectedCameraDeviceId)
             {
                 _webcamStreaming?.Dispose();
-                _webcamStreaming = new WebcamStreaming(
+                _webcamStreaming = new WebcamStreaming0(
                     imageControlForRendering: webcamPreview,
                     frameWidth: 300,
                     frameHeight: 300,
@@ -78,59 +274,8 @@ namespace WPFView
 
 
 
-
-
-
-            var videoCapture = new VideoCapture();
-
-            if (!videoCapture.Open(_webcamStreaming.CameraDeviceId))
-            {
-                throw new ApplicationException("Cannot connect to camera");
-            }
-
-            bool test = false;
-
-            _ = Task.Run(async () =>
-            {
-                using (var frame = new Mat())
-                {
-                    await Task.Delay(2000);
-                    await Application.Current.Dispatcher.Invoke(async () =>
-                    {
-                        try
-                        {
-
-                            videoCapture.Read(frame);
-
-                            if (!frame.Empty())
-                            {
-                                //frame.Flip(FlipMode.Y)
-                                frame.ToMemoryStream();
-
-                                var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
-                                messageService.SendCameraCaptureAsync(frame.ToMemoryStream());
-
-                                messageService.CameraCaptureChanged += OnCameraCaptureChanged;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-
-                        }
-
-                    });
-                }
-            });
-
-
-
-
-
-
-
-
-
-
+            var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
+            messageService.CameraCaptureChanged += OnCameraCaptureChanged;
 
 
 
@@ -148,21 +293,18 @@ namespace WPFView
             }
 
             cameraLoading.Visibility = Visibility.Collapsed;
-            webcamContainer.Visibility = Visibility.Visible;
+            //webcamContainer.Visibility = Visibility.Visible;
         }
 
         private void OnCameraCaptureChanged(object? sender, byte[] e)
         {
-            //_lastFrame = FlipHorizontally
-            //                        ? BitmapConverter.ToBitmap(frame.Flip(FlipMode.Y))
-            //                        : BitmapConverter.ToBitmap(frame);
-
             var lastFrameBitmapImage = ToImage(e);
             lastFrameBitmapImage.Freeze();
+
             Application.Current.Dispatcher.Invoke(
                 () =>
                 {
-                    outputCameraFromStream.Source = lastFrameBitmapImage;
+                    //outputCameraFromStream.Source = lastFrameBitmapImage;
                 });
         }
 

@@ -18,8 +18,44 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        
-        <Grid Grid.Column="0"
+
+        <Grid Grid.Column="0">
+            <ItemsControl ItemsSource="{Binding UserCameras}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="4" Margin="5"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <!--<ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="Grid.Row" Value="{Binding Row}"/>
+                        <Setter Property="Grid.Column" Value="{Binding Column}"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>-->
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Border Background="Red" Width="300" Height="300"/>
+                            <Image Source="{Binding CameraStreem}"/>
+                            <!--<TextBlock Text="{Binding Name}"/>-->
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
+        <Grid Grid.Column="0">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal"
+                        VerticalAlignment="Bottom" Height="40">
+                <Button x:Name="btnStart" Width="100" Content="Turn on" 
+                        Click="btnStart_Click"/>
+                
+                <Button x:Name="btnStop" Width="100" Content="Turn off" IsEnabled="False"
+                        Click="btnStop_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="0" Visibility="Hidden"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
 
             <Grid>
@@ -39,9 +75,9 @@
                 VerticalAlignment="Center"
                 Text="Device: " />
                     <ComboBox
-                x:Name="cmbCameraDevices"
-                Width="450"
-                VerticalAlignment="Center">
+                            x:Name="cmbCameraDevices"
+                            Width="450"
+                            VerticalAlignment="Center">
 
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -92,27 +128,13 @@
                 VerticalAlignment="Center"
                 Orientation="Vertical">
 
-                        <ProgressBar
-                    Width="100"
-                    Height="15"
-                    IsIndeterminate="True" />
+                        <ProgressBar Width="100"
+                                     Height="15"
+                                     IsIndeterminate="True" />
 
                         <TextBlock Text="Webcam loading..." />
 
                     </StackPanel>
-
-
-                    <Border
-                x:Name="webcamContainer"
-                Grid.Column="0"
-                Width="300"
-                Height="300"
-                BorderBrush="Black"
-                BorderThickness="2">
-
-                        <Image x:Name="webcamPreview" />
-
-                    </Border>
 
                     <Grid Grid.Column="1">
 
@@ -162,30 +184,6 @@
                     </Grid>
 
                 </Grid>
-
-
-                <StackPanel
-            Grid.Row="2"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-
-                    <Button
-                x:Name="btnStart"
-                Width="100"
-                Margin="10"
-                Padding="10"
-                Click="btnStart_Click"
-                Content="Start" />
-                    <Button
-                x:Name="btnStop"
-                Width="100"
-                Margin="10"
-                Padding="10"
-                Click="btnStop_Click"
-                Content="Stop"
-                IsEnabled="False" />
-                </StackPanel>
-
             </Grid>
 
 
@@ -220,9 +218,5 @@
 
         </Grid>
         
-        
-        <!-- Test Output camera stream -->
-        <Image Grid.ColumnSpan="2" x:Name="outputCameraFromStream" Width="200" Height="200"
-               HorizontalAlignment="Right"/>
     </Grid>
 </Window>
