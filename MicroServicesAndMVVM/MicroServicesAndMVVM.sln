@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpsServer", "GrpsServer\Gr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServices", "{20CB4387-5D94-4443-BA89-AE86DBF0EA03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meeting", "Meeting\Meeting.csproj", "{CC4448BB-716C-47E4-B913-5151724A5CFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingRepository", "Meeting\MeetingRepository.csproj", "{CC4448BB-716C-47E4-B913-5151724A5CFB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{E687A917-8587-489B-9C88-E05FE9314050}"
 EndProject

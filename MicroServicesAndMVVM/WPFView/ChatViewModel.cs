@@ -1,12 +1,11 @@
-﻿using Grpc.Core;
-using Grpc.Net.Client;
+﻿using Common.EventArgs;
 using GrpsServer;
+using MeetingRepository.Abstractions.Interfaces.Messanger;
+using MeetingRepository.Grpc.Messanger;
 using System;
 using System.Collections.ObjectModel;
-using System.Net.Http;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace WPFView
@@ -14,9 +13,7 @@ namespace WPFView
     public class ChatViewModel : BaseInpc
     {
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
-        private AsyncDuplexStreamingCall<MessageRequest, MessageReplay> _call;
-        private Messanger.MessangerClient? _client;
-
+        private readonly IMessageService _messageService;
 
         private string _message;
 
@@ -40,19 +37,14 @@ namespace WPFView
 
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
-            var response = await _client.SendMessageAsync(new MessageRequest() { Username = "limeniye", Message = Message });
+             await _messageService.SendMessageAsync(Guid.NewGuid(), "limeniye", Message);
 
-            var messageIndex = Messages.IndexOf(newMessage);
-            if (messageIndex > -1)
-            {
-                _ = dispatcher.BeginInvoke(() => Messages[messageIndex] =
-                       new Message(Guid.NewGuid(), Message, false, false, MessageStatus.Readed, response.Time.ToDateTime()));
-            }
-        }
-
-        private void StreamComplete()
-        {
-            _call.RequestStream.CompleteAsync();
+            //var messageIndex = Messages.IndexOf(newMessage);
+            //if (messageIndex > -1)
+            //{
+            //    _ = dispatcher.BeginInvoke(() => Messages[messageIndex] =
+            //           new Message(Guid.NewGuid(), Message, false, false, MessageStatus.Readed, response.Time.ToDateTime()));
+            //}
         }
 
         private bool CanSendMessageExecute()
@@ -63,23 +55,41 @@ namespace WPFView
 
         public ChatViewModel()
         {
-            InitializeStream();
+            _messageService = new MessageService();
+            _messageService.MessagesChanged += OnMessagesChanged;
         }
 
-        private async Task InitializeStream()
+        private void OnMessagesChanged(object? sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<Guid, MeetingRepository.DataTypes.Messanger.MessageDto> e)
         {
-            var httpHandler = new HttpClientHandler();
-            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            var newValue = e.NewValue;
+            var oldValue = e.OldValue;
 
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
-            _client = new Messanger.MessangerClient(channel);
-            _call = _client.MessageStream();
-
-            await Task.Run(async () =>
+            _ = dispatcher.BeginInvoke(() =>
             {
-                await foreach (var response in _call.ResponseStream.ReadAllAsync())
+                switch (e.Action)
                 {
-                    _ = dispatcher.BeginInvoke(() => Messages.Add(new Message(Guid.NewGuid(), response.Message, false, false, MessageStatus.Readed, response.Time.ToDateTime())));
+                    case NotifyDictionaryChangedAction.Added:
+                        Messages.Add(new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now));
+
+                        break;
+                    case NotifyDictionaryChangedAction.Changed:
+                        var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
+                        Messages[index] = new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now);
+                        break;
+                    case NotifyDictionaryChangedAction.Removed:
+                        Messages.Remove(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
+                        break;
+                    case NotifyDictionaryChangedAction.Cleared:
+                        Messages.Clear();
+                        break;
+                    case NotifyDictionaryChangedAction.Initialized:
+                        Messages.Clear();
+
+                        foreach (var item in e.NewDictionary.Values.Select(x => new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now)))
+                        {
+                            Messages.Add(item);
+                        }
+                        break;
                 }
             });
         }
