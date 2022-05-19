@@ -1,18 +1,19 @@
 syntax = "proto3";
 
-option csharp_namespace = "GrpsServer";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "GrpcCommon";
 
 package meeting;
-import "google/protobuf/timestamp.proto";
+
 
 service Meeting 
 {
 	rpc Connect(ConnectRequest) returns (ConnectResponse);
-
-	rpc stream MessageStream;
+	rpc MessagesSubscribe(google.protobuf.Empty) returns (stream MessageFromLobby);
 
 	rpc SendMessage (MessageRequest) returns (MessageResponse);
-	rpc MessageStream (stream MessageRequest) returns (stream MessageFromLobby);
 	rpc CameraCaptureStream (stream CameraCaptureTest) returns (stream CameraCaptureTest);
 }
 
