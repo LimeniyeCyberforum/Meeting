@@ -6,6 +6,7 @@ namespace WPFView
     {
         private void OnApplicationLaunched(object sender, StartupEventArgs e)
         {
+            IocService.Initialize();
             MainWindow = new MainWindow();
             MainWindow.Show();
         }

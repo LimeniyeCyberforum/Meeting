@@ -34,5 +34,17 @@ namespace GrpsServer.Services
                 });
             }
         }
+
+        public override async Task CameraCaptureStream(IAsyncStreamReader<CameraCaptureTest> requestStream,
+            IServerStreamWriter<CameraCaptureTest> responseStream, ServerCallContext context)
+        {
+            await foreach (var request in requestStream.ReadAllAsync())
+            {
+                await responseStream.WriteAsync(new CameraCaptureTest()
+                {
+                    CaptureFrame = request.CaptureFrame
+                });
+            }
+        }
     }
 }

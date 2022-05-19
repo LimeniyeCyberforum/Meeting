@@ -1,7 +1,9 @@
 ﻿using Common.EventArgs;
 using GrpsServer;
 using MeetingRepository.Abstractions.Interfaces.Messanger;
+using MeetingRepository.Abstractions.Messanger;
 using MeetingRepository.Grpc.Messanger;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace WPFView
     public class ChatViewModel : BaseInpc
     {
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
-        private readonly IMessageService _messageService;
+        private readonly BaseMessageServiceAbstract _messageService;
 
         private string _message;
 
@@ -55,7 +57,7 @@ namespace WPFView
 
         public ChatViewModel()
         {
-            _messageService = new MessageService();
+            _messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
             _messageService.MessagesChanged += OnMessagesChanged;
         }
 

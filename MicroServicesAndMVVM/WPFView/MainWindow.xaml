@@ -219,5 +219,10 @@
 
 
         </Grid>
+        
+        
+        <!-- Test Output camera stream -->
+        <Image Grid.ColumnSpan="2" x:Name="outputCameraFromStream" Width="200" Height="200"
+               HorizontalAlignment="Right"/>
     </Grid>
 </Window>

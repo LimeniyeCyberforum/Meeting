@@ -8,6 +8,11 @@ import "google/protobuf/timestamp.proto";
 service Messanger {
   rpc SendMessage (MessageRequest) returns (MessageResponse);
   rpc MessageStream (stream MessageRequest) returns (stream MessageReplay);
+  rpc CameraCaptureStream (stream CameraCaptureTest) returns (stream CameraCaptureTest);
+}
+
+message CameraCaptureTest {
+  bytes captureFrame = 1;
 }
 
 message MessageRequest {

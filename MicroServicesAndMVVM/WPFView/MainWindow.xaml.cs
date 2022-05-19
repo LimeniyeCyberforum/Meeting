@@ -1,10 +1,14 @@
-﻿using OpenCvSharp;
+﻿using MeetingRepository.Abstractions.Messanger;
+using Microsoft.Extensions.DependencyInjection;
+using OpenCvSharp;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using WebcamWithOpenCV;
 
 namespace WPFView
@@ -48,6 +52,8 @@ namespace WPFView
             cmbCameraDevices.ItemsSource = CameraDevicesEnumerator.GetAllConnectedCameras();
             cmbCameraDevices.SelectedIndex = 0;
             cameraLoading.Visibility = Visibility.Collapsed;
+
+
         }
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
@@ -70,6 +76,64 @@ namespace WPFView
                     cameraDeviceId: cmbCameraDevices.SelectedIndex);
             }
 
+
+
+
+
+
+            var videoCapture = new VideoCapture();
+
+            if (!videoCapture.Open(_webcamStreaming.CameraDeviceId))
+            {
+                throw new ApplicationException("Cannot connect to camera");
+            }
+
+            bool test = false;
+
+            _ = Task.Run(async () =>
+            {
+                using (var frame = new Mat())
+                {
+                    await Task.Delay(2000);
+                    await Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        try
+                        {
+
+                            videoCapture.Read(frame);
+
+                            if (!frame.Empty())
+                            {
+                                //frame.Flip(FlipMode.Y)
+                                frame.ToMemoryStream();
+
+                                var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
+                                messageService.SendCameraCaptureAsync(frame.ToMemoryStream());
+
+                                messageService.CameraCaptureChanged += OnCameraCaptureChanged;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
+                    });
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
             try
             {
                 await _webcamStreaming.Start();
@@ -86,6 +150,36 @@ namespace WPFView
             cameraLoading.Visibility = Visibility.Collapsed;
             webcamContainer.Visibility = Visibility.Visible;
         }
+
+        private void OnCameraCaptureChanged(object? sender, byte[] e)
+        {
+            //_lastFrame = FlipHorizontally
+            //                        ? BitmapConverter.ToBitmap(frame.Flip(FlipMode.Y))
+            //                        : BitmapConverter.ToBitmap(frame);
+
+            var lastFrameBitmapImage = ToImage(e);
+            lastFrameBitmapImage.Freeze();
+            Application.Current.Dispatcher.Invoke(
+                () =>
+                {
+                    outputCameraFromStream.Source = lastFrameBitmapImage;
+                });
+        }
+
+        private BitmapImage ToImage(byte[] array)
+        {
+            using (var ms = new System.IO.MemoryStream(array))
+            {
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad; // here
+                image.StreamSource = ms;
+                image.EndInit();
+                return image;
+            }
+        }
+
+
 
         private async void btnStop_Click(object sender, RoutedEventArgs e)
         {
