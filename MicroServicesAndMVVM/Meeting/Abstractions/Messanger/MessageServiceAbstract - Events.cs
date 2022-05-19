@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MeetingRepository.Abstractions.Messanger
 {
-    internal abstract partial class MessageServiceAbstract : IMessageService
+    public abstract partial class BaseMessageServiceAbstract : IMessageService
     {
         public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, MessageDto>> MessagesChanged;
 
