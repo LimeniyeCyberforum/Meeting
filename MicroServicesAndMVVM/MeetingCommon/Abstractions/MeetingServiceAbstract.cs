@@ -7,9 +7,9 @@ namespace MeetingCommon.Abstractions
 {
     public abstract class MeetingServiceAbstract
     {
-        public abstract MessageServiceAbstract MessageService { get; }
+        public abstract MessageServiceAbstract MessageService { get; protected set; }
 
-        public abstract CameraCaptureServiceAbstract CameraCaptureService { get; }
+        public abstract CameraCaptureServiceAbstract CameraCaptureService { get; protected set; }
 
         public abstract UserDto Connect(string username);
 
