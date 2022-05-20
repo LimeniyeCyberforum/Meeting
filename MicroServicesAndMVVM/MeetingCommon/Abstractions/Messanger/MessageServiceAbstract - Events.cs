@@ -1,6 +1,5 @@
 ﻿using Common.EventArgs;
 using Common.Extensions;
-using MeetingCommon.Abstractions.Interfaces.Messanger;
 using MeetingCommon.DataTypes.Messanger;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MeetingCommon.Abstractions.Messanger
 {
-    public abstract partial class BaseMessageServiceAbstract : IMessageService
+    public abstract partial class BaseMessageServiceAbstract
     {
         public event EventHandler<byte[]> CameraCaptureChanged;
         public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, MessageDto>> MessagesChanged;

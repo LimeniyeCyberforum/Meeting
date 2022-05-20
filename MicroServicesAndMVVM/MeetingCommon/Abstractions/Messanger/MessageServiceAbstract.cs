@@ -1,11 +1,10 @@
-﻿using MeetingCommon.Abstractions.Interfaces.Messanger;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace MeetingCommon.Abstractions.Messanger
 {
-    public abstract partial class BaseMessageServiceAbstract : IMessageService
+    public abstract partial class BaseMessageServiceAbstract
     {
         public abstract void SendMessage(Guid guid, string username, string message);
 

@@ -1,10 +1,6 @@
 ﻿using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Net.Client;
-using GrpsServer;
-using MeetingCommon.Abstractions.Interfaces.Messanger;
-using MeetingCommon.Abstractions.Messanger;
-using MeetingCommon.DataTypes.Messanger;
 using System;
 using System.IO;
 using System.Net.Http;
