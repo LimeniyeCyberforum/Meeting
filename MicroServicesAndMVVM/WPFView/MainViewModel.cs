@@ -1,5 +1,6 @@
 ﻿using MeetingCommon.Abstractions;
 using MeetingCommon.Abstractions.Messanger;
+using WPFView.Chat;
 using WPFView.Connect;
 
 namespace WPFView
@@ -12,10 +13,12 @@ namespace WPFView
         public bool IsConnected { get => _isConnected; set => Set(ref _isConnected, value); }
 
         public ConnectViewModel ConnectVM { get; }
+        public ChatViewModel ChatVM { get; }
 
         public MainViewModel(MeetingServiceAbstract meetingServiceAbstract)
         {
             ConnectVM = new ConnectViewModel(meetingServiceAbstract);
+            ChatVM = new ChatViewModel(meetingServiceAbstract.MessageService);
 
             _meetingServiceAbstract = meetingServiceAbstract;
             _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;

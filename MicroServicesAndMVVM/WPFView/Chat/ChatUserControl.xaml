@@ -3,7 +3,38 @@
              xmlns:local="clr-namespace:WPFView.Chat"
              d:DesignHeight="800" d:DesignWidth="400"
              d:DataContext="{d:DesignInstance Type=local:ChatViewModel,IsDesignTimeCreatable=True}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!--<DataTemplate x:Key="OwnerMessage" DataType="local:Message">
+
+            </DataTemplate>-->
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <ListView ItemsSource="{Binding ChatVM.Messages}">
+
+            </ListView>
+        </Grid>
+
+        <Grid Grid.Row="1" MaxHeight="100">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" Padding="0,5,0,5" AcceptsReturn="True"
+                     Text="{Binding ChatVM.Message, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
+
+            <Button Grid.Column="1" Content="Send"
+                    Command="{Binding ChatVM.SendMessageCommand}"/>
+        </Grid>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using Common.EventArgs;
+using MeetingCommon.Abstractions;
 using MeetingCommon.Abstractions.Messanger;
 using MeetingCommon.DataTypes;
 using System;
@@ -52,10 +53,18 @@ namespace WPFView.Chat
         }
         #endregion
 
-        public ChatViewModel()
+        public ChatViewModel(MessageServiceAbstract messageService, IMeetingConnectionService meetingConnection)
         {
-            //_messageService = IocService.ServiceProvider.GetService<MessageServiceAbstract>();
-            //_messageService.MessagesChanged += OnMessagesChanged;
+            _messageService = messageService;
+            meetingConnection.ConnectionStateChanged += OnConnectionStateChanged;
+        }
+
+        private void OnConnectionStateChanged(object? sender, ConnectionAction e)
+        {
+            foreach (var item in _messageService.Messages.Values)
+                Messages.Add(new Message(item.Guid, item.Message, false, false, MessageStatus.Readed, item.DateTime));
+
+            _messageService.MessagesChanged += OnMessagesChanged;
         }
 
         private void OnMessagesChanged(object? sender, NotifyDictionaryChangedEventArgs<Guid, MessageDto> e)

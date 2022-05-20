@@ -242,12 +242,9 @@ namespace WPFView
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ChatViewModel();
             cmbCameraDevices.ItemsSource = CameraDevicesEnumerator.GetAllConnectedCameras();
             cmbCameraDevices.SelectedIndex = 0;
             cameraLoading.Visibility = Visibility.Collapsed;
-
-
         }
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
