@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MeetingCommon.Abstractions.Messanger
 {
-    public abstract partial class BaseMessageServiceAbstract
+    public abstract partial class MessageServiceAbstract
     {
         public event EventHandler<byte[]> CameraCaptureChanged;
         public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, MessageDto>> MessagesChanged;
