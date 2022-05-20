@@ -26,7 +26,8 @@ namespace GrpsServer.Services
 
         public override Task<ConnectResponse> Connect(ConnectRequest request, ServerCallContext context)
         {
-            if (!users.TryAdd(Guid.NewGuid(), request.Username))
+            var newUserGuid = Guid.NewGuid();
+            if (!users.TryAdd(newUserGuid, request.Username))
             {
                 return Task.FromResult(new ConnectResponse
                 {
@@ -38,7 +39,7 @@ namespace GrpsServer.Services
             return Task.FromResult(new ConnectResponse
             {
                 IsSuccessfully = true,
-                Guid = Guid.NewGuid().ToString()
+                Guid = newUserGuid.ToString()
             });
         }
 
