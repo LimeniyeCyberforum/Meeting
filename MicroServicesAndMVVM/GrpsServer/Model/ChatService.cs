@@ -10,20 +10,17 @@ namespace GrpsServer.Model
     [Export]
     public class ChatService
     {
+        [Import]
         private readonly ILogger<MeetingService> _logger;
-
-        public ChatService(ILogger<MeetingService> logger)
-        {
-            _logger = logger;
-        }
 
         [Import]
         private IChatLogRepository repository = null;
+
         private event Action<MessageFromLobby> Added;
 
         public void Add(MessageFromLobby chatLog)
         {
-            _logger.LogInformation($"{chatLog.Username}: {chatLog.Message}\n{chatLog.Time}");
+            _logger?.LogInformation($"{chatLog.Username}: {chatLog.Message}\n{chatLog.Time}");
 
             repository.Add(chatLog);
             Added?.Invoke(chatLog);

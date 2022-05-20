@@ -1,14 +1,13 @@
 using Grpc.Core;
-using GrpsServer;
 using Google.Protobuf.WellKnownTypes;
 using GrpcCommon;
 using GrpsServer.Model;
 using System.Reactive.Linq;
-using System.Linq;
 using System.ComponentModel.Composition;
 
 namespace GrpsServer.Services
 {
+    [Export]
     public class MeetingService : Meeting.MeetingBase
     {
         private readonly ILogger<MeetingService> _logger;

@@ -1,5 +1,4 @@
 ﻿using GrpcCommon;
-using GrpsServer.Services;
 using System.ComponentModel.Composition;
 using System.Reactive.Linq;
 
@@ -8,13 +7,6 @@ namespace GrpsServer.Model
     [Export]
     public class UsersCameraCaptureService
     {
-        private readonly ILogger<MeetingService> _logger;
-
-        public UsersCameraCaptureService(ILogger<MeetingService> logger)
-        {
-            _logger = logger;
-        }
-
         [Import]
         private IUsersCameraCaptureService repository = null;
         private event Action<CameraCapture> Changed;
