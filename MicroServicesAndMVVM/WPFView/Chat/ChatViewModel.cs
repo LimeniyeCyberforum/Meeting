@@ -1,5 +1,6 @@
 ﻿using Common.EventArgs;
 using MeetingCommon.Abstractions.Messanger;
+using MeetingCommon.DataTypes;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
@@ -58,7 +59,7 @@ namespace WPFView.Chat
             _messageService.MessagesChanged += OnMessagesChanged;
         }
 
-        private void OnMessagesChanged(object? sender, NotifyDictionaryChangedEventArgs<Guid, MeetingCommon.DataTypes.Messanger.MessageDto> e)
+        private void OnMessagesChanged(object? sender, NotifyDictionaryChangedEventArgs<Guid, MessageDto> e)
         {
             var newValue = e.NewValue;
             var oldValue = e.OldValue;

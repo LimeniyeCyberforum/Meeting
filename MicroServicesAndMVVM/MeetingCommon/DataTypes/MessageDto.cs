@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MeetingCommon.DataTypes.Messanger
+namespace MeetingCommon.DataTypes
 {
     public class MessageDto : IEquatable<MessageDto>
     {
@@ -17,8 +17,8 @@ namespace MeetingCommon.DataTypes.Messanger
         public MessageDto(Guid guid, string message, string userName, DateTime? dateTime)
         {
             Guid = guid;
-            Message = message ?? String.Empty;
-            UserName = userName ?? String.Empty;
+            Message = message ?? string.Empty;
+            UserName = userName ?? string.Empty;
             DateTime = dateTime ?? new DateTime();
 
             hash = (Guid, Message, UserName, DateTime).GetHashCode();
@@ -26,8 +26,8 @@ namespace MeetingCommon.DataTypes.Messanger
 
         public bool Equals(MessageDto other)
         {
-            return other.Guid == Guid && 
-                Equals(other.Message, Message) && 
+            return other.Guid == Guid &&
+                Equals(other.Message, Message) &&
                 Equals(other.UserName, UserName) &&
                 DateTime == DateTime;
         }

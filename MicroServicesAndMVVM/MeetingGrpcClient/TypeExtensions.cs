@@ -1,5 +1,5 @@
 ﻿using GrpcCommon;
-using MeetingCommon.DataTypes.Messanger;
+using MeetingCommon.DataTypes;
 using System;
 
 namespace MeetingGrpcClient

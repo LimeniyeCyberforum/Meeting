@@ -1,6 +1,6 @@
 ﻿using Common.EventArgs;
 using Common.Extensions;
-using MeetingCommon.DataTypes.Messanger;
+using MeetingCommon.DataTypes;
 using System;
 using System.Collections.Generic;
 

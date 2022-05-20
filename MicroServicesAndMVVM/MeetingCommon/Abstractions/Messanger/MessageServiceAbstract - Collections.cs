@@ -1,4 +1,4 @@
-﻿using MeetingCommon.DataTypes.Messanger;
+﻿using MeetingCommon.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
