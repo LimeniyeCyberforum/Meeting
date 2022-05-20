@@ -1,5 +1,5 @@
 ﻿using MeetingCommon.Abstractions.Messanger;
-using MeetingCommon.Grpc.Messanger;
+using MeetingGrpcClient;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WPFView
@@ -14,7 +14,7 @@ namespace WPFView
         {
             _serviceProvider = new ServiceCollection()
                 .AddLogging()
-                .AddSingleton<BaseMessageServiceAbstract, MessageService>()
+                .AddSingleton<MessageServiceAbstract, MessageService>()
                 .BuildServiceProvider();
         }
     }

@@ -108,8 +108,8 @@ namespace WPFView
 
                             if (!frame.Empty())
                             {
-                                var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
-                                await messageService.SendCameraCaptureAsync(frame.ToMemoryStream());
+                                //var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
+                                //await messageService.SendCameraCaptureAsync(frame.ToMemoryStream());
 
                                 if (OnQRCodeRead != null)
                                 {
@@ -252,46 +252,7 @@ namespace WPFView
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            chkQRCode.IsEnabled = true;
-            chkFlip.IsEnabled = true;
-            cameraLoading.Visibility = Visibility.Visible;
-            //webcamContainer.Visibility = Visibility.Hidden;
-            btnStop.IsEnabled = false;
-            btnStart.IsEnabled = false;
-
-            var selectedCameraDeviceId = (cmbCameraDevices.SelectedItem as CameraDevice).OpenCvId;
-            if (_webcamStreaming == null || _webcamStreaming.CameraDeviceId != selectedCameraDeviceId)
-            {
-                _webcamStreaming?.Dispose();
-                _webcamStreaming = new WebcamStreaming0(
-                    imageControlForRendering: webcamPreview,
-                    frameWidth: 300,
-                    frameHeight: 300,
-                    cameraDeviceId: cmbCameraDevices.SelectedIndex);
-            }
-
-
-
-            var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
-            messageService.CameraCaptureChanged += OnCameraCaptureChanged;
-
-
-
-            try
-            {
-                await _webcamStreaming.Start();
-                btnStop.IsEnabled = true;
-                btnStart.IsEnabled = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                btnStop.IsEnabled = false;
-                btnStart.IsEnabled = true;
-            }
-
-            cameraLoading.Visibility = Visibility.Collapsed;
-            //webcamContainer.Visibility = Visibility.Visible;
+ 
         }
 
         private void OnCameraCaptureChanged(object? sender, byte[] e)

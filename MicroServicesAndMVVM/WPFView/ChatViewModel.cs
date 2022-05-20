@@ -1,8 +1,5 @@
 ﻿using Common.EventArgs;
-using GrpsServer;
-using MeetingCommon.Abstractions.Interfaces.Messanger;
 using MeetingCommon.Abstractions.Messanger;
-using MeetingCommon.Grpc.Messanger;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
@@ -15,7 +12,7 @@ namespace WPFView
     public class ChatViewModel : BaseInpc
     {
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
-        private readonly BaseMessageServiceAbstract _messageService;
+        private readonly MessageServiceAbstract _messageService;
 
         private string _message;
 
@@ -39,7 +36,7 @@ namespace WPFView
 
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
-             await _messageService.SendMessageAsync(Guid.NewGuid(), "limeniye", Message);
+             //await _messageService.SendMessageAsync(Guid.NewGuid(), "limeniye", Message);
 
             //var messageIndex = Messages.IndexOf(newMessage);
             //if (messageIndex > -1)
@@ -57,7 +54,7 @@ namespace WPFView
 
         public ChatViewModel()
         {
-            _messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
+            _messageService = IocService.ServiceProvider.GetService<MessageServiceAbstract>();
             _messageService.MessagesChanged += OnMessagesChanged;
         }
 
