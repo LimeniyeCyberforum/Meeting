@@ -57,10 +57,6 @@ namespace MeetingGrpcClient
             }
         }
 
-        public override MessageServiceAbstract MessageService { get; protected set; }
-
-        public override CameraCaptureServiceAbstract CameraCaptureService { get; protected set; }
-
         public override UserDto Connect(string username)
         {
             throw new NotImplementedException();
@@ -78,15 +74,16 @@ namespace MeetingGrpcClient
 
             Guid userGuid = Guid.Parse(result.Guid);
 
-            ServicesInitialize(userGuid);
+            Initialize(userGuid);
 
             return new UserDto(userGuid, username);
         }
 
-        private void ServicesInitialize(Guid currentUserGuid)
+        private void Initialize(Guid currentUserGuid)
         {
             MessageService = new MessageService(_client);
             CameraCaptureService = new CameraCaptureService(_client, currentUserGuid);
+            RaiseConnectionStateChangedAction(ConnectionAction.Connected);
         }
     }
 }
