@@ -4,14 +4,16 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=local:ConnectViewModel,IsDesignTimeCreatable=True}">
     <Grid>
-        <Border Background="#1e1e1e" Opacity="0.3"/>
+        <Border Background="#1e1e1e" Opacity="0.9"/>
 
-        <Border Background="AliceBlue" Padding="50" CornerRadius="20"
+        <Border Background="AliceBlue" Padding="70,50,70,50" CornerRadius="20"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
             
             <StackPanel VerticalAlignment="Center">
                 <TextBox Height="60" Width="300" Padding="0,5,0,5" FontSize="30"
-                         Text="limeniye"/>
+                         Text="{Binding Name}"/>
+                <Button Content="Join" Height="60"
+                        Command="{Binding JoinCommand}"/>
             </StackPanel>
         </Border>
 

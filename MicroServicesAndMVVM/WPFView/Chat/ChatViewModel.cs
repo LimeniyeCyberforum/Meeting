@@ -55,8 +55,8 @@ namespace WPFView.Chat
 
         public ChatViewModel()
         {
-            _messageService = IocService.ServiceProvider.GetService<MessageServiceAbstract>();
-            _messageService.MessagesChanged += OnMessagesChanged;
+            //_messageService = IocService.ServiceProvider.GetService<MessageServiceAbstract>();
+            //_messageService.MessagesChanged += OnMessagesChanged;
         }
 
         private void OnMessagesChanged(object? sender, NotifyDictionaryChangedEventArgs<Guid, MessageDto> e)
