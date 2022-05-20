@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using Grpc.Net.Client;
 using GrpcCommon;
 using MeetingCommon.Abstractions;
 using MeetingCommon.Abstractions.CameraCapture;
@@ -52,8 +53,8 @@ namespace MeetingGrpcClient
             else
             {
                 // create insecure channel
-                _client = new Meeting.MeetingClient(
-                    new Channel("localhost", 5001, ChannelCredentials.Insecure));
+                var channel = GrpcChannel.ForAddress("https://localhost:5001"/*, new GrpcChannelOptions { HttpHandler = httpHandler }*/);
+                _client = new Meeting.MeetingClient(channel);
             }
         }
 
