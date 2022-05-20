@@ -6,7 +6,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MeetingCommon.Grpc.Messanger
+namespace MeetingGrpcClient
 {
     public class MessageService : BaseMessageServiceAbstract, IMessageService
     {
@@ -43,7 +43,7 @@ namespace MeetingCommon.Grpc.Messanger
         }
 
         public MessageService()
-            :base()
+            : base()
         {
             InitializeStream();
         }
@@ -58,7 +58,7 @@ namespace MeetingCommon.Grpc.Messanger
             _call = _client.MessageStream();
             _call2 = _client.CameraCaptureStream();
 
-            await Task.Run(async () => 
+            await Task.Run(async () =>
             {
                 await foreach (var response in _call2.ResponseStream.ReadAllAsync())
                 {
