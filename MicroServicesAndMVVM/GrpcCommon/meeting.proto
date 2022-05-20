@@ -13,8 +13,7 @@ service Meeting
 	rpc Connect(ConnectRequest) returns (ConnectResponse);
 	rpc MessagesSubscribe(google.protobuf.Empty) returns (stream MessageFromLobby);
 	rpc SendMessage(MessageRequest) returns (google.protobuf.Empty);
-
-	rpc CameraCaptureStream (stream CameraCaptureTest) returns (stream CameraCaptureTest);
+	rpc CameraCaptureSubscribe(stream CameraCapture) returns (stream CameraCapture);
 }
 
 message ConnectRequest
@@ -30,9 +29,9 @@ message ConnectResponse
 	string guid = 3;
 }
 
-message CameraCaptureTest 
+message CameraCapture
 {
-	string username = 1;
+	string userGuid = 1;
 	bytes captureFrame = 2;
 }
 

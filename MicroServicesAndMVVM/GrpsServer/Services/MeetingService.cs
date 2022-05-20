@@ -100,6 +100,26 @@ namespace GrpsServer.Services
             return Task.FromResult(empty);
         }
 
+        public override async Task CameraCaptureSubscribe(IAsyncStreamReader<CameraCapture> requestStream, IServerStreamWriter<CameraCapture> responseStream, ServerCallContext context)
+        {
+            var peer = context.Peer;
+            _logger.LogInformation($"{peer} subscribes.");
+
+            context.CancellationToken.Register(() => _logger.LogInformation($"{peer} cancels subscription."));
+
+            try
+            {
+                await chatService.GetChatLogsAsObservable()
+                    .ToAsyncEnumerable()
+                    .ForEachAwaitAsync(async (x) => await responseStream.WriteAsync(x), context.CancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (TaskCanceledException)
+            {
+                _logger.LogInformation($"{peer} unsubscribed.");
+            }
+        }
+
         //public override async Task MessageStream(IAsyncStreamReader<MessageRequest> requestStream, 
         //    IServerStreamWriter<MessageReplay> responseStream, ServerCallContext context)
         //{

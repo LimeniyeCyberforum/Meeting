@@ -1,4 +1,5 @@
 ﻿using GrpcCommon;
+using GrpsServer.Services;
 using System;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace GrpsServer.Model
     [Export]
     public class ChatService
     {
-        private readonly ILogger<ChatService> _logger;
+        private readonly ILogger<MeetingService> _logger;
 
-        public ChatService(ILogger<ChatService> logger)
+        public ChatService(ILogger<MeetingService> logger)
         {
             _logger = logger;
         }
@@ -22,7 +23,7 @@ namespace GrpsServer.Model
 
         public void Add(MessageFromLobby chatLog)
         {
-            _logger.LogInformation($"{chatLog}");
+            _logger.LogInformation($"{chatLog.Username}: {chatLog.Message}\n{chatLog.Time}");
 
             repository.Add(chatLog);
             Added?.Invoke(chatLog);
