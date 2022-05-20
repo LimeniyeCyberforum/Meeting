@@ -76,7 +76,17 @@ namespace MeetingGrpcClient
             if (!result.IsSuccessfully)
                 throw new ArgumentException(result.ErrorMessage);
 
-            return new UserDto(Guid.Parse(result.Guid), username);
+            Guid userGuid = Guid.Parse(result.Guid);
+
+            ServicesInitialize(userGuid);
+
+            return new UserDto(userGuid, username);
+        }
+
+        private void ServicesInitialize(Guid currentUserGuid)
+        {
+            MessageService = new MessageService(_client);
+            CameraCaptureService = new CameraCaptureService(_client, currentUserGuid);
         }
     }
 }
