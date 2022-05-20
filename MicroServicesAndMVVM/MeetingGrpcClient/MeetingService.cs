@@ -46,14 +46,14 @@ namespace MeetingGrpcClient
                 var credentials = new SslCredentials(serverCACert);
 
                 _client = new Meeting.MeetingClient(
-                    new Channel("localhost", 5001, credentials));
+                    new Channel("localhost", 5001, credentials)); //7129
 
 
             }
             else
             {
                 // create insecure channel
-                var channel = GrpcChannel.ForAddress("https://localhost:5001"/*, new GrpcChannelOptions { HttpHandler = httpHandler }*/);
+                var channel = GrpcChannel.ForAddress("https://localhost:7129"/*, new GrpcChannelOptions { HttpHandler = httpHandler }*/);
                 _client = new Meeting.MeetingClient(channel);
             }
         }

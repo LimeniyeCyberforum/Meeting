@@ -58,6 +58,8 @@ namespace WPFView.Chat
                 Messages.Add(new Message(item.Guid, item.Message, false, false, MessageStatus.Readed, item.DateTime));
 
             _messageService.MessagesChanged += OnMessagesChanged;
+
+            _messageService.ChatSubscribeAsync();
         }
 
         private void OnConnectionStateChanged(object? sender, (ConnectionAction Action, UserDto User) e)
