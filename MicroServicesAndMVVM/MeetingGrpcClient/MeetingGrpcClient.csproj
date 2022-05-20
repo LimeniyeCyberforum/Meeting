@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	  <TargetFramework>netstandard2.1</TargetFramework>
+	  <TargetFramework>netstandard2.0</TargetFramework>
 	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="Google.Protobuf" Version="3.20.1" />
+    <PackageReference Include="Grpc.Core" Version="2.46.1" />
     <PackageReference Include="Grpc.Net.Client" Version="2.46.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.46.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="System.Interactive.Async" Version="6.0.1" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\GrpcCommon\GrpcCommon.csproj" />
+    <ProjectReference Include="..\MeetingCommon\MeetingCommon.csproj" />
   </ItemGroup>
 
 </Project>
