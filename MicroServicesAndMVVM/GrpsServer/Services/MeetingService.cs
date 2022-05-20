@@ -80,13 +80,13 @@ namespace GrpsServer.Services
 
             if (!Guid.TryParse(request.UserGuid, out Guid guid))
             {
-                _logger.LogWarning($"UserGuid {request.UserGuid} is not Guid.");
+                _logger.LogError($"UserGuid {request.UserGuid} is not Guid.");
                 return Task.FromResult(empty);
             }
 
             if (!users.TryGetValue(guid, out var username))
             {
-                _logger.LogWarning($"User with guid {request.UserGuid} not found.");
+                _logger.LogError($"User with guid {request.UserGuid} not found.");
                 return Task.FromResult(empty);
             }
 
@@ -119,6 +119,33 @@ namespace GrpsServer.Services
             {
                 _logger.LogInformation($"{peer} unsubscribed.");
             }
+        }
+
+        public override Task<Empty> SendCameraFrame(CameraCapture request, ServerCallContext context)
+        {
+            //_logger.LogInformation($"{context.Peer} {request}");
+
+            if (!Guid.TryParse(request.UserGuid, out Guid guid))
+            {
+                _logger.LogError($"UserGuid {request.UserGuid} is not Guid.");
+                return Task.FromResult(empty);
+            }
+
+            if (!users.TryGetValue(guid, out var username))
+            {
+                _logger.LogError($"User with guid {request.UserGuid} not found.");
+                return Task.FromResult(empty);
+            }
+
+            chatService.Add(new MessageFromLobby()
+            {
+                Username = username,
+                MessageGuid = request.MessageGuid,
+                Message = request.Message,
+                Time = Timestamp.FromDateTime(DateTime.UtcNow)
+            });
+
+            return Task.FromResult(empty);
         }
 
         //public override async Task MessageStream(IAsyncStreamReader<MessageRequest> requestStream, 
