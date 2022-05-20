@@ -48,10 +48,6 @@
 			<Version>0.16.6</Version>
 		</PackageReference>
 	</ItemGroup>
-	
-  <ItemGroup>
-	<Protobuf Include="protos\greet.proto" GrpcServices="Client" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GrpsServer\GrpsServer.csproj" />
