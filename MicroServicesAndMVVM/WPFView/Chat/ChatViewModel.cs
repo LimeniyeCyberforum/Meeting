@@ -1,7 +1,6 @@
 ﻿using Common.EventArgs;
 using MeetingCommon.Abstractions.Messanger;
 using MeetingCommon.DataTypes;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;

@@ -8,8 +8,6 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
             <DataTemplate x:Key="OwnerMessage" DataType="local:Message">
                 
             </DataTemplate>
@@ -226,8 +224,17 @@
 
         </Grid>
 
-        <connect:ConnectUserControl DataContext="{Binding ConnectVM}"
-                                    Visibility="{Binding IsConnected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <connect:ConnectUserControl>
+            <UserControl.Style>
+                <Style TargetType="{x:Type UserControl}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsConnected}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </UserControl.Style>
+        </connect:ConnectUserControl>
     </Grid>
     
 </Window>

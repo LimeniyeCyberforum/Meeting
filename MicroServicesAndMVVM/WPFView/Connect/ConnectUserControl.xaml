@@ -11,9 +11,9 @@
             
             <StackPanel VerticalAlignment="Center">
                 <TextBox Height="60" Width="300" Padding="0,5,0,5" FontSize="30"
-                         Text="{Binding Name}"/>
+                         Text="{Binding ConnectVM.Name}"/>
                 <Button Content="Join" Height="60"
-                        Command="{Binding JoinCommand}"/>
+                        Command="{Binding ConnectVM.JoinCommand}"/>
             </StackPanel>
         </Border>
 

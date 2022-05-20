@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using MeetingGrpcClient;
+using System.Windows;
 
 namespace WPFView
 {
@@ -6,8 +7,11 @@ namespace WPFView
     {
         private void OnApplicationLaunched(object sender, StartupEventArgs e)
         {
-            IocService.Initialize();
-            MainWindow = new MainWindow();
+            //IocService.Initialize();
+            MainWindow = new MainWindow()
+            {
+                DataContext = new MainViewModel(new MeetingService())
+            };
             MainWindow.Show();
         }
     }

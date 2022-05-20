@@ -1,6 +1,5 @@
 ﻿using ImageProcessor;
 using ImageProcessor.Imaging;
-using Microsoft.Extensions.DependencyInjection;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System;
