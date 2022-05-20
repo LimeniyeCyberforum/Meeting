@@ -4,6 +4,6 @@
              d:DesignHeight="800" d:DesignWidth="400"
              d:DataContext="{d:DesignInstance Type=local:ConnectViewModel,IsDesignTimeCreatable=True}">
     <Grid>
-            
+        
     </Grid>
 </UserControl>

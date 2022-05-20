@@ -14,6 +14,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WebcamWithOpenCV;
+using WPFView.Chat;
 
 namespace WPFView
 {
