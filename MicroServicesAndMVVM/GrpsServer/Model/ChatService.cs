@@ -1,4 +1,5 @@
 ﻿using GrpcCommon;
+using GrpsServer.Persistence;
 using GrpsServer.Services;
 using System;
 using System.ComponentModel.Composition;
@@ -14,7 +15,7 @@ namespace GrpsServer.Model
         private readonly ILogger<MeetingService> _logger;
 
         [Import]
-        private IChatLogRepository repository = null;
+        private IChatLogRepository repository = new ChatRepository(); // Temporary
 
         private event Action<MessageFromLobby> Added;
 
