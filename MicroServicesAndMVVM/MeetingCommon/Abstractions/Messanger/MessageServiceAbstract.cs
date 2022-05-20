@@ -6,10 +6,20 @@ namespace MeetingCommon.Abstractions.Messanger
 {
     public abstract partial class MessageServiceAbstract
     {
-        public abstract void SendMessage(Guid guid, string username, string message);
+        //public abstract void SendMessage(Guid messageGuid, Guid userGuid, string message);
 
-        public abstract Task SendMessageAsync(Guid guid, string username, string message);
+        public abstract Task SendMessageAsync(Guid messageGuid, Guid userGuid, string message);
 
-        public abstract Task SendCameraCaptureAsync(MemoryStream stream);
+        public abstract Task SendOwnCameraCaptureAsync(MemoryStream stream);
+
+
+        public abstract Task ChatSubscribeAsync();
+
+        public abstract Task ChatUnsubscribeAsync();
+
+        public abstract Task UsersCameraCaptureSubscribeAsync();
+
+        public abstract Task UsersCameraCaptureUnsubscribeAsync();
+
     }
 }
