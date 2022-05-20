@@ -33,22 +33,12 @@ namespace WPFView.Chat
 
         private async void OnSendMessageExecute()
         {
-            //await _call.RequestStream.WriteAsync(new MessageRequest() { Username = "limeniye", Message = Message });
             var newMessage = new Message(Guid.NewGuid(), Message, false, false, MessageStatus.Readed, null);
             Message = string.Empty;
 
-            _messageService.SendMessageAsync(Guid.NewGuid(), );
-
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
-            //await _messageService.SendMessageAsync(Guid.NewGuid(), "limeniye", Message);
-
-            //var messageIndex = Messages.IndexOf(newMessage);
-            //if (messageIndex > -1)
-            //{
-            //    _ = dispatcher.BeginInvoke(() => Messages[messageIndex] =
-            //           new Message(Guid.NewGuid(), Message, false, false, MessageStatus.Readed, response.Time.ToDateTime()));
-            //}
+            await _messageService.SendMessageAsync(Guid.NewGuid(), _userDto.Guid, Message);
         }
 
         private bool CanSendMessageExecute()
@@ -61,6 +51,8 @@ namespace WPFView.Chat
         {
             _messageService = messageService;
             meetingConnection.ConnectionStateChanged += OnConnectionStateChanged;
+
+            _userDto = meetingConnection.CurrentUser;
 
             foreach (var item in _messageService.Messages.Values)
                 Messages.Add(new Message(item.Guid, item.Message, false, false, MessageStatus.Readed, item.DateTime));
