@@ -3,21 +3,14 @@ using Common.Extensions;
 using MeetingCommon.DataTypes.Messanger;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MeetingCommon.Abstractions.Messanger
 {
     public abstract partial class MessageServiceAbstract
     {
-        public event EventHandler<byte[]> CameraCaptureChanged;
         public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, MessageDto>> MessagesChanged;
 
         private int messagesChangedSyncNumber = 0;
-
-        protected void RaiseCameraCaptureChanged(byte[] array)
-        {
-            CameraCaptureChanged?.Invoke(this, array);
-        }
 
         protected void RaiseMessagesChangedEvent(NotifyDictionaryChangedAction action, MessageDto newMessage = null, MessageDto oldMessage = null)
         {
