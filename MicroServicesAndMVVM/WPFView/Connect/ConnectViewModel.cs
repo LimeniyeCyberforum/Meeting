@@ -1,6 +1,7 @@
 ﻿namespace WPFView.Connect
 {
-    public class ConnectViewModel
+    public class ConnectViewModel : BaseInpc
     {
+
     }
 }
