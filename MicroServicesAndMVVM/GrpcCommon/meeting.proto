@@ -16,6 +16,7 @@ service Meeting
 	rpc SendMessage(MessageRequest) returns (google.protobuf.Empty);
 
 	rpc CameraCaptureSubscribe(google.protobuf.Empty) returns (stream CameraCapture);
+	rpc SendCameraFrame(CameraCapture) returns (google.protobuf.Empty);
 }
 
 message ConnectRequest

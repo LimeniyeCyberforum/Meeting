@@ -137,12 +137,10 @@ namespace GrpsServer.Services
                 return Task.FromResult(empty);
             }
 
-            chatService.Add(new MessageFromLobby()
+            usersCameraCaptureService.AddOrUpdate(new CameraCapture()
             {
-                Username = username,
-                MessageGuid = request.MessageGuid,
-                Message = request.Message,
-                Time = Timestamp.FromDateTime(DateTime.UtcNow)
+                UserGuid = request.UserGuid,
+                CaptureFrame = request.CaptureFrame
             });
 
             return Task.FromResult(empty);
