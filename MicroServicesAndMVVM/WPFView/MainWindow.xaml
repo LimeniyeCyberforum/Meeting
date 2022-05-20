@@ -3,15 +3,18 @@
         xmlns:connect="clr-namespace:WPFView.Connect"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d local" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        mc:Ignorable="d local" Height="450" Width="800" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance Type=local:MainViewModel}">
 
-    <!--<Window.Resources>
+    <Window.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
             <DataTemplate x:Key="OwnerMessage" DataType="local:Message">
                 
             </DataTemplate>
         </ResourceDictionary>
-    </Window.Resources>-->
+    </Window.Resources>
 
     <Grid>
 
@@ -223,7 +226,8 @@
 
         </Grid>
 
-        <connect:ConnectUserControl DataContext="{Binding ConnectVM}"/>
+        <connect:ConnectUserControl DataContext="{Binding ConnectVM}"
+                                    Visibility="{Binding IsConnected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </Grid>
     
 </Window>

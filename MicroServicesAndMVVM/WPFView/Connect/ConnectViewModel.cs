@@ -4,7 +4,7 @@ namespace WPFView.Connect
 {
     public class ConnectViewModel : BaseInpc
     {
-        private readonly MeetingServiceAbstract _meetingService;
+        private readonly IMeetingConnectionService _meetingConnectionService;
 
         private string _name;
 
@@ -17,7 +17,7 @@ namespace WPFView.Connect
 
         private async void OnJoinExecute()
         {
-            await _meetingService.ConnectAsync(Name);
+            await _meetingConnectionService.ConnectAsync(Name);
         }
 
         private bool CanJoinExecute()
@@ -26,9 +26,9 @@ namespace WPFView.Connect
         }
         #endregion
 
-        public ConnectViewModel(MeetingServiceAbstract meetingSErvice)
+        public ConnectViewModel(IMeetingConnectionService meetingConnectionService)
         {
-            _meetingService = meetingSErvice;
+            _meetingConnectionService = meetingConnectionService;
         }
     }
 }
