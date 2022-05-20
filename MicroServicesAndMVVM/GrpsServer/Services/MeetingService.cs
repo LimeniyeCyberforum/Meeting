@@ -19,7 +19,7 @@ namespace GrpsServer.Services
 
         [Import]
         private ChatService chatService = null;
-
+        private readonly Empty empty = new Empty();
 
 
         private readonly Dictionary<Guid, string> users = new Dictionary<Guid, string>();
@@ -73,14 +73,32 @@ namespace GrpsServer.Services
             }
         }
 
-        //public override Task<MessageResponse> SendMessage(MessageRequest request, ServerCallContext context)
-        //{
-        //    return Task.FromResult(new MessageResponse
-        //    {
-        //        Time = Timestamp.FromDateTime(DateTime.UtcNow),
-        //        Username = request.Username,
-        //    });
-        //}
+        public override Task<Empty> SendMessage(MessageRequest request, ServerCallContext context)
+        {
+            _logger.LogInformation($"{context.Peer} {request}");
+
+            if (!Guid.TryParse(request.UserGuid, out Guid guid))
+            {
+                _logger.LogWarning($"UserGuid {request.UserGuid} is not Guid.");
+                return Task.FromResult(empty);
+            }
+
+            if (!users.TryGetValue(guid, out var username))
+            {
+                _logger.LogWarning($"User with guid {request.UserGuid} not found.");
+                return Task.FromResult(empty);
+            }
+
+            chatService.Add(new MessageFromLobby() 
+            {
+                Username = username,
+                MessageGuid = request.MessageGuid,
+                Message = request.Message,
+                Time = Timestamp.FromDateTime(DateTime.UtcNow)
+            });
+
+            return Task.FromResult(empty);
+        }
 
         //public override async Task MessageStream(IAsyncStreamReader<MessageRequest> requestStream, 
         //    IServerStreamWriter<MessageReplay> responseStream, ServerCallContext context)
