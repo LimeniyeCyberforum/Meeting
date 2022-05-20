@@ -22,22 +22,11 @@ namespace GrpsServer.Services
         private UsersCameraCaptureService usersCameraCaptureService = null;
         private readonly Empty empty = new Empty();
 
-
         private readonly Dictionary<Guid, string> users = new Dictionary<Guid, string>();
-        private const string TEST_LOBBY_PASSWORD = "limeniye";
 
 
         public override Task<ConnectResponse> Connect(ConnectRequest request, ServerCallContext context)
         {
-            if (request.LobbyPassword != TEST_LOBBY_PASSWORD)
-            {
-                return Task.FromResult(new ConnectResponse
-                {
-                    IsSuccessfully = false,
-                    ErrorMessage = "Incorrect password"
-                });
-            }
-
             if (!users.TryAdd(Guid.NewGuid(), request.Username))
             {
                 return Task.FromResult(new ConnectResponse

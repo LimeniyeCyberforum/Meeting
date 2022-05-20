@@ -22,7 +22,6 @@ service Meeting
 message ConnectRequest
 {
 	string username = 1;
-	string lobbyPassword = 2;
 }
 
 message ConnectResponse
