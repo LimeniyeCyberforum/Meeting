@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Grpc\protos\greet.proto" GrpcServices="Client" />
+    <Protobuf Include="Grpc\protos\meeting.proto" GrpcServices="Client" />
 	<PackageReference Include="Google.Protobuf" Version="3.20.1" />
     <PackageReference Include="Grpc.Net.Client" Version="2.46.0" />
     <PackageReference Include="Grpc.Tools" Version="2.46.1">
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Grpc\protos\greet.proto">
+    <None Update="Grpc\protos\meeting.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
   </ItemGroup>

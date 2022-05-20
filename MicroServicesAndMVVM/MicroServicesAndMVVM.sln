@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFView", "WPFView\WPFView.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpsServer", "GrpsServer\GrpsServer.csproj", "{38BA63BB-4C68-48C0-AAAF-80AEF55512D8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServices", "{20CB4387-5D94-4443-BA89-AE86DBF0EA03}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grpc", "Grpc", "{20CB4387-5D94-4443-BA89-AE86DBF0EA03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingRepository", "Meeting\MeetingRepository.csproj", "{CC4448BB-716C-47E4-B913-5151724A5CFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingRepository", "Meeting\MeetingRepository.csproj", "{CC4448BB-716C-47E4-B913-5151724A5CFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{E687A917-8587-489B-9C88-E05FE9314050}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{E687A917-8587-489B-9C88-E05FE9314050}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcCommon", "GrpcCommon\GrpcCommon.csproj", "{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +37,17 @@ Global
 		{E687A917-8587-489B-9C88-E05FE9314050}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E687A917-8587-489B-9C88-E05FE9314050}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E687A917-8587-489B-9C88-E05FE9314050}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{38BA63BB-4C68-48C0-AAAF-80AEF55512D8} = {20CB4387-5D94-4443-BA89-AE86DBF0EA03}
+		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B} = {20CB4387-5D94-4443-BA89-AE86DBF0EA03}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C8047A6-01EE-4859-B4C5-3BBFBA57F8F0}
