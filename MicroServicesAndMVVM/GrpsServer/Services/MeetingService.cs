@@ -19,6 +19,7 @@ namespace GrpsServer.Services
 
         [Import]
         private ChatService chatService = null;
+        private UsersCameraCaptureService usersCameraCaptureService = null;
         private readonly Empty empty = new Empty();
 
 
@@ -100,7 +101,7 @@ namespace GrpsServer.Services
             return Task.FromResult(empty);
         }
 
-        public override async Task CameraCaptureSubscribe(IAsyncStreamReader<CameraCapture> requestStream, IServerStreamWriter<CameraCapture> responseStream, ServerCallContext context)
+        public override async Task CameraCaptureSubscribe(Empty reques, IServerStreamWriter<CameraCapture> responseStream, ServerCallContext context)
         {
             var peer = context.Peer;
             _logger.LogInformation($"{peer} subscribes.");
@@ -109,7 +110,7 @@ namespace GrpsServer.Services
 
             try
             {
-                await chatService.GetChatLogsAsObservable()
+                await usersCameraCaptureService.GetUserCameraCapturesAsObservable()
                     .ToAsyncEnumerable()
                     .ForEachAwaitAsync(async (x) => await responseStream.WriteAsync(x), context.CancellationToken)
                     .ConfigureAwait(false);

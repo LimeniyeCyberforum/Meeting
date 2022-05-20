@@ -11,9 +11,11 @@ package meeting;
 service Meeting 
 {
 	rpc Connect(ConnectRequest) returns (ConnectResponse);
+
 	rpc MessagesSubscribe(google.protobuf.Empty) returns (stream MessageFromLobby);
 	rpc SendMessage(MessageRequest) returns (google.protobuf.Empty);
-	rpc CameraCaptureSubscribe(stream CameraCapture) returns (stream CameraCapture);
+
+	rpc CameraCaptureSubscribe(google.protobuf.Empty) returns (stream CameraCapture);
 }
 
 message ConnectRequest
