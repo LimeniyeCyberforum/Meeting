@@ -51,7 +51,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GrpsServer\GrpsServer.csproj" />
-    <ProjectReference Include="..\Meeting\MeetingGrpcClient.csproj" />
+    <ProjectReference Include="..\MeetingCommon\MeetingCommon.csproj" />
+    <ProjectReference Include="..\MeetingGrpcClient\MeetingGrpcClient.csproj" />
   </ItemGroup>
 
 </Project>
