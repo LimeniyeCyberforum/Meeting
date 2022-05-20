@@ -18,7 +18,7 @@ namespace MeetingCommon.Abstractions
 
         ConnectionAction CurrentConnectionState { get; }
 
-        event EventHandler<(ConnectionAction Action, UserDto user)> ConnectionStateChanged;
+        event EventHandler<(ConnectionAction Action, UserDto User)> ConnectionStateChanged;
 
         UserDto Connect(string username);
 
@@ -31,7 +31,7 @@ namespace MeetingCommon.Abstractions
 
         public ConnectionAction CurrentConnectionState { get; private set; }
 
-        public event EventHandler<(ConnectionAction Action, UserDto user)> ConnectionStateChanged;
+        public event EventHandler<(ConnectionAction Action, UserDto User)> ConnectionStateChanged;
 
         public MessageServiceAbstract MessageService { get; protected set; }
 

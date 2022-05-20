@@ -74,17 +74,18 @@ namespace MeetingGrpcClient
                 throw new ArgumentException(result.ErrorMessage);
 
             Guid userGuid = Guid.Parse(result.Guid);
+            var user = new UserDto(userGuid, username);
 
-            Initialize(userGuid);
+            Initialize(userGuid, user);
 
-            return new UserDto(userGuid, username);
+            return user;
         }
 
-        private void Initialize(Guid currentUserGuid)
+        private void Initialize(Guid currentUserGuid, UserDto user)
         {
             MessageService = new MessageService(_client);
             CameraCaptureService = new CameraCaptureService(_client, currentUserGuid);
-            RaiseConnectionStateChangedAction(ConnectionAction.Connected);
+            RaiseConnectionStateChangedAction(ConnectionAction.Connected, user);
         }
     }
 }

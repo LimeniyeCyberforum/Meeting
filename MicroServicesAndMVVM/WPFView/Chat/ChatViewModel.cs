@@ -15,6 +15,8 @@ namespace WPFView.Chat
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly MessageServiceAbstract _messageService;
 
+        private UserDto _userDto;
+
         private string _message;
 
         public string Message { get => _message; set => Set(ref _message, value); }
@@ -66,10 +68,12 @@ namespace WPFView.Chat
             _messageService.MessagesChanged += OnMessagesChanged;
         }
 
-        private void OnConnectionStateChanged(object? sender, ConnectionAction e)
+        private void OnConnectionStateChanged(object? sender, (ConnectionAction Action, UserDto User) e)
         {
-            if (e == ConnectionAction.Connected)
+            if (e.Action == ConnectionAction.Connected)
             {
+                _userDto = e.User;
+
                 Messages.Clear();
                 foreach (var item in _messageService.Messages.Values)
                     Messages.Add(new Message(item.Guid, item.Message, false, false, MessageStatus.Readed, item.DateTime));
@@ -78,6 +82,7 @@ namespace WPFView.Chat
             }
             else
             {
+                _userDto = null;
                 _messageService.MessagesChanged -= OnMessagesChanged;
                 Messages.Clear();
             }

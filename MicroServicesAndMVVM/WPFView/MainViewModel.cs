@@ -1,5 +1,7 @@
 ﻿using MeetingCommon.Abstractions;
 using MeetingCommon.Abstractions.Messanger;
+using MeetingCommon.DataTypes;
+using System;
 using WPFView.Chat;
 using WPFView.Connect;
 
@@ -24,9 +26,9 @@ namespace WPFView
             _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
         }
 
-        private void OnConnectionStateChanged(object? sender, ConnectionAction e)
+        private void OnConnectionStateChanged(object? sender, (ConnectionAction Action, UserDto User) e)
         {
-            IsConnected = e == ConnectionAction.Connected ? true : false;
+            IsConnected = e.Action == ConnectionAction.Connected ? true : false;
             ChatVM = new ChatViewModel(_meetingServiceAbstract.MessageService, _meetingServiceAbstract);
         }
     }
