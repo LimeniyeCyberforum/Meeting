@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingRepository", "Meetin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{E687A917-8587-489B-9C88-E05FE9314050}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcCommon", "GrpcCommon\GrpcCommon.csproj", "{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcCommon", "GrpcCommon\GrpcCommon.csproj", "{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingCommon", "MeetingCommon\MeetingCommon.csproj", "{A14E4F17-1B44-4AA5-97B8-53698FD1262E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A14E4F17-1B44-4AA5-97B8-53698FD1262E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A14E4F17-1B44-4AA5-97B8-53698FD1262E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A14E4F17-1B44-4AA5-97B8-53698FD1262E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A14E4F17-1B44-4AA5-97B8-53698FD1262E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
