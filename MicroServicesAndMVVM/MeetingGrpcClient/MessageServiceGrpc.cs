@@ -1,18 +1,25 @@
-﻿using Google.Protobuf;
+﻿using Common.EventArgs;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Net.Client;
 using GrpcCommon;
 using MeetingCommon.Abstractions.Messanger;
+using MeetingCommon.DataTypes.Messanger;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MeetingGrpcClient
 {
     public class MessageService : MessageServiceAbstract
     {
-       private readonly Meeting.MeetingClient _client;
+        private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
+
+        private readonly Meeting.MeetingClient _client;
 
 
         public MessageService()
@@ -61,7 +68,12 @@ namespace MeetingGrpcClient
 
         public override Task ChatSubscribeAsync()
         {
-            throw new NotImplementedException();
+            var call = _client.MessagesSubscribe(new Empty());
+
+            return call.ResponseStream
+                .ToAsyncEnumerable()
+                .Finally(() => call.Dispose())
+                .ForEachAsync((x) => RaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Added, x.ToMessageDto()), chatCancelationToken.Token);
         }
 
         public override Task ChatUnsubscribeAsync()
@@ -69,9 +81,15 @@ namespace MeetingGrpcClient
             throw new NotImplementedException();
         }
 
-        public override Task SendMessageAsync(Guid messageGuid, Guid userGuid, string message)
+        public override async Task SendMessageAsync(Guid messageGuid, Guid userGuid, string message)
         {
-            throw new NotImplementedException();
+            await _client.SendMessageAsync(new MessageRequest() 
+            {
+                MessageGuid = messageGuid.ToString(),
+                UserGuid = userGuid.ToString(),
+                Message = message
+            });
+
         }
 
         public override Task SendOwnCameraCaptureAsync(MemoryStream stream)
