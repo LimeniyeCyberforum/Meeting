@@ -14,9 +14,11 @@ namespace MeetingCommon.Abstractions
 
     public interface IMeetingConnectionService
     {
+        UserDto CurrentUser { get; }
+
         ConnectionAction CurrentConnectionState { get; }
 
-        event EventHandler<ConnectionAction> ConnectionStateChanged;
+        event EventHandler<(ConnectionAction Action, UserDto user)> ConnectionStateChanged;
 
         UserDto Connect(string username);
 
@@ -25,9 +27,11 @@ namespace MeetingCommon.Abstractions
 
     public abstract class MeetingServiceAbstract : IMeetingConnectionService
     {
-        public ConnectionAction CurrentConnectionState { get; protected set; }
+        public UserDto CurrentUser { get; private set; }
 
-        public event EventHandler<ConnectionAction> ConnectionStateChanged;
+        public ConnectionAction CurrentConnectionState { get; private set; }
+
+        public event EventHandler<(ConnectionAction Action, UserDto user)> ConnectionStateChanged;
 
         public MessageServiceAbstract MessageService { get; protected set; }
 
@@ -37,10 +41,11 @@ namespace MeetingCommon.Abstractions
 
         public abstract Task<UserDto> ConnectAsync(string username);
 
-        protected void RaiseConnectionStateChangedAction(ConnectionAction action)
+        protected void RaiseConnectionStateChangedAction(ConnectionAction action, UserDto user)
         {
             CurrentConnectionState = action;
-            ConnectionStateChanged?.Invoke(this, action);
+            CurrentUser = user;
+            ConnectionStateChanged?.Invoke(this, (action, user));
         }
     }
 }

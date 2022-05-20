@@ -9,16 +9,16 @@ namespace WPFView
     {
         private readonly MeetingServiceAbstract _meetingServiceAbstract;
         private bool _isConnected = false;
+        private ChatViewModel _chatViewModel;
 
-        public bool IsConnected { get => _isConnected; set => Set(ref _isConnected, value); }
+        public bool IsConnected { get => _isConnected; private set => Set(ref _isConnected, value); }
+        public ChatViewModel ChatVM { get => _chatViewModel; private set => Set(ref _chatViewModel, value); }
 
         public ConnectViewModel ConnectVM { get; }
-        public ChatViewModel ChatVM { get; }
 
         public MainViewModel(MeetingServiceAbstract meetingServiceAbstract)
         {
             ConnectVM = new ConnectViewModel(meetingServiceAbstract);
-            ChatVM = new ChatViewModel(meetingServiceAbstract.MessageService);
 
             _meetingServiceAbstract = meetingServiceAbstract;
             _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
@@ -27,6 +27,7 @@ namespace WPFView
         private void OnConnectionStateChanged(object? sender, ConnectionAction e)
         {
             IsConnected = e == ConnectionAction.Connected ? true : false;
+            ChatVM = new ChatViewModel(_meetingServiceAbstract.MessageService, _meetingServiceAbstract);
         }
     }
 }

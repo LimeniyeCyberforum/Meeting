@@ -35,6 +35,8 @@ namespace WPFView.Chat
             var newMessage = new Message(Guid.NewGuid(), Message, false, false, MessageStatus.Readed, null);
             Message = string.Empty;
 
+            _messageService.SendMessageAsync(Guid.NewGuid(), );
+
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
             //await _messageService.SendMessageAsync(Guid.NewGuid(), "limeniye", Message);
@@ -57,14 +59,28 @@ namespace WPFView.Chat
         {
             _messageService = messageService;
             meetingConnection.ConnectionStateChanged += OnConnectionStateChanged;
-        }
 
-        private void OnConnectionStateChanged(object? sender, ConnectionAction e)
-        {
             foreach (var item in _messageService.Messages.Values)
                 Messages.Add(new Message(item.Guid, item.Message, false, false, MessageStatus.Readed, item.DateTime));
 
             _messageService.MessagesChanged += OnMessagesChanged;
+        }
+
+        private void OnConnectionStateChanged(object? sender, ConnectionAction e)
+        {
+            if (e == ConnectionAction.Connected)
+            {
+                Messages.Clear();
+                foreach (var item in _messageService.Messages.Values)
+                    Messages.Add(new Message(item.Guid, item.Message, false, false, MessageStatus.Readed, item.DateTime));
+
+                _messageService.MessagesChanged += OnMessagesChanged;
+            }
+            else
+            {
+                _messageService.MessagesChanged -= OnMessagesChanged;
+                Messages.Clear();
+            }
         }
 
         private void OnMessagesChanged(object? sender, NotifyDictionaryChangedEventArgs<Guid, MessageDto> e)
