@@ -1,5 +1,5 @@
-﻿using MeetingRepository.Abstractions.Messanger;
-using MeetingRepository.Grpc.Messanger;
+﻿using MeetingCommon.Abstractions.Messanger;
+using MeetingCommon.Grpc.Messanger;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WPFView

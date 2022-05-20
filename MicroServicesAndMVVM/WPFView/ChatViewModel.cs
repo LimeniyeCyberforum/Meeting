@@ -1,8 +1,8 @@
 ﻿using Common.EventArgs;
 using GrpsServer;
-using MeetingRepository.Abstractions.Interfaces.Messanger;
-using MeetingRepository.Abstractions.Messanger;
-using MeetingRepository.Grpc.Messanger;
+using MeetingCommon.Abstractions.Interfaces.Messanger;
+using MeetingCommon.Abstractions.Messanger;
+using MeetingCommon.Grpc.Messanger;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
@@ -61,7 +61,7 @@ namespace WPFView
             _messageService.MessagesChanged += OnMessagesChanged;
         }
 
-        private void OnMessagesChanged(object? sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<Guid, MeetingRepository.DataTypes.Messanger.MessageDto> e)
+        private void OnMessagesChanged(object? sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<Guid, MeetingCommon.DataTypes.Messanger.MessageDto> e)
         {
             var newValue = e.NewValue;
             var oldValue = e.OldValue;

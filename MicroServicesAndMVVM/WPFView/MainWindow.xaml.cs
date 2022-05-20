@@ -1,6 +1,6 @@
 ﻿using ImageProcessor;
 using ImageProcessor.Imaging;
-using MeetingRepository.Abstractions.Messanger;
+using MeetingCommon.Abstractions.Messanger;
 using Microsoft.Extensions.DependencyInjection;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;

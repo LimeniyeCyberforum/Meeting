@@ -1,9 +1,10 @@
 ﻿using Common.EventArgs;
+using MeetingCommon.DataTypes.Messanger;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MeetingRepository.Abstractions.Interfaces.Messanger
+namespace MeetingCommon.Abstractions.Interfaces.Messanger
 {
     public interface IMessageService
     {
