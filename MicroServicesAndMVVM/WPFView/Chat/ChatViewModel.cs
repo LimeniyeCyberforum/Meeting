@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace WPFView
+namespace WPFView.Chat
 {
     public class ChatViewModel : BaseInpc
     {
@@ -32,11 +32,11 @@ namespace WPFView
         {
             //await _call.RequestStream.WriteAsync(new MessageRequest() { Username = "limeniye", Message = Message });
             var newMessage = new Message(Guid.NewGuid(), Message, false, false, MessageStatus.Readed, null);
-            Message = String.Empty;
+            Message = string.Empty;
 
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
-             //await _messageService.SendMessageAsync(Guid.NewGuid(), "limeniye", Message);
+            //await _messageService.SendMessageAsync(Guid.NewGuid(), "limeniye", Message);
 
             //var messageIndex = Messages.IndexOf(newMessage);
             //if (messageIndex > -1)
@@ -58,7 +58,7 @@ namespace WPFView
             _messageService.MessagesChanged += OnMessagesChanged;
         }
 
-        private void OnMessagesChanged(object? sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<Guid, MeetingCommon.DataTypes.Messanger.MessageDto> e)
+        private void OnMessagesChanged(object? sender, NotifyDictionaryChangedEventArgs<Guid, MeetingCommon.DataTypes.Messanger.MessageDto> e)
         {
             var newValue = e.NewValue;
             var oldValue = e.OldValue;
