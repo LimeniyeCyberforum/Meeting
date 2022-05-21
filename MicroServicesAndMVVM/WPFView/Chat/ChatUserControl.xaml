@@ -6,9 +6,17 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <!--<DataTemplate x:Key="OwnerMessage" DataType="local:Message">
+            <DataTemplate x:Key="OwnerMessage" DataType="local:Message">
+                <Border Background="Red" Height="60" Width="200"/>
+            </DataTemplate>
 
-            </DataTemplate>-->
+            <DataTemplate x:Key="AnotherMessage" DataType="local:Message">
+                <Border Background="Red" Height="60" Width="200"/>
+            </DataTemplate>
+
+            <local:MessageItemDataTemplateSelector x:Key="MessageItemDataTemplateSelector"
+                                                   OwnerMessage="{StaticResource OwnerMessage}"
+                                                   AnotherMessage="{StaticResource AnotherMessage}"/>
         </ResourceDictionary>
     </UserControl.Resources>
     
@@ -19,7 +27,8 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <ListView ItemsSource="{Binding ChatVM.Messages}">
+            <ListView ItemsSource="{Binding ChatVM.Messages}"
+                      ItemTemplateSelector="{StaticResource MessageItemDataTemplateSelector}">
 
             </ListView>
         </Grid>

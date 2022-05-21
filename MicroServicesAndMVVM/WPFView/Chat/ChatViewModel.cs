@@ -23,7 +23,7 @@ namespace WPFView.Chat
 
         public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>()
         {
-            new Message(Guid.NewGuid(), "Hello world", false, true, MessageStatus.Readed, DateTime.Now)
+            new Message(Guid.NewGuid(), "Hello world", DateTime.Now)
         };
 
         #region SendMessageCommand
@@ -33,7 +33,7 @@ namespace WPFView.Chat
 
         private async void OnSendMessageExecute()
         {
-            var newMessage = new Message(Guid.NewGuid(), Message, false, false, MessageStatus.Readed, null);
+            var newMessage = new OwnMessage(Guid.NewGuid(), Message, MessageStatus.Sending, null);
             Message = string.Empty;
 
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
@@ -55,7 +55,16 @@ namespace WPFView.Chat
             _userDto = meetingConnection.CurrentUser;
 
             foreach (var item in _messageService.Messages.Values)
-                Messages.Add(new Message(item.Guid, item.Message, false, false, MessageStatus.Readed, item.DateTime));
+            {
+                if (true)
+                {
+                    Messages.Add(new OwnMessage(item.Guid, item.Message, MessageStatus.Readed, item.DateTime));
+                }
+                else
+                {
+                    // TODO : Is not my message
+                }
+            }
 
             _messageService.MessagesChanged += OnMessagesChanged;
 
@@ -70,7 +79,16 @@ namespace WPFView.Chat
 
                 Messages.Clear();
                 foreach (var item in _messageService.Messages.Values)
-                    Messages.Add(new Message(item.Guid, item.Message, false, false, MessageStatus.Readed, item.DateTime));
+                {
+                    if (true)
+                    {
+                        Messages.Add(new OwnMessage(item.Guid, item.Message, MessageStatus.Readed, item.DateTime));
+                    }
+                    else
+                    {
+                        // TODO : Is not my message
+                    }
+                }
 
                 _messageService.MessagesChanged += OnMessagesChanged;
             }
@@ -92,12 +110,21 @@ namespace WPFView.Chat
                 switch (e.Action)
                 {
                     case NotifyDictionaryChangedAction.Added:
-                        Messages.Add(new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now));
+
+                        if (true)
+                        {
+                            Messages.Add(new OwnMessage(newValue.Guid, newValue.Message, MessageStatus.Readed, newValue.DateTime));
+                        }
+                        else
+                        {
+                            // TODO : Is not my message
+                        }
 
                         break;
                     case NotifyDictionaryChangedAction.Changed:
-                        var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
-                        Messages[index] = new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now);
+                        throw new NotImplementedException();
+                        //var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
+                        //Messages[index] = new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now);
                         break;
                     case NotifyDictionaryChangedAction.Removed:
                         Messages.Remove(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
@@ -107,11 +134,21 @@ namespace WPFView.Chat
                         break;
                     case NotifyDictionaryChangedAction.Initialized:
                         Messages.Clear();
+                        throw new NotImplementedException();
 
-                        foreach (var item in e.NewDictionary.Values.Select(x => new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now)))
-                        {
-                            Messages.Add(item);
-                        }
+
+                        //if (true)
+                        //{
+                        //    Messages.Add(new OwnMessage(newValue.Guid, newValue.Message, MessageStatus.Readed, newValue.DateTime));
+                        //}
+                        //else
+                        //{
+                        //    // TODO : Is not my message
+                        //}
+                        //foreach (var item in e.NewDictionary.Values.Select(x => new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now)))
+                        //{
+                        //    Messages.Add(item);
+                        //}
                         break;
                 }
             });
