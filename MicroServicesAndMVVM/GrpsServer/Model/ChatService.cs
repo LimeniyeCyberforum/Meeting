@@ -1,6 +1,4 @@
 ﻿using GrpcCommon;
-using GrpsServer.Infrastructure;
-using System.ComponentModel.Composition;
 using System.Reactive.Linq;
 
 namespace GrpsServer.Model
