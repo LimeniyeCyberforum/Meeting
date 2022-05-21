@@ -17,7 +17,7 @@ namespace GrpsServer.Services
         [Import]
         private ChatService chatService = null;
 
-        [Import]
+        //[Import]
         private UsersCameraCaptureService usersCameraCaptureService = null;
 
         private readonly Empty empty = new Empty();
