@@ -22,7 +22,7 @@ namespace MeetingCommon.Abstractions.CameraCapture
             CameraFrameChanged?.Invoke(this, userGuid, frameBytes);
         }
 
-        public abstract Task SendOwnCameraCaptureAsync(MemoryStream stream);
+        public abstract Task SendOwnCameraCaptureAsync(Stream stream);
 
         public abstract Task UsersCameraCaptureSubscribeAsync();
 

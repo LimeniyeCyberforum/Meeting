@@ -3,6 +3,7 @@ using MeetingCommon.Abstractions.Messanger;
 using MeetingCommon.DataTypes;
 using System;
 using System.Collections.ObjectModel;
+using WebcamWithOpenCV;
 using WPFView.Chat;
 using WPFView.Connect;
 
@@ -11,6 +12,7 @@ namespace WPFView
     public class MainViewModel : BaseInpc
     {
         private readonly MeetingServiceAbstract _meetingServiceAbstract;
+        private readonly CamStreaming _cam;
         private bool _isConnected = false;
         private ChatViewModel _chatViewModel;
 
@@ -27,15 +29,41 @@ namespace WPFView
 
             _meetingServiceAbstract = meetingServiceAbstract;
             _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
+
+            _cam = CamInitializeTest();
         }
+
+
+        private CamStreaming CamInitializeTest()
+        {
+            CamStreaming result = null;
+            var selectedCameraDeviceId = CameraDevicesEnumerator.GetAllConnectedCameras()[0].OpenCvId;
+            if (_cam == null || _cam.CameraDeviceId != selectedCameraDeviceId)
+            {
+                _cam?.Dispose();
+                result = new CamStreaming(
+                    frameWidth: 300,
+                    frameHeight: 300,
+                    selectedCameraDeviceId);
+            }
+
+            return result;
+        }
+
+
 
         private void OnConnectionStateChanged(object? sender, (ConnectionAction Action, UserDto User) e)
         {
             IsConnected = e.Action == ConnectionAction.Connected ? true : false;
             ChatVM = new ChatViewModel(_meetingServiceAbstract.MessageService, _meetingServiceAbstract);
             _meetingServiceAbstract.CameraCaptureService.CameraFrameChanged += OnCameraFrameChanged;
+            _cam.CaptureFrameChanged += OnCaptureFrameChanged;
+            _ = _cam.Start();
+        }
 
-
+        private void OnCaptureFrameChanged(object? sender, System.IO.Stream e)
+        {
+            _meetingServiceAbstract.CameraCaptureService.SendOwnCameraCaptureAsync(e);
         }
 
         private void OnCameraFrameChanged(object sender, Guid userGuid, byte[] frameBytes)

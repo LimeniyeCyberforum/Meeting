@@ -26,6 +26,7 @@ namespace WPFView
         public bool FlipHorizontally { get; set; }
 
         public event EventHandler OnQRCodeRead;
+        public event EventHandler<Stream> CaptureFrameChanged;
         private readonly OpenCVQRCodeReader _qrCodeReader;
 
         private int _currentBarcodeReadFrameCount = 0;
@@ -75,6 +76,7 @@ namespace WPFView
                             {
                                 //var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
                                 //await messageService.SendCameraCaptureAsync(frame.ToMemoryStream());
+                                CaptureFrameChanged?.Invoke(this, frame.ToMemoryStream());
 
                                 if (OnQRCodeRead != null)
                                 {
@@ -105,8 +107,8 @@ namespace WPFView
                                     ? BitmapConverter.ToBitmap(frame.Flip(FlipMode.Y))
                                     : BitmapConverter.ToBitmap(frame);
 
-                                var lastFrameBitmapImage = _lastFrame.ToBitmapSource();
-                                lastFrameBitmapImage.Freeze();
+                                //var lastFrameBitmapImage = _lastFrame.ToBitmapSource();
+                                //lastFrameBitmapImage.Freeze();
                                 //_imageControlForRendering.Dispatcher.Invoke(
                                 //    () => _imageControlForRendering.Source = lastFrameBitmapImage);
                             }
