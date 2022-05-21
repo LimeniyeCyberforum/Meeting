@@ -3,6 +3,8 @@ using MeetingCommon.Abstractions.Messanger;
 using MeetingCommon.DataTypes;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Threading;
 using WebcamWithOpenCV;
 using WPFView.Chat;
 using WPFView.Connect;
@@ -11,6 +13,7 @@ namespace WPFView
 {
     public class MainViewModel : BaseInpc
     {
+        private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly MeetingServiceAbstract _meetingServiceAbstract;
         private readonly CamStreaming _cam;
         private bool _isConnected = false;
@@ -58,6 +61,7 @@ namespace WPFView
             ChatVM = new ChatViewModel(_meetingServiceAbstract.MessageService, _meetingServiceAbstract);
             _meetingServiceAbstract.CameraCaptureService.CameraFrameChanged += OnCameraFrameChanged;
             _cam.CaptureFrameChanged += OnCaptureFrameChanged;
+            _meetingServiceAbstract.CameraCaptureService.UsersCameraCaptureSubscribeAsync();
             _ = _cam.Start();
         }
 
@@ -70,11 +74,11 @@ namespace WPFView
         {
             if (!InputVideoStreams.ContainsKey(userGuid))
             {
-                InputVideoStreams.Add(userGuid, frameBytes);
+                dispatcher.BeginInvoke(() => InputVideoStreams.Add(userGuid, frameBytes));
             }
             else 
             {
-                InputVideoStreams[userGuid] = frameBytes;
+                dispatcher.BeginInvoke(() => InputVideoStreams[userGuid] = frameBytes);
             }
         }
     }
