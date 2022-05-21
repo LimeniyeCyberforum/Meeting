@@ -6,6 +6,9 @@ namespace MeetingCommon.DataTypes
     {
         public Guid Guid { get; }
 
+        // TODO : Temporary
+        public Guid UserGuid { get; }
+
         public string Message { get; }
 
         public string UserName { get; }
@@ -14,9 +17,10 @@ namespace MeetingCommon.DataTypes
 
         private readonly int hash;
 
-        public MessageDto(Guid guid, string message, string userName, DateTime? dateTime)
+        public MessageDto(Guid guid, Guid userGuid, string message, string userName, DateTime? dateTime)
         {
             Guid = guid;
+            UserName = userName;
             Message = message ?? string.Empty;
             UserName = userName ?? string.Empty;
             DateTime = dateTime ?? new DateTime();
@@ -26,7 +30,7 @@ namespace MeetingCommon.DataTypes
 
         public bool Equals(MessageDto other)
         {
-            return other.Guid == Guid &&
+            return other.Guid == Guid && other.UserGuid == UserGuid &&
                 Equals(other.Message, Message) &&
                 Equals(other.UserName, UserName) &&
                 DateTime == DateTime;

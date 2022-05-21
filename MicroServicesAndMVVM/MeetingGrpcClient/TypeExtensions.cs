@@ -11,7 +11,10 @@ namespace MeetingGrpcClient
             if (!Guid.TryParse(messageFromLobby.MessageGuid, out Guid messageGuid))
                 throw new ArgumentException($"Lobby MessageGuid {messageFromLobby.MessageGuid} is not Guid.");
 
-            return new MessageDto(messageGuid, messageFromLobby.Message, messageFromLobby.Username, messageFromLobby.Time.ToDateTime());
+            if (!Guid.TryParse(messageFromLobby.UserGuid, out Guid userGuid))
+                throw new ArgumentException($"Lobby UserGuid {messageFromLobby.UserGuid} is not Guid.");
+
+            return new MessageDto(messageGuid, userGuid, messageFromLobby.Message, messageFromLobby.Username, messageFromLobby.Time.ToDateTime());
         }
     }
 }
