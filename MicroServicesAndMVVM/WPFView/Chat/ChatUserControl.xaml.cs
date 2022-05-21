@@ -7,6 +7,8 @@ namespace WPFView.Chat
         public ChatUserControl()
         {
             InitializeComponent();
+
+            Хуй
         }
     }
 }
