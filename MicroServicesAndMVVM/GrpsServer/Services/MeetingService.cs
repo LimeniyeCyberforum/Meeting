@@ -4,21 +4,22 @@ using GrpcCommon;
 using GrpsServer.Model;
 using System.Reactive.Linq;
 using System.ComponentModel.Composition;
+using GrpsServer.Infrastructure;
 
 namespace GrpsServer.Services
 {
     [Export]
     public class MeetingService : Meeting.MeetingBase
     {
-        private readonly ILogger<MeetingService> _logger;
-        public MeetingService(ILogger<MeetingService> logger)
-        {
-            _logger = logger;
-        }
+        [Import]
+        private Logger _logger = null;
 
         [Import]
-        private ChatService chatService = new ChatService(); // Temporary
+        private ChatService chatService = null;
+
+        [Import]
         private UsersCameraCaptureService usersCameraCaptureService = null;
+
         private readonly Empty empty = new Empty();
 
         private static readonly Dictionary<Guid, string> users = new Dictionary<Guid, string>();
@@ -46,9 +47,9 @@ namespace GrpsServer.Services
         public override async Task MessagesSubscribe(Empty request, IServerStreamWriter<MessageFromLobby> responseStream, ServerCallContext context)
         {
             var peer = context.Peer;
-            _logger.LogInformation($"{peer} subscribes.");
+            _logger.Info($"{peer} subscribes.");
 
-            context.CancellationToken.Register(() => _logger.LogInformation($"{peer} cancels subscription."));
+            context.CancellationToken.Register(() => _logger.Info($"{peer} cancels subscription."));
 
             try
             {
@@ -59,23 +60,23 @@ namespace GrpsServer.Services
             }
             catch (TaskCanceledException)
             {
-                _logger.LogInformation($"{peer} unsubscribed.");
+                _logger.Info($"{peer} unsubscribed.");
             }
         }
 
         public override Task<Empty> SendMessage(MessageRequest request, ServerCallContext context)
         {
-            _logger.LogInformation($"{context.Peer} {request}");
+            _logger.Info($"{context.Peer} {request}");
 
             if (!Guid.TryParse(request.UserGuid, out Guid guid))
             {
-                _logger.LogError($"UserGuid {request.UserGuid} is not Guid.");
+                _logger.Info($"UserGuid {request.UserGuid} is not Guid.");
                 return Task.FromResult(empty);
             }
 
             if (!users.TryGetValue(guid, out var username))
             {
-                _logger.LogError($"User with guid {request.UserGuid} not found.");
+                _logger.Info($"User with guid {request.UserGuid} not found.");
                 return Task.FromResult(empty);
             }
 
@@ -93,9 +94,9 @@ namespace GrpsServer.Services
         public override async Task CameraCaptureSubscribe(Empty reques, IServerStreamWriter<CameraCapture> responseStream, ServerCallContext context)
         {
             var peer = context.Peer;
-            _logger.LogInformation($"{peer} subscribes.");
+            _logger.Info($"{peer} subscribes.");
 
-            context.CancellationToken.Register(() => _logger.LogInformation($"{peer} cancels subscription."));
+            context.CancellationToken.Register(() => _logger.Info($"{peer} cancels subscription."));
 
             try
             {
@@ -106,7 +107,7 @@ namespace GrpsServer.Services
             }
             catch (TaskCanceledException)
             {
-                _logger.LogInformation($"{peer} unsubscribed.");
+                _logger.Info($"{peer} unsubscribed.");
             }
         }
 
@@ -116,13 +117,13 @@ namespace GrpsServer.Services
 
             if (!Guid.TryParse(request.UserGuid, out Guid guid))
             {
-                _logger.LogError($"UserGuid {request.UserGuid} is not Guid.");
+                _logger.Info($"UserGuid {request.UserGuid} is not Guid.");
                 return Task.FromResult(empty);
             }
 
             if (!users.TryGetValue(guid, out var username))
             {
-                _logger.LogError($"User with guid {request.UserGuid} not found.");
+                _logger.Info($"User with guid {request.UserGuid} not found.");
                 return Task.FromResult(empty);
             }
 

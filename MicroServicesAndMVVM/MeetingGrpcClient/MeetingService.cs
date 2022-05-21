@@ -53,8 +53,11 @@ namespace MeetingGrpcClient
             else
             {
                 // create insecure channel
-                var channel = GrpcChannel.ForAddress("https://localhost:7129"/*, new GrpcChannelOptions { HttpHandler = httpHandler }*/);
-                _client = new Meeting.MeetingClient(channel);
+                _client = new Meeting.MeetingClient(GrpcChannel.ForAddress("https://localhost:7129"));
+
+                // create insecure channel
+                //var channel = GrpcChannel.ForAddress("https://localhost:7129"/*, new GrpcChannelOptions { HttpHandler = httpHandler }*/);
+                //_client = new Meeting.MeetingClient(channel);
             }
         }
 

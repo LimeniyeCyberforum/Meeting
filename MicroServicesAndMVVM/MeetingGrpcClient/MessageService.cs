@@ -27,8 +27,15 @@ namespace MeetingGrpcClient
 
             return call.ResponseStream
                 .ToAsyncEnumerable()
-                .Finally(() => call.Dispose())
-                .ForEachAsync((x) => RaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Added, x.ToMessageDto()), chatCancelationToken.Token);
+                .Finally(() =>
+                {
+                    call.Dispose();
+                })
+                .ForEachAsync((x) =>
+                {
+                    RaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Added, x.ToMessageDto());
+
+                }, chatCancelationToken.Token);
         }
 
         public override Task ChatUnsubscribeAsync()
