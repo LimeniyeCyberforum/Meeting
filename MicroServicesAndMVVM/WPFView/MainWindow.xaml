@@ -58,7 +58,7 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Column="0" Visibility="Hidden"
+            <!--<Grid Grid.Column="0" Visibility="Hidden"
               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
 
                 <Grid>
@@ -190,7 +190,7 @@
                 </Grid>
 
 
-            </Grid>
+            </Grid>-->
 
             <Grid Grid.Column="1" Width="200">
                 <chat:ChatUserControl/>
