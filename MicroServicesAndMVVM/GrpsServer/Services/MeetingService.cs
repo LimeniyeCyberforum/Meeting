@@ -8,17 +8,21 @@ using GrpsServer.Infrastructure;
 
 namespace GrpsServer.Services
 {
-    [Export]
     public class MeetingService : Meeting.MeetingBase
     {
         [Import]
         private Logger _logger = null;
 
         [Import]
-        private ChatService chatService = null;
+        private ChatService _chatService = null;
 
         //[Import]
         private UsersCameraCaptureService usersCameraCaptureService = null;
+
+        public MeetingService(ILogger<MeetingService> loggerTest, Logger loggerTest)
+        {
+
+        }
 
         private readonly Empty empty = new Empty();
 
@@ -53,7 +57,7 @@ namespace GrpsServer.Services
 
             try
             {
-                await chatService.GetChatLogsAsObservable()
+                await _chatService.GetChatLogsAsObservable()
                     .ToAsyncEnumerable()
                     .ForEachAwaitAsync(async (x) => await responseStream.WriteAsync(x), context.CancellationToken)
                     .ConfigureAwait(false);
@@ -80,7 +84,7 @@ namespace GrpsServer.Services
                 return Task.FromResult(empty);
             }
 
-            chatService.Add(new MessageFromLobby() 
+            _chatService.Add(new MessageFromLobby() 
             {
                 Username = username,
                 MessageGuid = request.MessageGuid,

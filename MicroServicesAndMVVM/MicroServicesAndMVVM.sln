@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingCommon", "MeetingCom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingGrpcClient", "MeetingGrpcClient\MeetingGrpcClient.csproj", "{4E5CC263-2969-410C-BDAF-49DE46126484}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServer.ConsoleApp", "GrpcServer.ConsoleApp\GrpcServer.ConsoleApp.csproj", "{62A98BC4-8205-4050-94CB-6EFE16DCADEA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,10 +47,6 @@ Global
 		{4E5CC263-2969-410C-BDAF-49DE46126484}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E5CC263-2969-410C-BDAF-49DE46126484}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E5CC263-2969-410C-BDAF-49DE46126484}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62A98BC4-8205-4050-94CB-6EFE16DCADEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62A98BC4-8205-4050-94CB-6EFE16DCADEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62A98BC4-8205-4050-94CB-6EFE16DCADEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62A98BC4-8205-4050-94CB-6EFE16DCADEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,7 +54,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{38BA63BB-4C68-48C0-AAAF-80AEF55512D8} = {20CB4387-5D94-4443-BA89-AE86DBF0EA03}
 		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B} = {20CB4387-5D94-4443-BA89-AE86DBF0EA03}
-		{62A98BC4-8205-4050-94CB-6EFE16DCADEA} = {20CB4387-5D94-4443-BA89-AE86DBF0EA03}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C8047A6-01EE-4859-B4C5-3BBFBA57F8F0}

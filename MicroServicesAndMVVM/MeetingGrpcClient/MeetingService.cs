@@ -7,6 +7,7 @@ using MeetingCommon.Abstractions.Messanger;
 using MeetingCommon.DataTypes;
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MeetingGrpcClient
@@ -14,6 +15,7 @@ namespace MeetingGrpcClient
     public class MeetingService : MeetingServiceAbstract
     {
         private readonly Meeting.MeetingClient _client;
+        private readonly GrpcChannel _channel;
 
         public MeetingService()
         {
@@ -46,18 +48,17 @@ namespace MeetingGrpcClient
                 var credentials = new SslCredentials(serverCACert);
 
                 _client = new Meeting.MeetingClient(
-                    new Channel("localhost", 5001, credentials)); //7129
+                    new Channel("0.0.0.0", 7129, credentials)); //7129
 
 
             }
             else
             {
-                // create insecure channel
-                _client = new Meeting.MeetingClient(GrpcChannel.ForAddress("https://localhost:7129"));
+                var httpHandler = new HttpClientHandler();
+                httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
 
-                // create insecure channel
-                //var channel = GrpcChannel.ForAddress("https://localhost:7129"/*, new GrpcChannelOptions { HttpHandler = httpHandler }*/);
-                //_client = new Meeting.MeetingClient(channel);
+                _channel = GrpcChannel.ForAddress("https://localhost:7129", new GrpcChannelOptions { HttpHandler = httpHandler });
+                _client = new Meeting.MeetingClient(_channel);
             }
         }
 
