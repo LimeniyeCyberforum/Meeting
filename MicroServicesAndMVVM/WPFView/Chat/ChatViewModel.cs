@@ -33,13 +33,14 @@ namespace WPFView.Chat
 
         private async void OnSendMessageExecute()
         {
-            var messageGuid = Guid.NewGuid();
-            var newMessage = new OwnMessage(messageGuid, Message, MessageStatus.Sending, null);
+            var message = Message;
             Message = string.Empty;
+            var messageGuid = Guid.NewGuid();
+            var newMessage = new OwnMessage(messageGuid, message, MessageStatus.Sending, null);
 
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
-            await _messageService.SendMessageAsync(messageGuid, _userDto.Guid, Message);
+            await _messageService.SendMessageAsync(messageGuid, _userDto.Guid, message);
         }
 
         private bool CanSendMessageExecute()

@@ -6,12 +6,42 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="OwnerMessage" DataType="local:Message">
-                <Border Background="Green" Height="60" Width="200"/>
+            <DataTemplate x:Key="OwnerMessage" DataType="local:OwnMessage">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="10*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="1" Background="#2b5278" Padding="10" Height="Auto" CornerRadius="10"
+                            HorizontalAlignment="Right">
+
+                        <StackPanel>
+                            <TextBox Text="{Binding Text, Mode=OneWay}" TextWrapping="Wrap" Foreground="White" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
+                            <TextBlock Text="{Binding DateTime, StringFormat='{}{0:hh:mm:ss tt}'}" TextWrapping="Wrap" Foreground="#6ebddd"
+                                       FontSize="10" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="AnotherMessage" DataType="local:Message">
-                <Border Background="Red" Height="60" Width="200"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="#2b5278" Padding="10" Height="Auto" CornerRadius="10"
+                            HorizontalAlignment="Left">
+                        
+                        <StackPanel>
+                            <TextBox Text="{Binding Text, Mode=OneWay}" TextWrapping="Wrap" Foreground="White" IsReadOnly="True" Background="Transparent" BorderThickness="0"/>
+                            <TextBlock Text="{Binding DateTime, StringFormat='{}{0:hh:mm:ss tt}'}" TextWrapping="Wrap" Foreground="#6ebddd"
+                                       FontSize="10" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </DataTemplate>
 
             <local:MessageItemDataTemplateSelector x:Key="MessageItemDataTemplateSelector"
@@ -20,17 +50,32 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <Grid>
+    <Grid Background="#1c1c1c">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <ListView ItemsSource="{Binding ChatVM.Messages}"
-                      ItemTemplateSelector="{StaticResource MessageItemDataTemplateSelector}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding ChatVM.Messages}"
+                              ItemTemplateSelector="{StaticResource MessageItemDataTemplateSelector}"
+                              VirtualizingStackPanel.IsVirtualizing="True"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-            </ListView>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="FrameworkElement.Margin" Value="2"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
 
         <Grid Grid.Row="1" MaxHeight="100">
