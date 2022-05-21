@@ -10,18 +10,16 @@ namespace GrpsServer.Services
 {
     public class MeetingService : Meeting.MeetingBase
     {
-        [Import]
-        private Logger _logger = null;
+        private readonly ILogger<MeetingService> _logger;
 
-        [Import]
-        private ChatService _chatService = null;
+        private readonly ChatService _chatService;
 
-        //[Import]
         private UsersCameraCaptureService usersCameraCaptureService = null;
 
-        public MeetingService(ILogger<MeetingService> loggerTest, Logger loggerTest)
+        public MeetingService(ILogger<MeetingService> logger, ChatService loggerTest)
         {
-
+            _logger = logger;
+            _chatService = loggerTest;
         }
 
         private readonly Empty empty = new Empty();
@@ -51,9 +49,9 @@ namespace GrpsServer.Services
         public override async Task MessagesSubscribe(Empty request, IServerStreamWriter<MessageFromLobby> responseStream, ServerCallContext context)
         {
             var peer = context.Peer;
-            _logger.Info($"{peer} subscribes.");
+            _logger.LogInformation($"{peer} subscribes.");
 
-            context.CancellationToken.Register(() => _logger.Info($"{peer} cancels subscription."));
+            context.CancellationToken.Register(() => _logger.LogInformation($"{peer} cancels subscription."));
 
             try
             {
@@ -64,23 +62,23 @@ namespace GrpsServer.Services
             }
             catch (TaskCanceledException)
             {
-                _logger.Info($"{peer} unsubscribed.");
+                _logger.LogError($"{peer} unsubscribed.");
             }
         }
 
         public override Task<Empty> SendMessage(MessageRequest request, ServerCallContext context)
         {
-            _logger.Info($"{context.Peer} {request}");
+            _logger.LogInformation($"{context.Peer} {request}");
 
             if (!Guid.TryParse(request.UserGuid, out Guid guid))
             {
-                _logger.Info($"UserGuid {request.UserGuid} is not Guid.");
+                _logger.LogError($"UserGuid {request.UserGuid} is not Guid.");
                 return Task.FromResult(empty);
             }
 
             if (!users.TryGetValue(guid, out var username))
             {
-                _logger.Info($"User with guid {request.UserGuid} not found.");
+                _logger.LogError($"User with guid {request.UserGuid} not found.");
                 return Task.FromResult(empty);
             }
 
@@ -98,9 +96,9 @@ namespace GrpsServer.Services
         public override async Task CameraCaptureSubscribe(Empty reques, IServerStreamWriter<CameraCapture> responseStream, ServerCallContext context)
         {
             var peer = context.Peer;
-            _logger.Info($"{peer} subscribes.");
+            _logger.LogInformation($"{peer} subscribes.");
 
-            context.CancellationToken.Register(() => _logger.Info($"{peer} cancels subscription."));
+            context.CancellationToken.Register(() => _logger.LogInformation($"{peer} cancels subscription."));
 
             try
             {
@@ -111,7 +109,7 @@ namespace GrpsServer.Services
             }
             catch (TaskCanceledException)
             {
-                _logger.Info($"{peer} unsubscribed.");
+                _logger.LogError($"{peer} unsubscribed.");
             }
         }
 
@@ -121,13 +119,13 @@ namespace GrpsServer.Services
 
             if (!Guid.TryParse(request.UserGuid, out Guid guid))
             {
-                _logger.Info($"UserGuid {request.UserGuid} is not Guid.");
+                _logger.LogError($"UserGuid {request.UserGuid} is not Guid.");
                 return Task.FromResult(empty);
             }
 
             if (!users.TryGetValue(guid, out var username))
             {
-                _logger.Info($"User with guid {request.UserGuid} not found.");
+                _logger.LogError($"User with guid {request.UserGuid} not found.");
                 return Task.FromResult(empty);
             }
 

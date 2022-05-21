@@ -1,10 +1,14 @@
 using GrpsServer.Infrastructure;
+using GrpsServer.Model;
+using GrpsServer.Persistence;
 using GrpsServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
 builder.Services.AddSingleton<Logger>();
+builder.Services.AddSingleton<IChatLogRepository, ChatRepository>();
+builder.Services.AddSingleton<ChatService>();
 
 
 var app = builder.Build();

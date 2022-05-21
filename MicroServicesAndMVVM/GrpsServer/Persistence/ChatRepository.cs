@@ -4,7 +4,6 @@ using System.ComponentModel.Composition;
 
 namespace GrpsServer.Persistence
 {
-    [Export(typeof(IChatLogRepository))]
     public class ChatRepository : IChatLogRepository
     {
         private readonly List<MessageFromLobby> localStorage = new List<MessageFromLobby>(); // dummy on memory storage
