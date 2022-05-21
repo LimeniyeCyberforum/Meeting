@@ -9,7 +9,7 @@ namespace GrpsServer.Model
     public class ChatService
     {
         [Import]
-        private readonly Logger _logger = null;
+        private Logger _logger = null;
 
         [Import]
         private IChatLogRepository repository = null;
