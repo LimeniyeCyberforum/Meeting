@@ -37,7 +37,7 @@ namespace GrpsServer.Services
 
             builder.WebHost.ConfigureKestrel(serverOptions =>
             {
-                serverOptions.Listen(IPAddress.Any, 50052, (listenOptions) =>
+                serverOptions.Listen(IPAddress.Any, 7129, (listenOptions) =>
                 {
                     listenOptions.Protocols = HttpProtocols.Http2;
 
