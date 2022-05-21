@@ -113,7 +113,15 @@ namespace WPFView.Chat
 
                         if (newValue.UserGuid == _userDto.Guid)
                         {
-                            Messages.Add(new OwnMessage(newValue.Guid, newValue.Message, MessageStatus.Readed, newValue.DateTime));
+                            var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
+                            if (index > -1)
+                            {
+                                Messages[index] = new OwnMessage(newValue.Guid, newValue.Message, MessageStatus.Readed, newValue.DateTime);
+                            }
+                            else
+                            {
+                                Messages.Add(new OwnMessage(newValue.Guid, newValue.Message, MessageStatus.Readed, newValue.DateTime));
+                            }
                         }
                         else
                         {
