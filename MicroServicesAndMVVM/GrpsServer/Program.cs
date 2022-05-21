@@ -1,4 +1,3 @@
-using GrpsServer.Infrastructure;
 using GrpsServer.Model;
 using GrpsServer.Persistence;
 using GrpsServer.Services;
@@ -6,9 +5,10 @@ using GrpsServer.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
-builder.Services.AddSingleton<Logger>();
 builder.Services.AddSingleton<IChatLogRepository, ChatRepository>();
+builder.Services.AddSingleton<IUsersCameraCaptureRepository, UsersCameraCaptureRepository>();
 builder.Services.AddSingleton<ChatService>();
+builder.Services.AddSingleton<UsersCameraCaptureService>();
 
 
 var app = builder.Build();

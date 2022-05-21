@@ -3,8 +3,6 @@ using Google.Protobuf.WellKnownTypes;
 using GrpcCommon;
 using GrpsServer.Model;
 using System.Reactive.Linq;
-using System.ComponentModel.Composition;
-using GrpsServer.Infrastructure;
 
 namespace GrpsServer.Services
 {
@@ -14,12 +12,13 @@ namespace GrpsServer.Services
 
         private readonly ChatService _chatService;
 
-        private UsersCameraCaptureService usersCameraCaptureService = null;
+        private readonly UsersCameraCaptureService _usersCameraCaptureService;
 
-        public MeetingService(ILogger<MeetingService> logger, ChatService loggerTest)
+        public MeetingService(ILogger<MeetingService> logger, ChatService loggerTest, UsersCameraCaptureService usersCameraCaptureService)
         {
             _logger = logger;
             _chatService = loggerTest;
+            _usersCameraCaptureService = usersCameraCaptureService;
         }
 
         private readonly Empty empty = new Empty();
@@ -82,7 +81,7 @@ namespace GrpsServer.Services
                 return Task.FromResult(empty);
             }
 
-            _chatService.Add(new MessageFromLobby() 
+            _chatService.Add(new MessageFromLobby()
             {
                 Username = username,
                 MessageGuid = request.MessageGuid,
@@ -104,7 +103,7 @@ namespace GrpsServer.Services
 
             try
             {
-                await usersCameraCaptureService.GetUserCameraCapturesAsObservable()
+                await _usersCameraCaptureService.GetUserCameraCaptureFrameUpdateAsObservable()
                     .ToAsyncEnumerable()
                     .ForEachAwaitAsync(async (x) => await responseStream.WriteAsync(x), context.CancellationToken)
                     .ConfigureAwait(false);
@@ -131,7 +130,7 @@ namespace GrpsServer.Services
                 return Task.FromResult(empty);
             }
 
-            usersCameraCaptureService.AddOrUpdate(new CameraCapture()
+            _usersCameraCaptureService.UpdateFrameCapture(new CameraCapture()
             {
                 UserGuid = request.UserGuid,
                 CaptureFrame = request.CaptureFrame

@@ -41,7 +41,10 @@ namespace MeetingGrpcClient
             return call.ResponseStream
                 .ToAsyncEnumerable()
                 .Finally(() => call.Dispose())
-                .ForEachAsync((x) => RaiseCameraFrameChangedAction(Guid.Parse(x.UserGuid), x.CaptureFrame.ToByteArray()), chatCancelationToken.Token);
+                .ForEachAsync((x) =>
+                { 
+                    RaiseCameraFrameChangedAction(Guid.Parse(x.UserGuid), x.CaptureFrame.ToByteArray());
+                }, chatCancelationToken.Token);
         }
 
         public override Task UsersCameraCaptureUnsubscribeAsync()

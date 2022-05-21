@@ -1,29 +1,48 @@
 ﻿using GrpcCommon;
-using System.ComponentModel.Composition;
 using System.Reactive.Linq;
 
 namespace GrpsServer.Model
 {
-    [Export]
     public class UsersCameraCaptureService
     {
-        [Import]
-        private IUsersCameraCaptureService repository = null;
-        private event Action<CameraCapture> Changed;
+        private readonly IUsersCameraCaptureRepository _repository;
+        private event Action<CameraCapture> FrameCaptureStreamStartedChaned;
+        private event Action<CameraCapture> FrameCaptureStreamStodepChaned;
+        private event Action<CameraCapture> FrameCaptureUpdated;
 
-        public void AddOrUpdate(CameraCapture cameraCapture)
+        public UsersCameraCaptureService(IUsersCameraCaptureRepository repository)
         {
-            //_logger.LogInformation($"Added capture from: {cameraCapture.UserGuid}");
-            repository.AddOrUpdate(cameraCapture);
-            Changed?.Invoke(cameraCapture);
+            _repository = repository;
         }
 
-        public IObservable<CameraCapture> GetUserCameraCapturesAsObservable()
+        public void AddFirstFrame(CameraCapture cameraCapture)
         {
-            var oldLogs = repository.GetAll().ToObservable();
-            var newLogs = Observable.FromEvent<CameraCapture>((x) => Changed += x, (x) => Changed -= x);
+            _repository.AddFirstFrame(cameraCapture);
+            FrameCaptureStreamStartedChaned?.Invoke(cameraCapture);
+        }
 
-            return oldLogs.Concat(newLogs);
+        public void UpdateFrameCapture(CameraCapture cameraCapture)
+        {
+            // TODO : Temporary
+            _repository.AddOrUpdateFrame(cameraCapture);
+            FrameCaptureUpdated?.Invoke(cameraCapture);
+        }
+
+
+        public IObservable<CameraCapture> GetUserCameraCaptureStreamStartAsObservable()
+        {
+            var oldLogs = _repository.GetAll().ToObservable();
+            var updated = Observable.FromEvent<CameraCapture>((x) => FrameCaptureStreamStartedChaned += x, (x) => FrameCaptureStreamStartedChaned -= x);
+
+            return oldLogs.Concat(updated);
+        }
+
+        public IObservable<CameraCapture> GetUserCameraCaptureFrameUpdateAsObservable()
+        {
+            var oldLogs = _repository.GetAll().ToObservable();
+            var updated = Observable.FromEvent<CameraCapture>((x) => FrameCaptureUpdated += x, (x) => FrameCaptureUpdated -= x);
+
+            return oldLogs.Concat(updated);
         }
     }
 }

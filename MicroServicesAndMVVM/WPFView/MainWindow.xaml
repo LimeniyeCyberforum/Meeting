@@ -7,6 +7,12 @@
         mc:Ignorable="d local" Height="450" Width="800" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance Type=local:MainViewModel}">
 
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:BytesToBitmapImageConverter x:Key="BytesToBitmapImageConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
 
         <Grid Background="#1e1e1e">
@@ -17,7 +23,7 @@
 
 
             <Grid Grid.Column="0">
-                <ItemsControl ItemsSource="{Binding UserCameras}">
+                <ItemsControl ItemsSource="{Binding InputVideoStreams}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="4" Margin="5"/>
@@ -33,7 +39,7 @@
                         <DataTemplate>
                             <Grid>
                                 <Border Background="Red" Width="300" Height="300"/>
-                                <Image Source="{Binding CameraStreem}"/>
+                                <Image Source="{Binding Value, Converter={StaticResource BytesToBitmapImageConverter}}"/>
                                 <!--<TextBlock Text="{Binding Name}"/>-->
                             </Grid>
                         </DataTemplate>

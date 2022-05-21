@@ -2,6 +2,7 @@
 using MeetingCommon.Abstractions.Messanger;
 using MeetingCommon.DataTypes;
 using System;
+using System.Collections.ObjectModel;
 using WPFView.Chat;
 using WPFView.Connect;
 
@@ -18,6 +19,8 @@ namespace WPFView
 
         public ConnectViewModel ConnectVM { get; }
 
+        public ObservableDictionary<Guid, byte[]> InputVideoStreams { get; } = new ObservableDictionary<Guid, byte[]>();
+
         public MainViewModel(MeetingServiceAbstract meetingServiceAbstract)
         {
             ConnectVM = new ConnectViewModel(meetingServiceAbstract);
@@ -30,6 +33,21 @@ namespace WPFView
         {
             IsConnected = e.Action == ConnectionAction.Connected ? true : false;
             ChatVM = new ChatViewModel(_meetingServiceAbstract.MessageService, _meetingServiceAbstract);
+            _meetingServiceAbstract.CameraCaptureService.CameraFrameChanged += OnCameraFrameChanged;
+
+
+        }
+
+        private void OnCameraFrameChanged(object sender, Guid userGuid, byte[] frameBytes)
+        {
+            if (!InputVideoStreams.ContainsKey(userGuid))
+            {
+                InputVideoStreams.Add(userGuid, frameBytes);
+            }
+            else 
+            {
+                InputVideoStreams[userGuid] = frameBytes;
+            }
         }
     }
 }
