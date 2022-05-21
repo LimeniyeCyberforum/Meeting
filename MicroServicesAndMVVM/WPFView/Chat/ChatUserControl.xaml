@@ -7,7 +7,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="OwnerMessage" DataType="local:Message">
-                <Border Background="Red" Height="60" Width="200"/>
+                <Border Background="Green" Height="60" Width="200"/>
             </DataTemplate>
 
             <DataTemplate x:Key="AnotherMessage" DataType="local:Message">

@@ -56,13 +56,13 @@ namespace WPFView.Chat
 
             foreach (var item in _messageService.Messages.Values)
             {
-                if (true)
+                if (item.UserGuid == _userDto.Guid)
                 {
                     Messages.Add(new OwnMessage(item.Guid, item.Message, MessageStatus.Readed, item.DateTime));
                 }
                 else
                 {
-                    // TODO : Is not my message
+                    Messages.Add(new Message(item.Guid, item.Message, item.DateTime));
                 }
             }
 
@@ -80,13 +80,13 @@ namespace WPFView.Chat
                 Messages.Clear();
                 foreach (var item in _messageService.Messages.Values)
                 {
-                    if (true)
+                    if (item.UserGuid == _userDto.Guid)
                     {
                         Messages.Add(new OwnMessage(item.Guid, item.Message, MessageStatus.Readed, item.DateTime));
                     }
                     else
                     {
-                        // TODO : Is not my message
+                        Messages.Add(new Message(item.Guid, item.Message, item.DateTime));
                     }
                 }
 
@@ -111,13 +111,13 @@ namespace WPFView.Chat
                 {
                     case NotifyDictionaryChangedAction.Added:
 
-                        if (true)
+                        if (newValue.UserGuid == _userDto.Guid)
                         {
                             Messages.Add(new OwnMessage(newValue.Guid, newValue.Message, MessageStatus.Readed, newValue.DateTime));
                         }
                         else
                         {
-                            // TODO : Is not my message
+                            Messages.Add(new Message(newValue.Guid, newValue.Message, newValue.DateTime));
                         }
 
                         break;
