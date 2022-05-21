@@ -25,7 +25,7 @@ namespace MeetingGrpcClient
             _currentUserGuidString = currentUserGuid.ToString();
         }
 
-        public override async Task SendOwnCameraCaptureAsync(MemoryStream stream)
+        public override async Task SendOwnCameraCaptureAsync(Stream stream)
         {
             await _client.SendCameraFrameAsync(new CameraCapture()
             {
