@@ -65,7 +65,7 @@
                               VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel/>
+                            <VirtualizingStackPanel/> 
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
 
