@@ -20,6 +20,7 @@ namespace MeetingCommon.DataTypes
         public MessageDto(Guid guid, Guid userGuid, string message, string userName, DateTime? dateTime)
         {
             Guid = guid;
+            UserGuid = userGuid;
             UserName = userName;
             Message = message ?? string.Empty;
             UserName = userName ?? string.Empty;
