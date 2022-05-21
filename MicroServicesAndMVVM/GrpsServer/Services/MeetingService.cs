@@ -87,7 +87,9 @@ namespace GrpsServer.Services
                 Username = username,
                 MessageGuid = request.MessageGuid,
                 Message = request.Message,
-                Time = Timestamp.FromDateTime(DateTime.UtcNow)
+                Time = Timestamp.FromDateTime(DateTime.UtcNow),
+                // TODO : Temporary
+                UserGuid = request.UserGuid
             });
 
             return Task.FromResult(empty);

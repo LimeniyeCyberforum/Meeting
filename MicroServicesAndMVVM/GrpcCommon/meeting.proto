@@ -56,4 +56,7 @@ message MessageFromLobby
 	string messageGuid = 2;
 	string message = 3;
 	google.protobuf.Timestamp time = 4;
+	// TODO : Temporary
+	string userGuid = 5;
+
 }
