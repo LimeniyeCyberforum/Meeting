@@ -1,6 +1,8 @@
 ﻿using MeetingCommon.Abstractions;
 using MeetingCommon.DataTypes;
 using MeetingGrpcClient;
+using Microsoft.Maui.Controls;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -25,9 +27,17 @@ public partial class MainPage : ContentPage, INotifyPropertyChanged
         InitializeComponent();
         BindingContext = this;
 
-        _meetingServiceAbstract = new MeetingService();
-        _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
-        _currentUser = _meetingServiceAbstract.Connect("limeniye_mobile");
+        try
+        {
+            _meetingServiceAbstract = new MeetingService();
+            _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
+            _currentUser = _meetingServiceAbstract.Connect("limeniye_mobile");
+        }
+        catch(Exception ex)
+        {
+
+        }
+
     }
 
     private void OnConnectionStateChanged(object sender, (ConnectionAction Action, MeetingCommon.DataTypes.UserDto User) e)
