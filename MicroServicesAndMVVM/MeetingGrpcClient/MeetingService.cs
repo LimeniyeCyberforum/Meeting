@@ -64,7 +64,20 @@ namespace MeetingGrpcClient
 
         public override UserDto Connect(string username)
         {
-            throw new NotImplementedException();
+            var result = _client.Connect(new ConnectRequest()
+            {
+                Username = username
+            });
+
+            if (!result.IsSuccessfully)
+                throw new ArgumentException(result.ErrorMessage);
+
+            Guid userGuid = Guid.Parse(result.Guid);
+            var user = new UserDto(userGuid, username);
+
+            Initialize(userGuid, user);
+
+            return user;
         }
 
         public override async Task<UserDto> ConnectAsync(string username)
