@@ -1,5 +1,4 @@
 ﻿using Grpc.Core;
-using Grpc.Net.Client;
 using GrpcCommon;
 using MeetingCommon.Abstractions;
 using MeetingCommon.Abstractions.CameraCapture;
@@ -15,29 +14,15 @@ namespace MeetingGrpcClient.Core
     public class MeetingService : MeetingServiceAbstract
     {
         private readonly Meeting.MeetingClient _client;
-        private readonly GrpcChannel _channel;
 
         public MeetingService()
         {
+            // Locate required files and set true to enable SSL
             var secure = false;
 
             if (secure)
             {
-                //var httpHandler = new HttpClientHandler();
-
-                // Here you can disable validation for server certificate for your easy local test
-                // See https://docs.microsoft.com/en-us/aspnet/core/grpc/troubleshoot#call-a-grpc-service-with-an-untrustedinvalid-certificate
-                //httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-
-                //_client = new Meeting.MeetingClient(GrpcChannel.ForAddress("https://localhost:50052", new GrpcChannelOptions { HttpHandler = httpHandler }));
-
-                //    var httpHandler = new HttpClientHandler();
-                //    httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-
-                //    using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
-                //    _client = new GrpsServer.Messanger.MessangerClient(channel);
-
-
+                // create secure channel
                 var serverCACert = File.ReadAllText(@"C:\localhost_server.crt");
                 var clientCert = File.ReadAllText(@"C:\localhost_client.crt");
                 var clientKey = File.ReadAllText(@"C:\localhost_clientkey.pem");
@@ -48,17 +33,13 @@ namespace MeetingGrpcClient.Core
                 var credentials = new SslCredentials(serverCACert);
 
                 _client = new Meeting.MeetingClient(
-                    new Channel("0.0.0.0", 7129, credentials)); //7129
-
-
+                    new Channel("localhost", 7129, credentials));
             }
             else
             {
-                var httpHandler = new HttpClientHandler();
-                httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-
-                _channel = GrpcChannel.ForAddress("https://localhost:7129", new GrpcChannelOptions { HttpHandler = httpHandler });
-                _client = new Meeting.MeetingClient(_channel);
+                // create insecure channel
+                _client = new Meeting.MeetingClient(
+                    new Channel("localhost", 7129, ChannelCredentials.Insecure));
             }
         }
 
