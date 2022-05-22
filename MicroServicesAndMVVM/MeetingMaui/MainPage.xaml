@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MeetingMaui.MainPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <StackLayout Orientation="Horizontal">
+                    <Entry Text="{Binding Message}" TextColor="White" Background="Red"
+                           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+
+                    <Button WidthRequest="60" HorizontalOptions="End" Clicked="OnSendClicked"/>
+                </StackLayout>
+
+            </Grid>
+
+            <CollectionView Grid.Row="1" ItemsSource="{Binding Messages}" Background="Green">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="10*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Rectangle Grid.Column="1" Fill="#2b5278" RadiusX="20" RadiusY="20" Margin="10"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand">
+                            </Rectangle>
+
+                            <Border Grid.Column="1" Background="#2b5278" Padding="10"
+                                    VerticalOptions="FillAndExpand"
+                                    HorizontalOptions="FillAndExpand">
+
+                                <StackLayout>
+                                    <Editor Text="{Binding Text, Mode=OneWay}" TextColor="White" IsReadOnly="True" Background="Transparent"/>
+                                    <Label Text="{Binding DateTime, StringFormat='{}{0:hh:mm:ss tt}'}" TextColor="#6ebddd"
+                                           FontSize="10" HorizontalOptions="End"/>
+                                </StackLayout>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>
