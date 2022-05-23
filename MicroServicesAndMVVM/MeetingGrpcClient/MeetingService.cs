@@ -1,5 +1,4 @@
 ﻿using Grpc.Core;
-using Grpc.Net.Client;
 using GrpcCommon;
 using MeetingCommon.Abstractions;
 using MeetingCommon.Abstractions.CameraCapture;
@@ -7,6 +6,7 @@ using MeetingCommon.Abstractions.Messanger;
 using MeetingCommon.DataTypes;
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -15,9 +15,9 @@ namespace MeetingGrpcClient
     public class MeetingService : MeetingServiceAbstract
     {
         private readonly Meeting.MeetingClient _client;
-        private readonly GrpcChannel _channel;
+        //private readonly GrpcChannel _channel;
 
-        public MeetingService()
+        public MeetingService(Meeting.MeetingClient client)
         {
             var secure = false;
 
@@ -54,11 +54,32 @@ namespace MeetingGrpcClient
             }
             else
             {
-                var httpHandler = new HttpClientHandler();
-                httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                //var httpHandler = new HttpClientHandler();
 
-                _channel = GrpcChannel.ForAddress("https://localhost:7129", new GrpcChannelOptions { HttpHandler = httpHandler });
-                _client = new Meeting.MeetingClient(_channel);
+                try
+                {
+                    //httpHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+
+                    ////ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+                    //AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+                    //AppContext.SetSwitch("System.Net.SocketsHttpHandler.Http3Support", true);
+                    //ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
+
+                    //var channel = GrpcChannel.ForAddress("https://localhost:7129", new GrpcChannelOptions { HttpHandler = httpHandler });
+
+                    //_client = new Meeting.MeetingClient(channel);
+
+                    _client = client;
+
+                    //var channel = GrpcChannel.ForAddress(new Uri("https://localhost:7129"));
+                    //_client = new Meeting.MeetingClient(channel);
+                }
+                catch(Exception ex)
+                {
+
+                }
+
             }
         }
 
