@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using Common.EventArgs;
+using Grpc.Core;
 using Grpc.Net.Client;
 using Grpc.Net.Client.Web;
 using GrpcCommon;
@@ -8,6 +9,7 @@ using MeetingGrpcClient;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using Xamarin.Essentials;
@@ -68,6 +70,7 @@ namespace MeetingXamarin
 
 
             _meetingServiceAbstract = new MeetingService(new Meeting.MeetingClient(ToAuthChannel(gpTest, BaseUri)));
+            _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
             _currentUser = _meetingServiceAbstract.Connect("limeniye_mobile");
         }
 
@@ -79,7 +82,26 @@ namespace MeetingXamarin
 
         private void OnMessagesChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<Guid, MeetingCommon.DataTypes.MessageDto> e)
         {
+            var newValue = e.NewValue;
+            var oldValue = e.OldValue;
 
+            switch (e.Action)
+            {
+                case NotifyDictionaryChangedAction.Added:
+                    var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
+                    if (index > -1)
+                    {
+                        Messages[index] = new Message(newValue.Guid, newValue.Message, newValue.DateTime);
+                    }
+                    else
+                    {
+                        Messages.Add(new Message(newValue.Guid, newValue.Message, newValue.DateTime));
+                    }
+                    break;
+                case NotifyDictionaryChangedAction.Initialized:
+                    Messages.Clear();
+                    throw new NotImplementedException();
+            }
         }
 
         private async void OnSendClicked(object sender, EventArgs e)
