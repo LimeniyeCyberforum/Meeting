@@ -42,7 +42,7 @@
                                   HorizontalOptions="FillAndExpand">
 
                                 <StackLayout>
-                                    <Editor Text="{Binding Text, Mode=OneWay}" TextColor="White" IsReadOnly="True" Background="Transparent"/>
+                                    <Editor Text="{Binding Text, Mode=OneWay}" TextColor="Black" IsReadOnly="True" Background="#00FFFFF"/>
                                     <Label Text="{Binding DateTime, StringFormat='{}{0:hh:mm:ss tt}'}" TextColor="#6ebddd"
                                            FontSize="10" HorizontalOptions="End"/>
                                 </StackLayout>

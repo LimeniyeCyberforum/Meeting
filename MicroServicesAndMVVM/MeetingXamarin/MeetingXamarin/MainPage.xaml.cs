@@ -37,7 +37,7 @@ namespace MeetingXamarin
         public MainPage()
         {
             InitializeComponent();
-
+            BindingContext = this;
             //android:networkSecurityConfig="@network_security_config"
 
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
