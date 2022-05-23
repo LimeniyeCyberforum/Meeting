@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -36,10 +37,12 @@ namespace MeetingXamarin
 
         public static string BaseUri = $"https://{IPAddress}:7129";
 
+        private bool permissionsGranted;
         public MainPage()
         {
             InitializeComponent();
             BindingContext = this;
+
             //android:networkSecurityConfig="@network_security_config"
 
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
@@ -73,6 +76,47 @@ namespace MeetingXamarin
             _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
             _currentUser = _meetingServiceAbstract.Connect("limeniye_mobile");
         }
+
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            permissionsGranted = await VerifyPermissions();
+            if (permissionsGranted == false)
+                return;
+            else
+                App.Current.MainPage = new LiveCapturePage();
+        }
+
+
+
+        private async Task<bool> VerifyPermissions()
+        {
+            try
+            {
+                PermissionStatus status = PermissionStatus.Unknown;
+
+                // Camera permission - NOTE: Requires adding Permission to the Android Manifest and iOS pList 
+                status = await Permissions.CheckStatusAsync<Permissions.Camera>();
+                if (status != PermissionStatus.Granted)
+                {
+                    await DisplayAlert("Camera Permission Required", "This app will proccess frames taken live from the device's camera", "OK");
+                    status = await Permissions.RequestAsync<Permissions.Camera>();
+
+                    if (status != PermissionStatus.Granted)
+                        return false;
+                }
+
+                // All needed permissions granted 
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.ToString(), "OK");
+                return false;
+            }
+        }
+
 
         private void OnConnectionStateChanged(object sender, (ConnectionAction Action, MeetingCommon.DataTypes.UserDto User) e)
         {
