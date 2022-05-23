@@ -106,8 +106,8 @@ namespace MeetingXamarin
 
         private async void OnSendClicked(object sender, EventArgs e)
         {
-            var newMessage = new Message(Guid.NewGuid(), Message, null);
-            Message = "";
+            var newMessage = new Message(Guid.NewGuid(), entryMessage.Text, null);
+            entryMessage.Text = "";
             Messages.Add(newMessage);
             await _meetingServiceAbstract.MessageService.SendMessageAsync(newMessage.Id, _currentUser.Guid, newMessage.Text);
         }

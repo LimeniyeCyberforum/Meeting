@@ -15,7 +15,7 @@
 
             <Grid>
                 <StackLayout Orientation="Horizontal">
-                    <Entry Text="{Binding Message}" TextColor="White" Background="Red"
+                    <Entry x:Name="entryMessage" TextColor="White" Background="Red"
                            HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
 
                     <Button WidthRequest="60" HorizontalOptions="End" Clicked="OnSendClicked"/>
