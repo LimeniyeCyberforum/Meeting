@@ -20,7 +20,7 @@ namespace MeetingXamarin
 {
     public partial class MainPage : ContentPage
     {
-        private readonly MeetingServiceAbstract _meetingServiceAbstract;
+        public static MeetingServiceAbstract MeetingServiceAbstract;
         private UserDto _currentUser;
 
         private string _message = "Kek";
@@ -72,9 +72,9 @@ namespace MeetingXamarin
             var gpTest = new HttpClient(handler);
 
 
-            _meetingServiceAbstract = new MeetingService(new Meeting.MeetingClient(ToAuthChannel(gpTest, BaseUri)));
-            _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
-            _currentUser = _meetingServiceAbstract.Connect("limeniye_mobile");
+            MeetingServiceAbstract = new MeetingService(new Meeting.MeetingClient(ToAuthChannel(gpTest, BaseUri)));
+            MeetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
+            _currentUser = MeetingServiceAbstract.Connect("limeniye_mobile");
         }
 
         protected async override void OnAppearing()
@@ -114,8 +114,8 @@ namespace MeetingXamarin
 
         private void OnConnectionStateChanged(object sender, (ConnectionAction Action, MeetingCommon.DataTypes.UserDto User) e)
         {
-            _meetingServiceAbstract.MessageService.MessagesChanged += OnMessagesChanged;
-            _meetingServiceAbstract.MessageService.ChatSubscribeAsync();
+            MeetingServiceAbstract.MessageService.MessagesChanged += OnMessagesChanged;
+            MeetingServiceAbstract.MessageService.ChatSubscribeAsync();
         }
 
         private void OnMessagesChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<Guid, MeetingCommon.DataTypes.MessageDto> e)
@@ -147,7 +147,7 @@ namespace MeetingXamarin
             var newMessage = new Message(Guid.NewGuid(), entryMessage.Text, null);
             entryMessage.Text = "";
             Messages.Add(newMessage);
-            await _meetingServiceAbstract.MessageService.SendMessageAsync(newMessage.Id, _currentUser.Guid, newMessage.Text);
+            await MeetingServiceAbstract.MessageService.SendMessageAsync(newMessage.Id, _currentUser.Guid, newMessage.Text);
         }
 
         #region INPC

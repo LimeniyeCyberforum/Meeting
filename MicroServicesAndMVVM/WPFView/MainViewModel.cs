@@ -62,7 +62,7 @@ namespace WPFView
             _meetingServiceAbstract.CameraCaptureService.CameraFrameChanged += OnCameraFrameChanged;
             _cam.CaptureFrameChanged += OnCaptureFrameChanged;
             _meetingServiceAbstract.CameraCaptureService.UsersCameraCaptureSubscribeAsync();
-            _ = _cam.Start();
+            //_ = _cam.Start();
         }
 
         private void OnCaptureFrameChanged(object? sender, System.IO.Stream e)

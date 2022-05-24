@@ -98,6 +98,9 @@ namespace WPFView
 
         public static BitmapImage ConvertByteArrayToBitmapImage(this Byte[] bytes)
         {
+            if (bytes.Length <= 0)
+                return null;
+
             var stream = new MemoryStream(bytes);
             stream.Seek(0, SeekOrigin.Begin);
             var image = new BitmapImage();

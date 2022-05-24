@@ -84,10 +84,12 @@ namespace MeetingXamarin.Droid.Renderers.Camera
 
             using (var stream = new MemoryStream())
             {
-                await bitmap.CompressAsync(Bitmap.CompressFormat.Jpeg, 0, stream);
-                byte[] bitmapData = stream.ToArray();
-                //System.Diagnostics.Debug.WriteLine(bitmapData.LongLength);
-            }
+                await bitmap.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, stream);
+				byte[] bitmapData = stream.ToArray();
+				//System.Diagnostics.Debug.WriteLine(bitmapData.LongLength);
+				var test = new MemoryStream(bitmapData);
+				await MainPage.MeetingServiceAbstract.CameraCaptureService.SendOwnCameraCaptureAsync(test);
+			}
         }
 
 		public void OpenCamera(CameraOptions options)
