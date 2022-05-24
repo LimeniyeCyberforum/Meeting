@@ -81,14 +81,8 @@ namespace MeetingXamarin
         {
             base.OnAppearing();
 
-            permissionsGranted = await VerifyPermissions();
-            if (permissionsGranted == false)
-                return;
-            else
-                App.Current.MainPage = new LiveCapturePage();
+            await VerifyPermissions();
         }
-
-
 
         private async Task<bool> VerifyPermissions()
         {
@@ -104,7 +98,7 @@ namespace MeetingXamarin
                     status = await Permissions.RequestAsync<Permissions.Camera>();
 
                     if (status != PermissionStatus.Granted)
-                        return false;
+                        return await VerifyPermissions();
                 }
 
                 // All needed permissions granted 
