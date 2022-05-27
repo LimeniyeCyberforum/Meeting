@@ -6,47 +6,58 @@
         <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="ResizeMode" Value="NoResize"/>
         <Setter Property="Background" Value="#1e1e1e"/>
-        <Setter Property="BorderBrush" Value="#5589e9"/>
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="#7160e8"/>
+        <Setter Property="BorderThickness" Value="0.8"/>
         <Setter Property="Height" Value="450"/>
         <Setter Property="Width" Value="800"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
-                    <Border x:Name="root" Background="{TemplateBinding Background}" CornerRadius="20"
-                            local:WindowDragPosition.EnableDrag="True">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                    <Border x:Name="root" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}" CornerRadius="10" Padding="0">
+                        
+                        <Border local:WindowDragPosition.EnableDrag="True" Background="Transparent">
+                            <Border.OpacityMask>
+                                <VisualBrush>
+                                    <VisualBrush.Visual>
+                                        <Border Background="{Binding ElementName=root, Path=Background}" CornerRadius="{Binding ElementName=root, Path=CornerRadius}"
+                                                BorderThickness="{Binding ElementName=root, Path=BorderThickness}"
+                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}">
+                                        </Border>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Border.OpacityMask>
+                            
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                            <StackPanel Orientation="Horizontal">
-                                <Button Width="60" Padding="0,10,5,10" Background="Transparent" BorderThickness="0"
-                                        HorizontalContentAlignment="Right" VerticalContentAlignment="Stretch">
-                                    <Ellipse Width="{Binding Path=Content.ActualHeight, RelativeSource={RelativeSource AncestorType=Button}}"
-                                             Stretch="Uniform" Fill="#e64444"/>
-                                </Button>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Width="60" Padding="0,10,5,10" Background="Transparent" BorderThickness="0"
+                                            HorizontalContentAlignment="Right" VerticalContentAlignment="Stretch">
+                                        <Ellipse Width="{Binding Path=Content.ActualHeight, RelativeSource={RelativeSource AncestorType=Button}}"
+                                                 Stretch="Uniform" Fill="#e64444"/>
+                                    </Button>
 
-                                <Button Width="45" Padding="0,10,0,10" Background="Transparent" BorderThickness="0"
-                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch">
-                                    <Ellipse Width="{Binding Path=Content.ActualHeight, RelativeSource={RelativeSource AncestorType=Button}}"
-                                             Stretch="Uniform" Fill="#e69c44"/>
-                                </Button>
+                                    <Button Width="45" Padding="0,10,0,10" Background="Transparent" BorderThickness="0"
+                                            HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch">
+                                        <Ellipse Width="{Binding Path=Content.ActualHeight, RelativeSource={RelativeSource AncestorType=Button}}"
+                                                 Stretch="Uniform" Fill="#e69c44"/>
+                                    </Button>
 
-                                <Button Width="45" Padding="5,10,0,10" Background="Transparent" BorderThickness="0"
-                                        HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch">
-                                    <Ellipse Width="{Binding Path=Content.ActualHeight, RelativeSource={RelativeSource AncestorType=Button}}"
-                                             Stretch="Uniform" Fill="#5ee644"/>
-                                </Button>
-                            </StackPanel>
+                                    <Button Width="45" Padding="5,10,0,10" Background="Transparent" BorderThickness="0"
+                                            HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch">
+                                        <Ellipse Width="{Binding Path=Content.ActualHeight, RelativeSource={RelativeSource AncestorType=Button}}"
+                                                Stretch="Uniform" Fill="#5ee644"/>
+                                    </Button>
+                                </StackPanel>
 
-                            <ContentPresenter Grid.Row="1">
-                                <ContentPresenter.OpacityMask>
-                                    <VisualBrush Visual="{Binding ElementName=root}"/>
-                                </ContentPresenter.OpacityMask>
-                            </ContentPresenter>
-                        </Grid>
+                                <ContentPresenter Grid.Row="1"/>
+                            </Grid>
+                        </Border>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

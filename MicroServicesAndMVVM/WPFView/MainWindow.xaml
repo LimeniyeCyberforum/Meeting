@@ -16,7 +16,7 @@
 
     <Grid>
 
-        <Grid Background="#1e1e1e">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
