@@ -4,7 +4,8 @@
         xmlns:chat="clr-namespace:WPFView.Chat"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d local" Height="450" Width="800" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d local" WindowStartupLocation="CenterScreen"
+        Style="{StaticResource TheWindowStyleForRealMenWithBallsOfSteel}"
         d:DataContext="{d:DesignInstance Type=local:MainViewModel}">
 
     <Window.Resources>
