@@ -55,6 +55,7 @@ namespace MeetingGrpcClient
             else
             {
                 //var httpHandler = new HttpClientHandler();
+                _client = client;
 
                 try
                 {
@@ -70,7 +71,6 @@ namespace MeetingGrpcClient
 
                     //_client = new Meeting.MeetingClient(channel);
 
-                    _client = client;
 
                     //var channel = GrpcChannel.ForAddress(new Uri("https://localhost:7129"));
                     //_client = new Meeting.MeetingClient(channel);
