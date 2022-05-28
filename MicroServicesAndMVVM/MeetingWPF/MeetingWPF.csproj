@@ -53,6 +53,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MeetingCommon\MeetingCommon.csproj" />
     <ProjectReference Include="..\MeetingGrpcClient\MeetingGrpcClient.csproj" />
+    <ProjectReference Include="..\MvvmCommon.WindowsDesktop\MvvmCommon.WindowsDesktop.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace MeetingWPF
+namespace MeetingWPF.AttachedProperties
 {
     public class WindowDragPosition
     {
@@ -11,7 +11,7 @@ namespace MeetingWPF
         private static void OnLoaded(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var uiElement = dependencyObject as UIElement;
-            if (uiElement == null || (dependencyPropertyChangedEventArgs.NewValue is bool) == false)
+            if (uiElement == null || dependencyPropertyChangedEventArgs.NewValue is bool == false)
             {
                 return;
             }
@@ -33,7 +33,7 @@ namespace MeetingWPF
                 {
                     DependencyObject parent = uiElement;
                     int avoidInfiniteLoop = 0;
-                    while ((parent is Window) == false)
+                    while (parent is Window == false)
                     {
                         parent = VisualTreeHelper.GetParent(parent);
                         avoidInfiniteLoop++;

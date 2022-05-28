@@ -1,4 +1,5 @@
 ﻿using MeetingCommon.Abstractions;
+using MvvmCommon.WindowsDesktop;
 
 namespace MeetingWPF.Connect
 {

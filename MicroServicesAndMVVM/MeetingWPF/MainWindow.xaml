@@ -1,5 +1,6 @@
 ﻿<Window x:Class="MeetingWPF.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:MeetingWPF"
+        xmlns:converters="clr-namespace:MeetingWPF.Converters"
         xmlns:connect="clr-namespace:MeetingWPF.Connect"
         xmlns:chat="clr-namespace:MeetingWPF.Chat"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +11,7 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <local:BytesToBitmapImageConverter x:Key="BytesToBitmapImageConverter"/>
+            <converters:BytesToBitmapImageConverter x:Key="BytesToBitmapImageConverter"/>
         </ResourceDictionary>
     </Window.Resources>
 

@@ -1,13 +1,12 @@
 ﻿using MeetingCommon.Abstractions;
-using MeetingCommon.Abstractions.Messanger;
 using MeetingCommon.DataTypes;
 using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Threading;
 using WebcamWithOpenCV;
 using MeetingWPF.Chat;
 using MeetingWPF.Connect;
+using MvvmCommon.WindowsDesktop;
 
 namespace MeetingWPF
 {

@@ -2,6 +2,7 @@
 using MeetingCommon.Abstractions;
 using MeetingCommon.Abstractions.Messanger;
 using MeetingCommon.DataTypes;
+using MvvmCommon.WindowsDesktop;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
