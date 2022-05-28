@@ -8,8 +8,7 @@ namespace MeetingWPF.Controls.TextBox
     {
         Empty,
         Success, 
-        Failure,
-        Error
+        Failure
     }
 
     public class StateEmptiedEventArgs : EventArgs { }
