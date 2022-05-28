@@ -50,13 +50,13 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <Grid Background="#1c1c1c">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Border Grid.Row="0" Padding="10">
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled">
                 <ItemsControl ItemsSource="{Binding ChatVM.Messages}"
@@ -76,19 +76,21 @@
                     </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
             </ScrollViewer>
-        </Grid>
+        </Border>
 
-        <Grid Grid.Row="1" MaxHeight="100">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="50"/>
-            </Grid.ColumnDefinitions>
+        <Border Grid.Row="1" MaxHeight="100" Padding="5,0,5,0" Background="#505050" CornerRadius="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0" Padding="0,5,0,5" AcceptsReturn="True"
-                     Text="{Binding ChatVM.Message, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
+                <TextBox Grid.Column="0" Padding="0,5,0,5" AcceptsReturn="True" Background="Transparent" Foreground="AliceBlue" BorderThickness="0"
+                         Text="{Binding ChatVM.Message, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
 
-            <Button Grid.Column="1" Content="Send"
-                    Command="{Binding ChatVM.SendMessageCommand}"/>
-        </Grid>
+                <Button Grid.Column="1" Content="Send"
+                        Command="{Binding ChatVM.SendMessageCommand}"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
