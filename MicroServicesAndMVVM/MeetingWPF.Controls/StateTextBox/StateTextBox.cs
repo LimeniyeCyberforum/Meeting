@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace MeetingWPF.Controls.TextBox
+namespace MeetingWPF.Controls.StateTextBox
 {
     public enum Status
     {
@@ -59,6 +59,21 @@ namespace MeetingWPF.Controls.TextBox
         private void OnStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        protected void RaiseStatusEmptiedEvent(StateTextBox container)
+        {
+            this.Emptied?.Invoke(this, new StateEmptiedEventArgs());
+        }
+
+        protected void RaiseStatusSuccessedEvent(StateTextBox container)
+        {
+            this.Successed?.Invoke(this, new StateSuccessedEventArgs());
+        }
+
+        protected void RaiseStatusFailedEvent(StateTextBox container)
+        {
+            this.Successed?.Invoke(this, new StateSuccessedEventArgs());
         }
     }
 }
