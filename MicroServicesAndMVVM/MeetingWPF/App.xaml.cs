@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 
-namespace WPFView
+namespace MeetingWPF
 {
     public partial class App : Application
     {

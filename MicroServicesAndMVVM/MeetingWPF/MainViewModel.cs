@@ -6,10 +6,10 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Threading;
 using WebcamWithOpenCV;
-using WPFView.Chat;
-using WPFView.Connect;
+using MeetingWPF.Chat;
+using MeetingWPF.Connect;
 
-namespace WPFView
+namespace MeetingWPF
 {
     public class MainViewModel : BaseInpc
     {

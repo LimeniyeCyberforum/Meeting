@@ -1,7 +1,7 @@
 ﻿using MeetingCommon.Abstractions.Messanger;
 using MeetingGrpcClient;
 
-namespace WPFView
+namespace MeetingWPF
 {
     //public static class IocService
     //{

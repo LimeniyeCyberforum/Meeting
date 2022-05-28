@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace WPFView.Chat
+namespace MeetingWPF.Chat
 {
     public partial class ChatUserControl : UserControl
     {

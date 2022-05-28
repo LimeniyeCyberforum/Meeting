@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace WPFView
+namespace MeetingWPF
 {
     #region Delegates for WPF Command Methods
     public delegate void ExecuteHandler();

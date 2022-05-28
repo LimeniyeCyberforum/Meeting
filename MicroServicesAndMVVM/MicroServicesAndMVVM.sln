@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32427.441
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFView", "WPFView\WPFView.csproj", "{343872EC-2C50-46BC-B6D2-02FF65A8D8CB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpsServer", "GrpsServer\GrpsServer.csproj", "{38BA63BB-4C68-48C0-AAAF-80AEF55512D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grpc", "Grpc", "{20CB4387-5D94-4443-BA89-AE86DBF0EA03}"
@@ -23,7 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MeetingClient", "MeetingCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingXamarin.Android", "MeetingXamarin\MeetingXamarin.Android\MeetingXamarin.Android.csproj", "{C9F8FA2F-9EDD-4BCD-B2ED-1B60A2A57DE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingXamarin", "MeetingXamarin\MeetingXamarin\MeetingXamarin.csproj", "{F8FB5D83-383F-4BE8-8316-1BEE63C4BAAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingXamarin", "MeetingXamarin\MeetingXamarin\MeetingXamarin.csproj", "{F8FB5D83-383F-4BE8-8316-1BEE63C4BAAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingWPF", "MeetingWPF\MeetingWPF.csproj", "{D5ABE912-5275-44CE-AF62-44DD95E3EE7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{343872EC-2C50-46BC-B6D2-02FF65A8D8CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{343872EC-2C50-46BC-B6D2-02FF65A8D8CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{343872EC-2C50-46BC-B6D2-02FF65A8D8CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{343872EC-2C50-46BC-B6D2-02FF65A8D8CB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38BA63BB-4C68-48C0-AAAF-80AEF55512D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{38BA63BB-4C68-48C0-AAAF-80AEF55512D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38BA63BB-4C68-48C0-AAAF-80AEF55512D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,18 +61,22 @@ Global
 		{F8FB5D83-383F-4BE8-8316-1BEE63C4BAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8FB5D83-383F-4BE8-8316-1BEE63C4BAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8FB5D83-383F-4BE8-8316-1BEE63C4BAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5ABE912-5275-44CE-AF62-44DD95E3EE7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5ABE912-5275-44CE-AF62-44DD95E3EE7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5ABE912-5275-44CE-AF62-44DD95E3EE7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5ABE912-5275-44CE-AF62-44DD95E3EE7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{343872EC-2C50-46BC-B6D2-02FF65A8D8CB} = {04D69FC6-4CC3-43DA-AA0F-D2B94E6BD9A1}
 		{38BA63BB-4C68-48C0-AAAF-80AEF55512D8} = {20CB4387-5D94-4443-BA89-AE86DBF0EA03}
 		{0ABC3224-0118-416A-9D0C-3AFA06D2BB9B} = {20CB4387-5D94-4443-BA89-AE86DBF0EA03}
 		{A14E4F17-1B44-4AA5-97B8-53698FD1262E} = {BE2C212D-EA49-4E79-B85B-9943B604C335}
 		{4E5CC263-2969-410C-BDAF-49DE46126484} = {BE2C212D-EA49-4E79-B85B-9943B604C335}
 		{C9F8FA2F-9EDD-4BCD-B2ED-1B60A2A57DE3} = {04D69FC6-4CC3-43DA-AA0F-D2B94E6BD9A1}
 		{F8FB5D83-383F-4BE8-8316-1BEE63C4BAAF} = {04D69FC6-4CC3-43DA-AA0F-D2B94E6BD9A1}
+		{D5ABE912-5275-44CE-AF62-44DD95E3EE7B} = {04D69FC6-4CC3-43DA-AA0F-D2B94E6BD9A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C8047A6-01EE-4859-B4C5-3BBFBA57F8F0}

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace WPFView
+namespace MeetingWPF
 {
     public partial class MainWindow : Window
     {

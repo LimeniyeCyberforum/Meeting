@@ -1,6 +1,6 @@
 ﻿using MeetingCommon.Abstractions;
 
-namespace WPFView.Connect
+namespace MeetingWPF.Connect
 {
     public class ConnectViewModel : BaseInpc
     {

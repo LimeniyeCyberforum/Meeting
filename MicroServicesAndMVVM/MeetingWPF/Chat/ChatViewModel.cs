@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace WPFView.Chat
+namespace MeetingWPF.Chat
 {
     public class ChatViewModel : BaseInpc
     {

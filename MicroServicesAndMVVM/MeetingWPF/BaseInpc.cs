@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WPFView
+namespace MeetingWPF
 {
     public delegate bool Equality<T>(T left, T right);
 
