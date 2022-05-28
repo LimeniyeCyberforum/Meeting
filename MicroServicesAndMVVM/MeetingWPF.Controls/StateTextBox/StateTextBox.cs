@@ -18,6 +18,7 @@ namespace MeetingWPF.Controls
         public class StateFailedEventArgs : EventArgs { }
 
         #region DependencyProperty : Placeholder
+
         public static DependencyProperty PlaceholderProperty { get; } =
             DependencyProperty.Register("Placeholder", typeof(string), 
                 typeof(StateTextBox), new FrameworkPropertyMetadata(string.Empty));
@@ -27,9 +28,11 @@ namespace MeetingWPF.Controls
             get => (string)GetValue(PlaceholderProperty);
             set => SetValue(PlaceholderProperty, value);
         }
+
         #endregion
 
         #region DependencyProperty : Status
+
         public static DependencyProperty StatusProperty { get; } =
             DependencyProperty.Register("Status", typeof(StatusEnum),
                 typeof(StateTextBox), new FrameworkPropertyMetadata(StatusEnum.Empty, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
@@ -42,6 +45,21 @@ namespace MeetingWPF.Controls
             get => (StatusEnum)GetValue(StatusProperty);
             set => SetValue(StatusProperty, value);
         }
+
+        #endregion
+
+        #region DependencyProperty : CornerRadius
+
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius),
+                typeof(StateTextBox), new PropertyMetadata(default));
+
+        public CornerRadius CornerRadius
+        {
+            get => (CornerRadius)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
+        }
+
         #endregion
 
         public event TypedEventHandler<StateTextBox, StateEmptiedEventArgs>? Emptied;
