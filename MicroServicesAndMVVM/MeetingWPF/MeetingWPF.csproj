@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-	<ItemGroup>
+  <ItemGroup>
 		<PackageReference Include="DirectShowLib">
 			<Version>1.0.0</Version>
 		</PackageReference>

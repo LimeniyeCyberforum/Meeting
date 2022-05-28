@@ -8,7 +8,7 @@ using MeetingWPF.Chat;
 using MeetingWPF.Connect;
 using MvvmCommon.WindowsDesktop;
 
-namespace MeetingWPF
+namespace MeetingWPF.Windows
 {
     public class MainViewModel : BaseInpc
     {
@@ -75,7 +75,7 @@ namespace MeetingWPF
             {
                 dispatcher.BeginInvoke(() => InputVideoStreams.Add(userGuid, frameBytes));
             }
-            else 
+            else
             {
                 dispatcher.BeginInvoke(() => InputVideoStreams[userGuid] = frameBytes);
             }
