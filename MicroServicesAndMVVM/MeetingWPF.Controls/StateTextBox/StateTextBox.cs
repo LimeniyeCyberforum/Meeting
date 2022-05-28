@@ -2,21 +2,21 @@
 using System;
 using System.Windows;
 
-namespace MeetingWPF.Controls.StateTextBox
+namespace MeetingWPF.Controls
 {
-    public enum Status
-    {
-        Empty,
-        Success,
-        Fail
-    }
-
-    public class StateEmptiedEventArgs : EventArgs { }
-    public class StateSuccessedEventArgs : EventArgs { }
-    public class StateFailedEventArgs : EventArgs { }
-
     public class StateTextBox : System.Windows.Controls.TextBox
     {
+        public enum StatusEnum
+        {
+            Empty,
+            Success,
+            Fail
+        }
+
+        public class StateEmptiedEventArgs : EventArgs { }
+        public class StateSuccessedEventArgs : EventArgs { }
+        public class StateFailedEventArgs : EventArgs { }
+
         #region DependencyProperty : Placeholder
         public static DependencyProperty PlaceholderProperty { get; } =
             DependencyProperty.Register("Placeholder", typeof(string), 
@@ -31,15 +31,15 @@ namespace MeetingWPF.Controls.StateTextBox
 
         #region DependencyProperty : Status
         public static DependencyProperty StatusProperty { get; } =
-            DependencyProperty.Register("Status", typeof(Status),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(Status.Empty, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
+            DependencyProperty.Register("Status", typeof(StatusEnum),
+                typeof(StateTextBox), new FrameworkPropertyMetadata(StatusEnum.Empty, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
                 {
                     (s as StateTextBox)?.OnStatusPropertyChanged(e);
                 }));
 
-        public Status Status
+        public StatusEnum Status
         {
-            get => (Status)GetValue(StatusProperty);
+            get => (StatusEnum)GetValue(StatusProperty);
             set => SetValue(StatusProperty, value);
         }
         #endregion
