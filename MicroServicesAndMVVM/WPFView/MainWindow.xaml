@@ -23,7 +23,9 @@
             </Grid.ColumnDefinitions>
 
 
-            <Grid Grid.Column="0">
+            <Grid Grid.Column="0" Margin="20">
+                <Border Background="#1c1f22" CornerRadius="20" BorderThickness="1" BorderBrush="#e64444"/>
+
                 <ItemsControl ItemsSource="{Binding InputVideoStreams}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
