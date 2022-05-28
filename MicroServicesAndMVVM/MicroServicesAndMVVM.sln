@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin", "Xamarin", "{44C7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{FB3AEC2F-5ED5-4984-B01F-80CFC3611E44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmCommon.WindowsDesktop", "MvvmCommon.WindowsDesktop\MvvmCommon.WindowsDesktop.csproj", "{AA40D471-C750-436D-9B68-3918E40C8632}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvvmCommon.WindowsDesktop", "MvvmCommon.WindowsDesktop\MvvmCommon.WindowsDesktop.csproj", "{AA40D471-C750-436D-9B68-3918E40C8632}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetingWPF.Controls", "MeetingWPF.Controls\MeetingWPF.Controls.csproj", "{2F93FDF7-32C2-4F25-AE6A-7D3FF0651ACB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{AA40D471-C750-436D-9B68-3918E40C8632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA40D471-C750-436D-9B68-3918E40C8632}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA40D471-C750-436D-9B68-3918E40C8632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F93FDF7-32C2-4F25-AE6A-7D3FF0651ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F93FDF7-32C2-4F25-AE6A-7D3FF0651ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F93FDF7-32C2-4F25-AE6A-7D3FF0651ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F93FDF7-32C2-4F25-AE6A-7D3FF0651ACB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{44C7C36B-1F0B-4C4A-A530-C1F7EB433484} = {04D69FC6-4CC3-43DA-AA0F-D2B94E6BD9A1}
 		{FB3AEC2F-5ED5-4984-B01F-80CFC3611E44} = {04D69FC6-4CC3-43DA-AA0F-D2B94E6BD9A1}
 		{AA40D471-C750-436D-9B68-3918E40C8632} = {FB3AEC2F-5ED5-4984-B01F-80CFC3611E44}
+		{2F93FDF7-32C2-4F25-AE6A-7D3FF0651ACB} = {FB3AEC2F-5ED5-4984-B01F-80CFC3611E44}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C8047A6-01EE-4859-B4C5-3BBFBA57F8F0}
