@@ -73,7 +73,7 @@ namespace MeetingWPF.Controls
 
         protected void RaiseStatusFailedEvent(StateTextBox container)
         {
-            this.Successed?.Invoke(this, new StateSuccessedEventArgs());
+            this.Failed?.Invoke(this, new StateFailedEventArgs());
         }
     }
 }
