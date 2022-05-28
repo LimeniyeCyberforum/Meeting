@@ -7,12 +7,13 @@ namespace MeetingWPF.Controls.TextBox
     public enum Status
     {
         Empty,
-        Success, 
-        Failure
+        Success,
+        Fail
     }
 
     public class StateEmptiedEventArgs : EventArgs { }
     public class StateSuccessedEventArgs : EventArgs { }
+    public class StateFailedEventArgs : EventArgs { }
 
     public class StateTextBox : System.Windows.Controls.TextBox
     {
@@ -44,7 +45,10 @@ namespace MeetingWPF.Controls.TextBox
         #endregion
 
         public event TypedEventHandler<StateTextBox, StateEmptiedEventArgs>? Emptied;
+
         public event TypedEventHandler<StateTextBox, StateSuccessedEventArgs>? Successed;
+
+        public event TypedEventHandler<StateTextBox, StateFailedEventArgs>? Failed;
 
         static StateTextBox()
         {
