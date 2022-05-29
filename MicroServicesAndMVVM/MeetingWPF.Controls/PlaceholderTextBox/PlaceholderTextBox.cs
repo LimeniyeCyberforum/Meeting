@@ -59,7 +59,7 @@ namespace MeetingWPF.Controls.PlaceholderTextBox
 
         #endregion
 
-        #region DependencyProperty : PlaceholderFontSize
+        #region DependencyProperty : IsTextEmpty
 
         public bool IsTextEmpty
         {
