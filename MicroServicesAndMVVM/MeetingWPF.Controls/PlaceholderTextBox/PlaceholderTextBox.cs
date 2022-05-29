@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace MeetingWPF.Controls.PlaceholderTextBox
 {
@@ -9,6 +10,8 @@ namespace MeetingWPF.Controls.PlaceholderTextBox
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PlaceholderTextBox), new FrameworkPropertyMetadata(typeof(PlaceholderTextBox)));
         }
+
+        #region DependencyProperty : PlaceholderFontSize
 
         public string PlaceHolder
         {
@@ -20,6 +23,44 @@ namespace MeetingWPF.Controls.PlaceholderTextBox
             DependencyProperty.Register(nameof(PlaceHolder), typeof(string), 
                 typeof(PlaceholderTextBox), new PropertyMetadata(string.Empty));
 
+        #endregion
+
+        #region DependencyProperty : PlaceholderFontSize
+
+        public double PlaceholderFontSize
+        {
+            get => (double)GetValue(PlaceholderFontSizeProperty);
+            set => SetValue(PlaceholderFontSizeProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceholderFontSizeProperty =
+            DependencyProperty.Register(nameof(PlaceholderFontSize), typeof(double),
+                typeof(PlaceholderTextBox), new FrameworkPropertyMetadata(12.0, FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
+                {
+                    ((PlaceholderTextBox)s)?.OnPlaceholderFontSizeChanged((double)e.OldValue, (double)e.NewValue);
+                }));
+
+        #endregion
+
+        #region DependencyProperty : PlaceholderFontFamily
+
+        public FontFamily PlaceholderFontFamily
+        {
+            get => (FontFamily)GetValue(PlaceholderFontFamilyProperty);
+            set => SetValue(PlaceholderFontFamilyProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceholderFontFamilyProperty =
+            DependencyProperty.Register(nameof(PlaceholderFontFamily), typeof(FontFamily),
+                typeof(PlaceholderTextBox), new FrameworkPropertyMetadata(new FontFamily("Segoe UI"), FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
+                {
+                    ((PlaceholderTextBox)s)?.OnPlaceholderFontFamilyChanged(e.OldValue as FontFamily, e.NewValue as FontFamily);
+                }));
+
+        #endregion
+
+        #region DependencyProperty : PlaceholderFontSize
+
         public bool IsTextEmpty
         {
             get => (bool)GetValue(IsTextEmptyProperty);
@@ -27,10 +68,20 @@ namespace MeetingWPF.Controls.PlaceholderTextBox
         }
 
         private static readonly DependencyPropertyKey IsTextEmptyPropertyKey =
-            DependencyProperty.RegisterReadOnly(nameof(IsTextEmpty), typeof(bool), typeof(PlaceholderTextBox), new PropertyMetadata(true));
+            DependencyProperty.RegisterReadOnly(nameof(IsTextEmpty), typeof(bool), 
+                typeof(PlaceholderTextBox), new PropertyMetadata(true));
 
         public static readonly DependencyProperty IsTextEmptyProperty = IsTextEmptyPropertyKey.DependencyProperty;
 
+        #endregion
+
+        protected virtual void OnPlaceholderFontSizeChanged(double oldValue, double newValue)
+        {
+        }
+
+        protected virtual void OnPlaceholderFontFamilyChanged(FontFamily? fontFamily1, FontFamily? fontFamily2)
+        {
+        }
 
         protected override void OnTextChanged(TextChangedEventArgs e)
         {
