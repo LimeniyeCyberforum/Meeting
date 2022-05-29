@@ -1,6 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:MeetingWPF.Controls">
 
+    <SolidColorBrush x:Key="PlaceHolderTextBox.Static.Border" Color="#FFABAdB3"/>
+    <SolidColorBrush x:Key="PlaceHolderTextBox.MouseOver.Border" Color="#FF7EB4EA"/>
+    <SolidColorBrush x:Key="PlaceHolderTextBox.Focus.Border" Color="#FF569DE5"/>
+
     <Style TargetType="{x:Type local:StateTextBox}">
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="AllowDrop" Value="True"/>
@@ -11,10 +15,10 @@
         <Setter Property="MinWidth" Value="120"/>
         <Setter Property="MinHeight" Value="34"/>
         <Setter Property="Height" Value="38"/>
-        <Setter Property="Background" Value="#eeeeee"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="BorderBrush" Value="#3399ff"/>
         <Setter Property="Foreground" Value="#121212"/>
         <Setter Property="Placeholder" Value="Helloworld!"/>
-        <Setter Property="BorderBrush" Value="#3399ff"/>
         <Setter Property="CornerRadius" Value="4"/>
         <Setter Property="Cursor" Value="IBeam"/>
         <Setter Property="FontSize" Value="13"/>
