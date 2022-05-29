@@ -20,26 +20,19 @@ namespace MeetingWPF.Controls
 
         #region DependencyProperty : Placeholder
 
-        public static DependencyProperty PlaceholderProperty { get; } =
-            DependencyProperty.Register("Placeholder", typeof(string),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(string.Empty));
-
         public string Placeholder
         {
             get => (string)GetValue(PlaceholderProperty);
             set => SetValue(PlaceholderProperty, value);
         }
 
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register(nameof(Placeholder), typeof(string),
+                typeof(StateTextBox), new FrameworkPropertyMetadata(string.Empty));
+
         #endregion
 
         #region DependencyProperty : Status
-
-        public static DependencyProperty StatusProperty { get; } =
-            DependencyProperty.Register("Status", typeof(StatusEnum),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(StatusEnum.Empty, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
-                {
-                    (s as StateTextBox)?.OnStatusPropertyChanged(e);
-                }));
 
         public StatusEnum Status
         {
@@ -47,13 +40,16 @@ namespace MeetingWPF.Controls
             set => SetValue(StatusProperty, value);
         }
 
+        public static readonly DependencyProperty StatusProperty =
+            DependencyProperty.Register(nameof(Status), typeof(StatusEnum),
+                typeof(StateTextBox), new FrameworkPropertyMetadata(StatusEnum.Empty, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
+                {
+                    (s as StateTextBox)?.OnStatusPropertyChanged(e);
+                }));
+
         #endregion
 
         #region DependencyProperty : CornerRadius
-
-        public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register("CornerRadius", typeof(CornerRadius),
-                typeof(StateTextBox), new PropertyMetadata(default));
 
         public CornerRadius CornerRadius
         {
@@ -61,16 +57,13 @@ namespace MeetingWPF.Controls
             set => SetValue(CornerRadiusProperty, value);
         }
 
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius),
+                typeof(StateTextBox), new PropertyMetadata(default));
+
         #endregion
 
         #region DependencyProperty : PlaceholderFontSize
-
-        public static DependencyProperty PlaceholderFontSizeProperty { get; } =
-            DependencyProperty.Register("PlaceholderFontSize", typeof(double),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(12.0, FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
-                {
-                    ((StateTextBox)s)?.OnPlaceholderFontSizeChanged((double)e.OldValue, (double)e.NewValue);
-                }));
 
         public double PlaceholderFontSize
         {
@@ -78,28 +71,29 @@ namespace MeetingWPF.Controls
             set => SetValue(PlaceholderFontSizeProperty, value);
         }
 
+        public static readonly DependencyProperty PlaceholderFontSizeProperty =
+            DependencyProperty.Register(nameof(PlaceholderFontSize), typeof(double),
+                typeof(StateTextBox), new FrameworkPropertyMetadata(12.0, FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
+                {
+                    ((StateTextBox)s)?.OnPlaceholderFontSizeChanged((double)e.OldValue, (double)e.NewValue);
+                }));
+
         #endregion
 
         #region DependencyProperty : PlaceholderFontFamily
 
-        public static DependencyProperty PlaceholderFontFamilyProperty { get; } =
-            DependencyProperty.Register("PlaceholderFontFamily", typeof(FontFamily),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(new FontFamily("Segoe UI"), FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
-        {
-            ((StateTextBox)s)?.OnFontFamilyChanged(e.OldValue as FontFamily, e.NewValue as FontFamily);
-        }));
-
         public FontFamily PlaceholderFontFamily
         {
-            get
-            {
-                return (FontFamily)GetValue(PlaceholderFontFamilyProperty);
-            }
-            set
-            {
-                SetValue(PlaceholderFontFamilyProperty, value);
-            }
+            get => (FontFamily)GetValue(PlaceholderFontFamilyProperty);
+            set => SetValue(PlaceholderFontFamilyProperty, value);
         }
+
+        public static readonly DependencyProperty PlaceholderFontFamilyProperty =
+            DependencyProperty.Register(nameof(PlaceholderFontFamily), typeof(FontFamily),
+                typeof(StateTextBox), new FrameworkPropertyMetadata(new FontFamily("Segoe UI"), FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
+                {
+                    ((StateTextBox)s)?.OnFontFamilyChanged(e.OldValue as FontFamily, e.NewValue as FontFamily);
+                }));
 
         #endregion
 
