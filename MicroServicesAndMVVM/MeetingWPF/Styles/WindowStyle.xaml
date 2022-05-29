@@ -90,7 +90,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Border x:Name="root" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
-                            Background="{TemplateBinding Background}" CornerRadius="10" Padding="0">
+                            Background="{TemplateBinding Background}" CornerRadius="10" Padding="0" UseLayoutRounding="True">
                         
                         <Border Background="Transparent">
                             <Border.OpacityMask>

@@ -9,7 +9,7 @@
         <Border Background="#1e1e1e" Opacity="0.9"/>
 
         <Border Background="#1c1f22" Padding="70,50,70,50" CornerRadius="10"
-                BorderBrush="#e64444" BorderThickness="1"
+                BorderBrush="#e64444" BorderThickness="0.8" UseLayoutRounding="True"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
 
             <Grid>
