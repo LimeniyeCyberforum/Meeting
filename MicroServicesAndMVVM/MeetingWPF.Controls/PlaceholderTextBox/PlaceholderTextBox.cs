@@ -75,6 +75,20 @@ namespace MeetingWPF.Controls.PlaceholderTextBox
 
         #endregion
 
+        #region DependencyProperty : PlaceholderOpacity
+
+        public double PlaceholderOpacity
+        {
+            get => (double)GetValue(PlaceholderOpacityProperty);
+            set => SetValue(PlaceholderOpacityProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceholderOpacityProperty =
+            DependencyProperty.Register(nameof(PlaceholderOpacity), typeof(double),
+                typeof(PlaceholderTextBox), new PropertyMetadata(default));
+
+        #endregion
+
         protected virtual void OnPlaceholderFontSizeChanged(double oldValue, double newValue)
         {
         }
