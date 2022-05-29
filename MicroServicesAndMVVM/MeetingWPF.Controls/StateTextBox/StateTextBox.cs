@@ -1,11 +1,12 @@
 ﻿using Common;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace MeetingWPF.Controls
 {
-    public class StateTextBox : System.Windows.Controls.TextBox
+    public class StateTextBox : TextBox
     {
         public enum StatusEnum
         {
@@ -17,20 +18,6 @@ namespace MeetingWPF.Controls
         public class StateEmptiedEventArgs : EventArgs { }
         public class StateSuccessedEventArgs : EventArgs { }
         public class StateFailedEventArgs : EventArgs { }
-
-        #region DependencyProperty : Placeholder
-
-        public string Placeholder
-        {
-            get => (string)GetValue(PlaceholderProperty);
-            set => SetValue(PlaceholderProperty, value);
-        }
-
-        public static readonly DependencyProperty PlaceholderProperty =
-            DependencyProperty.Register(nameof(Placeholder), typeof(string),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(string.Empty));
-
-        #endregion
 
         #region DependencyProperty : Status
 
@@ -49,6 +36,22 @@ namespace MeetingWPF.Controls
 
         #endregion
 
+        #region DependencyProperty : IsTextEmpty
+
+        public bool IsTextEmpty
+        {
+            get => (bool)GetValue(IsTextEmptyProperty);
+            private set => SetValue(IsTextEmptyProperty, value);
+        }
+
+        private static readonly DependencyPropertyKey IsTextEmptyPropertyKey =
+                  DependencyProperty.RegisterReadOnly(nameof(IsTextEmpty), typeof(bool),
+                      typeof(StateTextBox), new PropertyMetadata(true));
+
+        public static readonly DependencyProperty IsTextEmptyProperty = IsTextEmptyPropertyKey.DependencyProperty;
+
+        #endregion
+
         #region DependencyProperty : CornerRadius
 
         public CornerRadius CornerRadius
@@ -60,6 +63,20 @@ namespace MeetingWPF.Controls
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius),
                 typeof(StateTextBox), new PropertyMetadata(default));
+
+        #endregion
+
+        #region DependencyProperty : Placeholder
+
+        public string Placeholder
+        {
+            get => (string)GetValue(PlaceholderProperty);
+            set => SetValue(PlaceholderProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register(nameof(Placeholder), typeof(string),
+                typeof(StateTextBox), new FrameworkPropertyMetadata(string.Empty));
 
         #endregion
 
@@ -112,6 +129,12 @@ namespace MeetingWPF.Controls
         protected virtual void OnStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        protected override void OnTextChanged(TextChangedEventArgs e)
+        {
+            base.OnTextChanged(e);
+            IsTextEmpty = string.IsNullOrWhiteSpace(Text);
         }
 
         protected virtual void OnPlaceholderFontSizeChanged(double oldValue, double newValue)
