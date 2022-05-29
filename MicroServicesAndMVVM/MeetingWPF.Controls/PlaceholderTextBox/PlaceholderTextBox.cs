@@ -13,15 +13,15 @@ namespace MeetingWPF.Controls.PlaceholderTextBox
 
         #region DependencyProperty : Placeholder
 
-        public string Placeholder
+        public object Placeholder
         {
-            get => (string)GetValue(PlaceholderProperty);
+            get => GetValue(PlaceholderProperty);
             set => SetValue(PlaceholderProperty, value);
         }
 
         public static readonly DependencyProperty PlaceholderProperty =
-            DependencyProperty.Register(nameof(Placeholder), typeof(string), 
-                typeof(PlaceholderTextBox), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(Placeholder), typeof(object), 
+                typeof(PlaceholderTextBox), new PropertyMetadata(default));
 
         #endregion
 

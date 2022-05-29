@@ -18,12 +18,15 @@
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="BorderBrush" Value="#3399ff"/>
         <Setter Property="Foreground" Value="#121212"/>
-        <Setter Property="Placeholder" Value="Helloworld!"/>
         <Setter Property="CornerRadius" Value="4"/>
         <Setter Property="Cursor" Value="IBeam"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="4"/>
         <Setter Property="Margin" Value="4"/>
+        <Setter Property="PlaceholderFontSize" Value="13"/>
+        <Setter Property="PlaceholderHorizontalAlignment" Value="Stretch"/>
+        <Setter Property="PlaceholderVerticalAlignment" Value="Center"/>
+        <Setter Property="PlaceholderOpacity" Value="0.5"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -49,7 +52,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Border CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}" BorderThickness="0">
+                        <Border x:Name="border" CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}" BorderThickness="0">
                             <Grid>
                                 <Border Name="PART_UnderlineBorder" VerticalAlignment="Bottom"
                                         Height="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=ActualHeight}"
@@ -66,29 +69,66 @@
                                     </Border.LayoutTransform>
                                 </Border>
 
-                                <ScrollViewer Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+
+                                <ContentPresenter Name="PART_Placeholder"
+                                                  Margin="6,0,0,0" Cursor="Arrow" 
+                                                  HorizontalAlignment="{TemplateBinding PlaceholderHorizontalAlignment}"
+                                                  VerticalAlignment="{TemplateBinding PlaceholderVerticalAlignment}"
+                                                  Opacity="{TemplateBinding PlaceholderOpacity}"
+                                                  TextElement.FontSize="{TemplateBinding PlaceholderFontSize}"
+                                                  TextElement.FontFamily="{TemplateBinding PlaceholderFontFamily}"
+                                                  TextElement.FontWeight="{TemplateBinding FontWeight}"
+                                                  TextElement.Foreground="{TemplateBinding Foreground}"
+                                                  Content="{TemplateBinding Placeholder}"
+                                                  Visibility="Collapsed"/>
+
+                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
+                                              Margin="{TemplateBinding Padding}"/>
+
+
+                                <!--<ScrollViewer Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
 
                                 <Label x:Name="Placeholder" Visibility="Collapsed"
                                        Content="{Binding Placeholder, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                        Margin="3" FontSize="{Binding PlaceholderFontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                       Opacity="0.5"/>
+                                       Opacity="0.5"/>-->
                             </Grid>
                         </Border>
                     </Grid>
+
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource PlaceholderTextBox.MouseOver.Border}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource PlaceholderTextBox.Focus.Border}"/>
+                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsKeyboardFocused" Value="False" />
-                                <Condition Property="Text" Value="" />
+                                <Condition Property="IsTextEmpty" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter Property="Visibility" Value="Visible" TargetName="Placeholder"/>
+                                <Setter TargetName="PART_Placeholder" Property="Visibility" Value="Visible"/>
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+                    <Condition Property="IsSelectionActive" Value="false"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+            </MultiTrigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>
