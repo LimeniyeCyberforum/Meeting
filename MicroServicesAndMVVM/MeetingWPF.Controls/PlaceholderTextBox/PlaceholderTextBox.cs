@@ -89,6 +89,34 @@ namespace MeetingWPF.Controls.PlaceholderTextBox
 
         #endregion
 
+        #region DependencyProperty : PlaceholderHorizontalAlignment
+
+        public HorizontalAlignment PlaceholderHorizontalAlignment
+        {
+            get => (HorizontalAlignment)GetValue(PlaceholderHorizontalAlignmentProperty);
+            set => SetValue(PlaceholderHorizontalAlignmentProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceholderHorizontalAlignmentProperty =
+            DependencyProperty.Register(nameof(PlaceholderHorizontalAlignment), typeof(HorizontalAlignment),
+                typeof(PlaceholderTextBox), new PropertyMetadata(default));
+
+        #endregion
+
+        #region DependencyProperty : PlaceholderHorizontalAlignment
+
+        public VerticalAlignment PlaceholderVerticalAlignment
+        {
+            get => (VerticalAlignment)GetValue(PlaceholderVerticalAlignmentProperty);
+            set => SetValue(PlaceholderVerticalAlignmentProperty, value);
+        }
+
+        public static readonly DependencyProperty PlaceholderVerticalAlignmentProperty =
+            DependencyProperty.Register(nameof(PlaceholderVerticalAlignment), typeof(VerticalAlignment),
+                typeof(PlaceholderTextBox), new PropertyMetadata(default));
+
+        #endregion
+
         protected virtual void OnPlaceholderFontSizeChanged(double oldValue, double newValue)
         {
         }
