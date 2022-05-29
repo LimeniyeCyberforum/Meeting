@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:MeetingWPF.Controls">
 
-    <SolidColorBrush x:Key="PlaceHolderTextBox.Static.Border" Color="#FFABAdB3"/>
-    <SolidColorBrush x:Key="PlaceHolderTextBox.MouseOver.Border" Color="#FF7EB4EA"/>
-    <SolidColorBrush x:Key="PlaceHolderTextBox.Focus.Border" Color="#FF569DE5"/>
+    <SolidColorBrush x:Key="PlaceholderTextBox.Static.Border" Color="#FFABAdB3"/>
+    <SolidColorBrush x:Key="PlaceholderTextBox.MouseOver.Border" Color="#FF7EB4EA"/>
+    <SolidColorBrush x:Key="PlaceholderTextBox.Focus.Border" Color="#FF569DE5"/>
 
     <Style TargetType="{x:Type local:StateTextBox}">
         <Setter Property="UseLayoutRounding" Value="True"/>

@@ -11,16 +11,16 @@ namespace MeetingWPF.Controls.PlaceholderTextBox
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PlaceholderTextBox), new FrameworkPropertyMetadata(typeof(PlaceholderTextBox)));
         }
 
-        #region DependencyProperty : PlaceholderFontSize
+        #region DependencyProperty : Placeholder
 
-        public string PlaceHolder
+        public string Placeholder
         {
-            get => (string)GetValue(PlaceHolderProperty);
-            set => SetValue(PlaceHolderProperty, value);
+            get => (string)GetValue(PlaceholderProperty);
+            set => SetValue(PlaceholderProperty, value);
         }
 
-        public static readonly DependencyProperty PlaceHolderProperty =
-            DependencyProperty.Register(nameof(PlaceHolder), typeof(string), 
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register(nameof(Placeholder), typeof(string), 
                 typeof(PlaceholderTextBox), new PropertyMetadata(string.Empty));
 
         #endregion

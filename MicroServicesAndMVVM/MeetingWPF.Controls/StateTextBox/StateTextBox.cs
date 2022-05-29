@@ -1,24 +1,28 @@
 ﻿using Common;
 using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 
 namespace MeetingWPF.Controls
 {
+    public enum StatusEnum
+    {
+        Empty,
+        Success,
+        Fail
+    }
+
+    public class StateEmptiedEventArgs : EventArgs { }
+    public class StateSuccessedEventArgs : EventArgs { }
+    public class StateFailedEventArgs : EventArgs { }
+
     public class StateTextBox : PlaceholderTextBox.PlaceholderTextBox
     {
-        public enum StatusEnum
+        static StateTextBox()
         {
-            Empty,
-            Success,
-            Fail
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StateTextBox),
+                new FrameworkPropertyMetadata(typeof(StateTextBox)));
         }
-
-        public class StateEmptiedEventArgs : EventArgs { }
-        public class StateSuccessedEventArgs : EventArgs { }
-        public class StateFailedEventArgs : EventArgs { }
 
         #region DependencyProperty : Status
 
@@ -56,12 +60,6 @@ namespace MeetingWPF.Controls
         public event TypedEventHandler<StateTextBox, StateSuccessedEventArgs>? Successed;
 
         public event TypedEventHandler<StateTextBox, StateFailedEventArgs>? Failed;
-
-        static StateTextBox()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(StateTextBox),
-                new FrameworkPropertyMetadata(typeof(StateTextBox)));
-        }
 
         protected virtual void OnStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
