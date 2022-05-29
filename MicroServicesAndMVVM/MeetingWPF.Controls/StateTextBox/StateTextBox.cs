@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Windows;
+using System.Windows.Media;
 
 namespace MeetingWPF.Controls
 {
@@ -20,7 +21,7 @@ namespace MeetingWPF.Controls
         #region DependencyProperty : Placeholder
 
         public static DependencyProperty PlaceholderProperty { get; } =
-            DependencyProperty.Register("Placeholder", typeof(string), 
+            DependencyProperty.Register("Placeholder", typeof(string),
                 typeof(StateTextBox), new FrameworkPropertyMetadata(string.Empty));
 
         public string Placeholder
@@ -51,13 +52,53 @@ namespace MeetingWPF.Controls
         #region DependencyProperty : CornerRadius
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius),
+            DependencyProperty.Register("CornerRadius", typeof(CornerRadius),
                 typeof(StateTextBox), new PropertyMetadata(default));
 
         public CornerRadius CornerRadius
         {
             get => (CornerRadius)GetValue(CornerRadiusProperty);
             set => SetValue(CornerRadiusProperty, value);
+        }
+
+        #endregion
+
+        #region DependencyProperty : PlaceholderFontSize
+
+        public static DependencyProperty PlaceholderFontSizeProperty { get; } =
+            DependencyProperty.Register("PlaceholderFontSize", typeof(double),
+                typeof(StateTextBox), new FrameworkPropertyMetadata(12.0, FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
+                {
+                    ((StateTextBox)s)?.OnPlaceholderFontSizeChanged((double)e.OldValue, (double)e.NewValue);
+                }));
+
+        public double PlaceholderFontSize
+        {
+            get => (double)GetValue(PlaceholderFontSizeProperty);
+            set => SetValue(PlaceholderFontSizeProperty, value);
+        }
+
+        #endregion
+
+        #region DependencyProperty : PlaceholderFontFamily
+
+        public static DependencyProperty PlaceholderFontFamilyProperty { get; } =
+            DependencyProperty.Register("PlaceholderFontFamily", typeof(FontFamily),
+                typeof(StateTextBox), new FrameworkPropertyMetadata(new FontFamily("Segoe UI"), FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
+        {
+            ((StateTextBox)s)?.OnFontFamilyChanged(e.OldValue as FontFamily, e.NewValue as FontFamily);
+        }));
+
+        public FontFamily PlaceholderFontFamily
+        {
+            get
+            {
+                return (FontFamily)GetValue(PlaceholderFontFamilyProperty);
+            }
+            set
+            {
+                SetValue(PlaceholderFontFamilyProperty, value);
+            }
         }
 
         #endregion
@@ -74,7 +115,17 @@ namespace MeetingWPF.Controls
              new FrameworkPropertyMetadata(typeof(StateTextBox)));
         }
 
-        private void OnStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
+        protected virtual void OnStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void OnPlaceholderFontSizeChanged(double oldValue, double newValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void OnFontFamilyChanged(FontFamily? fontFamily1, FontFamily? fontFamily2)
         {
             throw new NotImplementedException();
         }
