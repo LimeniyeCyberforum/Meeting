@@ -4,9 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
+
 namespace MeetingWPF.Controls
 {
-    public class StateTextBox : TextBox
+    public class StateTextBox : PlaceholderTextBox.PlaceholderTextBox
     {
         public enum StatusEnum
         {
@@ -36,22 +37,6 @@ namespace MeetingWPF.Controls
 
         #endregion
 
-        #region DependencyProperty : IsTextEmpty
-
-        public bool IsTextEmpty
-        {
-            get => (bool)GetValue(IsTextEmptyProperty);
-            private set => SetValue(IsTextEmptyProperty, value);
-        }
-
-        private static readonly DependencyPropertyKey IsTextEmptyPropertyKey =
-                  DependencyProperty.RegisterReadOnly(nameof(IsTextEmpty), typeof(bool),
-                      typeof(StateTextBox), new PropertyMetadata(true));
-
-        public static readonly DependencyProperty IsTextEmptyProperty = IsTextEmptyPropertyKey.DependencyProperty;
-
-        #endregion
-
         #region DependencyProperty : CornerRadius
 
         public CornerRadius CornerRadius
@@ -66,54 +51,6 @@ namespace MeetingWPF.Controls
 
         #endregion
 
-        #region DependencyProperty : Placeholder
-
-        public string Placeholder
-        {
-            get => (string)GetValue(PlaceholderProperty);
-            set => SetValue(PlaceholderProperty, value);
-        }
-
-        public static readonly DependencyProperty PlaceholderProperty =
-            DependencyProperty.Register(nameof(Placeholder), typeof(string),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(string.Empty));
-
-        #endregion
-
-        #region DependencyProperty : PlaceholderFontSize
-
-        public double PlaceholderFontSize
-        {
-            get => (double)GetValue(PlaceholderFontSizeProperty);
-            set => SetValue(PlaceholderFontSizeProperty, value);
-        }
-
-        public static readonly DependencyProperty PlaceholderFontSizeProperty =
-            DependencyProperty.Register(nameof(PlaceholderFontSize), typeof(double),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(12.0, FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
-                {
-                    ((StateTextBox)s)?.OnPlaceholderFontSizeChanged((double)e.OldValue, (double)e.NewValue);
-                }));
-
-        #endregion
-
-        #region DependencyProperty : PlaceholderFontFamily
-
-        public FontFamily PlaceholderFontFamily
-        {
-            get => (FontFamily)GetValue(PlaceholderFontFamilyProperty);
-            set => SetValue(PlaceholderFontFamilyProperty, value);
-        }
-
-        public static readonly DependencyProperty PlaceholderFontFamilyProperty =
-            DependencyProperty.Register(nameof(PlaceholderFontFamily), typeof(FontFamily),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(new FontFamily("Segoe UI"), FrameworkPropertyMetadataOptions.Inherits, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
-                {
-                    ((StateTextBox)s)?.OnFontFamilyChanged(e.OldValue as FontFamily, e.NewValue as FontFamily);
-                }));
-
-        #endregion
-
         public event TypedEventHandler<StateTextBox, StateEmptiedEventArgs>? Emptied;
 
         public event TypedEventHandler<StateTextBox, StateSuccessedEventArgs>? Successed;
@@ -123,28 +60,11 @@ namespace MeetingWPF.Controls
         static StateTextBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StateTextBox),
-             new FrameworkPropertyMetadata(typeof(StateTextBox)));
+                new FrameworkPropertyMetadata(typeof(StateTextBox)));
         }
 
         protected virtual void OnStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            throw new NotImplementedException();
-        }
-
-        protected override void OnTextChanged(TextChangedEventArgs e)
-        {
-            base.OnTextChanged(e);
-            IsTextEmpty = string.IsNullOrWhiteSpace(Text);
-        }
-
-        protected virtual void OnPlaceholderFontSizeChanged(double oldValue, double newValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected virtual void OnFontFamilyChanged(FontFamily? fontFamily1, FontFamily? fontFamily2)
-        {
-            throw new NotImplementedException();
         }
 
         protected void RaiseStatusEmptiedEvent(StateTextBox container)
