@@ -7,12 +7,13 @@
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
         <Setter Property="MinWidth" Value="120"/>
         <Setter Property="MinHeight" Value="34"/>
         <Setter Property="Height" Value="38"/>
         <Setter Property="Background" Value="#eeeeee"/>
         <Setter Property="Foreground" Value="#121212"/>
+        <Setter Property="Placeholder" Value="Helloworld!"/>
         <Setter Property="BorderBrush" Value="#3399ff"/>
         <Setter Property="CornerRadius" Value="4"/>
         <Setter Property="Cursor" Value="IBeam"/>
@@ -43,44 +44,16 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-    
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
 
-                        <ContentPresenter
-                            Name="PART_CaptionHost"
-                            Grid.Row="0"
-                            Margin="0,0,0,6"
-                            Cursor="Arrow"
-
-                            TextElement.FontFamily="{TemplateBinding FontFamily}"
-                            TextElement.FontWeight="{TemplateBinding FontWeight}"
-                            TextElement.Foreground="{TemplateBinding Foreground}"/>
-
-                        <Border
-                            Grid.Row="1"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="Transparent"
-                            BorderThickness="0">
-                            <!--<Border.Height>
-                                <MultiBinding Converter="{StaticResource TextFieldHeightConverter}">
-                                    --><!--<Binding RelativeSource="{RelativeSource AncestorType={x:Type local:TextField}}"/>--><!--
-                                    <Binding ElementName="PART_ContainerGrid"/>
-                                </MultiBinding>
-                            </Border.Height>-->
+                        <Border CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}" BorderThickness="0">
                             <Grid>
-                                <Border
-                                    Name="PART_UnderlineBorder"
-                                    VerticalAlignment="Bottom"
-                                    Height="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=ActualHeight}"
-                                    Width="{TemplateBinding ActualWidth}"
-                                    CornerRadius="{TemplateBinding CornerRadius}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="0,0,0,4"
-                                    RenderTransformOrigin="0.5,0.5">
+                                <Border Name="PART_UnderlineBorder" VerticalAlignment="Bottom"
+                                        Height="{Binding RelativeSource={RelativeSource AncestorType=Border}, Path=ActualHeight}"
+                                        Width="{TemplateBinding ActualWidth}"
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="0,0,0,4"
+                                        RenderTransformOrigin="0.5,0.5">
                                     <Border.RenderTransform>
                                         <ScaleTransform x:Name="UnderlineScaleTransform" ScaleX="0" ScaleY="1"/>
                                     </Border.RenderTransform>
@@ -89,22 +62,25 @@
                                     </Border.LayoutTransform>
                                 </Border>
 
-                                <ScrollViewer
-                                    Name="PART_ContentHost"
-                                    Margin="{TemplateBinding Padding}"/>
+                                <ScrollViewer Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+
+                                <Label x:Name="Placeholder" Visibility="Collapsed"
+                                       Content="{Binding Placeholder, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                       Margin="3" FontSize="{Binding PlaceholderFontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                       Opacity="0.5"/>
                             </Grid>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.64" TargetName="PART_ContentHost"/>
-                        </Trigger>
-                        <!--<Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter
-                                Property="TextElement.Foreground"
-                                Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:TextField}}, Path=BorderBrush }"
-                                TargetName="PART_CaptionHost"/>
-                        </Trigger>-->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsKeyboardFocused" Value="False" />
+                                <Condition Property="Text" Value="" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible" TargetName="Placeholder"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
