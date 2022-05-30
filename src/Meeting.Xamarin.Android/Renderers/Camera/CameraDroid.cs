@@ -8,7 +8,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using MeetingXamarin.Renderers;
+using Meeting.Xamarin.Renderers;
 using Java.Lang;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 using Xamarin.Forms;
 using Size = Android.Util.Size;
 
-namespace MeetingXamarin.Droid.Renderers.Camera
+namespace Meeting.Xamarin.Droid.Renderers.Camera
 {
 	public class CameraDroid : FrameLayout, TextureView.ISurfaceTextureListener
 	{

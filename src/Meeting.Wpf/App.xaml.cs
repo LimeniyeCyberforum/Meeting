@@ -1,13 +1,14 @@
 ﻿using Grpc.Net.Client;
-using GrpcCommon;
-using MeetingGrpcClient;
-using MeetingWPF.Windows;
+using Meeting.Business.GrpcClient;
+using Meeting.WPF.Windows;
 using System;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows;
+using MeetingClient = MeetingGrpc.Protos.Meeting.MeetingClient;
 
-namespace MeetingWPF
+
+namespace Meeting.WPF
 {
     public partial class App : Application
     {
@@ -32,7 +33,7 @@ namespace MeetingWPF
 
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel(new MeetingService(new Meeting.MeetingClient(channel)))
+                DataContext = new MainViewModel(new MeetingService(new MeetingClient(channel)))
             };
             MainWindow.Show();
         }

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MeetingWPF.Connect
+namespace Meeting.WPF.Connect
 {
     public partial class ConnectUserControl : UserControl
     {

@@ -3,7 +3,7 @@ using Android.Util;
 using Android.Views;
 using Java.Lang;
 
-namespace MeetingXamarin.Droid.Renderers.Camera
+namespace Meeting.Xamarin.Droid.Renderers.Camera
 {
 	public class CameraTextureView : TextureView
 	{

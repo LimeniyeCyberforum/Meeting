@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace MeetingWPF.Converters
+namespace Meeting.WPF.Converters
 {
     public class BrushToColorConverter : IValueConverter
     {

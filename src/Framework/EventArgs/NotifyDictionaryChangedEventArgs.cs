@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Common.EventArgs
+namespace Framework.EventArgs
 {
     public enum NotifyDictionaryChangedAction
     {

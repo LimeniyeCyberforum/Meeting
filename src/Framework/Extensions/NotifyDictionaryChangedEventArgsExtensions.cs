@@ -1,10 +1,10 @@
-﻿using Common.EventArgs;
+﻿using Framework.EventArgs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Common.Extensions
+namespace Framework.Extensions
 {
     public static class NotifyDictionaryChangedEventArgsExtensions
     {

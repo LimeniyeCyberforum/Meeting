@@ -1,10 +1,10 @@
-﻿using Common.EventArgs;
-using Common.Extensions;
-using MeetingCommon.DataTypes;
+﻿using Framework.EventArgs;
+using Framework.Extensions;
+using Meeting.Business.Common.DataTypes;
 using System;
 using System.Collections.Generic;
 
-namespace MeetingCommon.Abstractions.Messanger
+namespace Meeting.Business.Common.Abstractions.Messanger
 {
     public abstract partial class MessageServiceAbstract
     {

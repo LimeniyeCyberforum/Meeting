@@ -5,15 +5,15 @@ using Android.Graphics;
 using Android.OS;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
-using MeetingXamarin.Droid.Renderers.Camera;
-using MeetingXamarin.Renderers;
+using Meeting.Xamarin.Droid.Renderers.Camera;
+using Meeting.Xamarin.Renderers;
 using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(CameraView), typeof(CameraViewServiceRenderer))]
-namespace MeetingXamarin.Droid.Renderers.Camera
+namespace Meeting.Xamarin.Droid.Renderers.Camera
 {
 	public class CameraViewServiceRenderer : ViewRenderer<CameraView, CameraDroid>
 	{

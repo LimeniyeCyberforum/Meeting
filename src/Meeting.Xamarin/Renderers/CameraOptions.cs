@@ -1,4 +1,4 @@
-﻿namespace MeetingXamarin.Renderers
+﻿namespace Meeting.Xamarin.Renderers
 {
 	public enum CameraOptions
 	{

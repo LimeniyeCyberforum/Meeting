@@ -1,10 +1,10 @@
-﻿using MeetingCommon.Abstractions.CameraCapture;
-using MeetingCommon.Abstractions.Messanger;
-using MeetingCommon.DataTypes;
+﻿using Meeting.Business.Common.Abstractions.CameraCapture;
+using Meeting.Business.Common.Abstractions.Messanger;
+using Meeting.Business.Common.DataTypes;
 using System;
 using System.Threading.Tasks;
 
-namespace MeetingCommon.Abstractions
+namespace Meeting.Business.Common.Abstractions
 {
     public enum ConnectionAction
     {

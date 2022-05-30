@@ -1,7 +1,7 @@
 ﻿using Android.Media;
 using System;
 
-namespace MeetingXamarin.Droid.Renderers.Camera
+namespace Meeting.Xamarin.Droid.Renderers.Camera
 {
 	public class ImageAvailableListener : Java.Lang.Object, ImageReader.IOnImageAvailableListener
 	{

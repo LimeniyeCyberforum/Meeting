@@ -1,6 +1,6 @@
 ﻿using Android.Hardware.Camera2;
 
-namespace MeetingXamarin.Droid.Renderers.Camera
+namespace Meeting.Xamarin.Droid.Renderers.Camera
 {
 	public class CameraStateListener : CameraDevice.StateCallback
 	{

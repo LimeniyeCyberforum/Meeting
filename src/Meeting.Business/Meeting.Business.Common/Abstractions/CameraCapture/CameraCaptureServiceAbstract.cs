@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MeetingCommon.Abstractions.CameraCapture
+namespace Meeting.Business.Common.Abstractions.CameraCapture
 {
     public delegate void CameraFrameChangedHandler(object sender, Guid userGuid, byte[] frameBytes);
 

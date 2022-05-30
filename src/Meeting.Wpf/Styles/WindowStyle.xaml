@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:attachedProperties="clr-namespace:MeetingWPF.AttachedProperties"
-                    xmlns:converters="clr-namespace:MeetingWPF.Converters">
+                    xmlns:attachedProperties="clr-namespace:Meeting.WPF.AttachedProperties"
+                    xmlns:converters="clr-namespace:Meeting.WPF.Converters">
 
     <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
 

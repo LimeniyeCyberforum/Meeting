@@ -1,9 +1,9 @@
-﻿using MeetingCommon.DataTypes;
+﻿using Meeting.Business.Common.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace MeetingCommon.Abstractions.Messanger
+namespace Meeting.Business.Common.Abstractions.Messanger
 {
     public abstract partial class MessageServiceAbstract
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MeetingWPF.Chat
+namespace Meeting.WPF.Chat
 {
     public enum MessageStatus
     {

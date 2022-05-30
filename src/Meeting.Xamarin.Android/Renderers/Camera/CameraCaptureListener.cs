@@ -1,7 +1,7 @@
 ﻿using Android.Hardware.Camera2;
 using System;
 
-namespace MeetingXamarin.Droid.Renderers.Camera
+namespace Meeting.Xamarin.Droid.Renderers.Camera
 {
 	public class CameraCaptureListener : CameraCaptureSession.CaptureCallback
 	{

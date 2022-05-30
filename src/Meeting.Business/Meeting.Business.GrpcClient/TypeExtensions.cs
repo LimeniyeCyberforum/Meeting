@@ -1,8 +1,8 @@
-﻿using GrpcCommon;
-using MeetingCommon.DataTypes;
+﻿using Meeting.Business.Common.DataTypes;
+using MeetingGrpc.Protos;
 using System;
 
-namespace MeetingGrpcClient
+namespace Meeting.Business.GrpcClient
 {
     internal static class TypeExtensions
     {

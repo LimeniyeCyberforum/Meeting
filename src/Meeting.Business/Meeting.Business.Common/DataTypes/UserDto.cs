@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MeetingCommon.DataTypes
+namespace Meeting.Business.Common.DataTypes
 {
     public class UserDto : IEquatable<UserDto>
     {

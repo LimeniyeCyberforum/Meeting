@@ -1,11 +1,10 @@
-﻿using Common.EventArgs;
+﻿using Framework.EventArgs;
 using Grpc.Core;
 using Grpc.Net.Client;
 using Grpc.Net.Client.Web;
-using GrpcCommon;
-using MeetingCommon.Abstractions;
-using MeetingCommon.DataTypes;
-using MeetingGrpcClient;
+using Meeting.Business.Common.Abstractions;
+using Meeting.Business.Common.DataTypes;
+using Meeting.Business.GrpcClient;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -15,8 +14,10 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using MeetingClient = MeetingGrpc.Protos.Meeting.MeetingClient;
 
-namespace MeetingXamarin
+
+namespace Meeting.Xamarin
 {
     public partial class MainPage : ContentPage
     {
@@ -72,7 +73,7 @@ namespace MeetingXamarin
             var gpTest = new HttpClient(handler);
 
 
-            MeetingServiceAbstract = new MeetingService(new Meeting.MeetingClient(ToAuthChannel(gpTest, BaseUri)));
+            MeetingServiceAbstract = new MeetingService(new MeetingClient(ToAuthChannel(gpTest, BaseUri)));
             MeetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
             _currentUser = MeetingServiceAbstract.Connect("limeniye_mobile");
         }
@@ -112,13 +113,13 @@ namespace MeetingXamarin
         }
 
 
-        private void OnConnectionStateChanged(object sender, (ConnectionAction Action, MeetingCommon.DataTypes.UserDto User) e)
+        private void OnConnectionStateChanged(object sender, (ConnectionAction Action, Meeting.Business.Common.DataTypes.UserDto User) e)
         {
             MeetingServiceAbstract.MessageService.MessagesChanged += OnMessagesChanged;
             MeetingServiceAbstract.MessageService.ChatSubscribeAsync();
         }
 
-        private void OnMessagesChanged(object sender, Common.EventArgs.NotifyDictionaryChangedEventArgs<Guid, MeetingCommon.DataTypes.MessageDto> e)
+        private void OnMessagesChanged(object sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, Meeting.Business.Common.DataTypes.MessageDto> e)
         {
             var newValue = e.NewValue;
             var oldValue = e.OldValue;

@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace MeetingXamarin.Renderers
+namespace Meeting.Xamarin.Renderers
 {
 	public class CameraView : View
 	{

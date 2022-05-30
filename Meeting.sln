@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meeting.Business.Common", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingGrpc.Protos", "src\Meeting.Business\meeting-backend\src\MeetingServer.Grpc\MeetingGrpc.Protos\MeetingGrpc.Protos.csproj", "{B0381920-B50A-4F8D-8C40-9834ACDB0C4F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grpc", "grpc", "{30DB221C-8EBF-467D-B48D-66D5776471C0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GrpcClient", "GrpcClient", "{30DB221C-8EBF-467D-B48D-66D5776471C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meeting.Business.GrpcClient", "src\Meeting.Business\Meeting.Business.GrpcClient\Meeting.Business.GrpcClient.csproj", "{6CC8F9D3-E5FA-4824-B7BF-ED0D0ED33608}"
 EndProject

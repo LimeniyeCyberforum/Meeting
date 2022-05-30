@@ -1,21 +1,22 @@
-﻿using Common.EventArgs;
+﻿using Framework.EventArgs;
 using Google.Protobuf.WellKnownTypes;
-using GrpcCommon;
-using MeetingCommon.Abstractions.Messanger;
+using Meeting.Business.Common.Abstractions.Messanger;
+using MeetingGrpc.Protos;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MeetingClient = MeetingGrpc.Protos.Meeting.MeetingClient;
 
-namespace MeetingGrpcClient
+namespace Meeting.Business.GrpcClient
 {
     public class MessageService : MessageServiceAbstract
     {
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
-        private readonly Meeting.MeetingClient _client;
+        private readonly MeetingClient _client;
 
-        public MessageService(Meeting.MeetingClient client)
+        public MessageService(MeetingClient client)
             : base()
         {
             _client = client;
@@ -117,7 +118,7 @@ namespace MeetingGrpcClient
 
         //        //await foreach (var response in _call.ResponseStream.ReadAllAsync())
         //        //{
-        //        //    RaiseMessagesChangedEvent(Common.EventArgs.NotifyDictionaryChangedAction.Added, new MessageDto(Guid.NewGuid(), response.Message, response.Username, response.Time.ToDateTime()));
+        //        //    RaiseMessagesChangedEvent(Framework.EventArgs.NotifyDictionaryChangedAction.Added, new MessageDto(Guid.NewGuid(), response.Message, response.Username, response.Time.ToDateTime()));
         //        //}
         //    });
         //}

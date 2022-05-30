@@ -1,9 +1,10 @@
-﻿using Common;
+﻿using Framework;
+using Framework.Delegates;
 using System;
 using System.Windows;
 
 
-namespace MeetingWPF.Controls
+namespace Meeting.WPF.Controls
 {
     public enum StatusEnum
     {

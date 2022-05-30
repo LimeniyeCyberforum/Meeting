@@ -1,24 +1,26 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-using GrpcCommon;
-using MeetingCommon.Abstractions.CameraCapture;
+using Meeting.Business.Common.Abstractions.CameraCapture;
 using System;
+using MeetingGrpc.Protos;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MeetingClient = MeetingGrpc.Protos.Meeting.MeetingClient;
 
-namespace MeetingGrpcClient
+
+namespace Meeting.Business.GrpcClient
 {
     public class CameraCaptureService : CameraCaptureServiceAbstract
     {
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
-        private readonly Meeting.MeetingClient _client;
+        private readonly MeetingClient _client;
 
         private readonly string _currentUserGuidString;
 
-        public CameraCaptureService(Meeting.MeetingClient client, Guid currentUserGuid)
+        public CameraCaptureService(MeetingClient client, Guid currentUserGuid)
             : base(currentUserGuid)
         {
             _client = client;

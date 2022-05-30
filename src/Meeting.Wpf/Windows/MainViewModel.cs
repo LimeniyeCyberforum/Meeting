@@ -1,14 +1,14 @@
-﻿using MeetingCommon.Abstractions;
-using MeetingCommon.DataTypes;
+﻿using Meeting.Business.Common.Abstractions;
+using Meeting.Business.Common.DataTypes;
 using System;
 using System.Windows;
 using System.Windows.Threading;
 using WebcamWithOpenCV;
-using MeetingWPF.Chat;
-using MeetingWPF.Connect;
+using Meeting.WPF.Chat;
+using Meeting.WPF.Connect;
 using MvvmCommon.WindowsDesktop;
 
-namespace MeetingWPF.Windows
+namespace Meeting.WPF.Windows
 {
     public class MainViewModel : BaseInpc
     {

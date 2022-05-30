@@ -1,7 +1,7 @@
-﻿using Common.EventArgs;
-using MeetingCommon.Abstractions;
-using MeetingCommon.Abstractions.Messanger;
-using MeetingCommon.DataTypes;
+﻿using Framework.EventArgs;
+using Meeting.Business.Common.Abstractions;
+using Meeting.Business.Common.Abstractions.Messanger;
+using Meeting.Business.Common.DataTypes;
 using MvvmCommon.WindowsDesktop;
 using System;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace MeetingWPF.Chat
+namespace Meeting.WPF.Chat
 {
     public class ChatViewModel : BaseInpc
     {

@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MeetingXamarin
+namespace Meeting.Xamarin
 {
     public partial class App : Application
     {

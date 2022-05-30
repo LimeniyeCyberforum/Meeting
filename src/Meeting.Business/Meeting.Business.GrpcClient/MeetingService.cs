@@ -1,23 +1,20 @@
 ﻿using Grpc.Core;
-using GrpcCommon;
-using MeetingCommon.Abstractions;
-using MeetingCommon.Abstractions.CameraCapture;
-using MeetingCommon.Abstractions.Messanger;
-using MeetingCommon.DataTypes;
+using Meeting.Business.Common.Abstractions;
+using Meeting.Business.Common.DataTypes;
+using MeetingGrpc.Protos;
 using System;
 using System.IO;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
+using MeetingClient = MeetingGrpc.Protos.Meeting.MeetingClient;
 
-namespace MeetingGrpcClient
+namespace Meeting.Business.GrpcClient
 {
     public class MeetingService : MeetingServiceAbstract
     {
-        private readonly Meeting.MeetingClient _client;
+        private readonly MeetingClient _client;
         //private readonly GrpcChannel _channel;
 
-        public MeetingService(Meeting.MeetingClient client)
+        public MeetingService(MeetingClient client)
         {
             var secure = false;
 
@@ -47,7 +44,7 @@ namespace MeetingGrpcClient
                 // Client authentication is an option. You can remove it as follows if you only need SSL.
                 var credentials = new SslCredentials(serverCACert);
 
-                _client = new Meeting.MeetingClient(
+                _client = new MeetingClient(
                     new Channel("0.0.0.0", 7129, credentials)); //7129
 
 

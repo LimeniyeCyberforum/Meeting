@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MeetingCommon.Abstractions.Messanger
+namespace Meeting.Business.Common.Abstractions.Messanger
 {
     public abstract partial class MessageServiceAbstract
     {
