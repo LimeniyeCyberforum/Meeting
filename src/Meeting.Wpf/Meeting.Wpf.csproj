@@ -51,10 +51,11 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MeetingCommon\MeetingCommon.csproj" />
-    <ProjectReference Include="..\MeetingGrpcClient\MeetingGrpcClient.csproj" />
-    <ProjectReference Include="..\MeetingWPF.Controls\MeetingWPF.Controls.csproj" />
-    <ProjectReference Include="..\MvvmCommon.WindowsDesktop\MvvmCommon.WindowsDesktop.csproj" />
+    <ProjectReference Include="..\Framework\Framework.csproj" />
+    <ProjectReference Include="..\Meeting.Business\Meeting.Business.Common\Meeting.Business.Common.csproj" />
+    <ProjectReference Include="..\Meeting.Business\Meeting.Business.GrpcClient\Meeting.Business.GrpcClient.csproj" />
+    <ProjectReference Include="..\Meeting.WPF.Controls\Meeting.WPF.Controls.csproj" />
+    <ProjectReference Include="..\Toolkit.WindowsDesktop\Toolkit.WindowsDesktop.csproj" />
   </ItemGroup>
 
 </Project>

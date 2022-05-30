@@ -94,13 +94,13 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MeetingCommon\MeetingCommon.csproj">
-      <Project>{A14E4F17-1B44-4AA5-97B8-53698FD1262E}</Project>
-      <Name>MeetingCommon</Name>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{aa9753c8-7442-4a33-b4de-e4b99a11e72f}</Project>
+      <Name>Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MeetingXamarin\MeetingXamarin.csproj">
-      <Project>{A7F6302F-F9FE-4368-B5B4-1E9233A80456}</Project>
-      <Name>MeetingXamarin</Name>
+    <ProjectReference Include="..\Meeting.Xamarin\Meeting.Xamarin.csproj">
+      <Project>{4e684d2f-b326-4db1-a91c-38704a81ace3}</Project>
+      <Name>Meeting.Xamarin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

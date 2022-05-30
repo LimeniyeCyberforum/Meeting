@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MeetingCommon\MeetingCommon.csproj" />
-    <ProjectReference Include="..\..\MeetingGrpcClient\MeetingGrpcClient.csproj" />
+    <ProjectReference Include="..\Framework\Framework.csproj" />
+    <ProjectReference Include="..\Meeting.Business\Meeting.Business.GrpcClient\Meeting.Business.GrpcClient.csproj" />
   </ItemGroup>
+
 </Project>

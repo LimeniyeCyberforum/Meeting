@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj" />
-    <ProjectReference Include="..\GrpcCommon\GrpcCommon.csproj" />
-    <ProjectReference Include="..\MeetingCommon\MeetingCommon.csproj" />
+    <ProjectReference Include="..\..\Framework\Framework.csproj" />
+    <ProjectReference Include="..\meeting-backend\src\MeetingServer.Grpc\MeetingGrpc.Protos\MeetingGrpc.Protos.csproj" />
+    <ProjectReference Include="..\Meeting.Business.Common\Meeting.Business.Common.csproj" />
   </ItemGroup>
 
 </Project>
