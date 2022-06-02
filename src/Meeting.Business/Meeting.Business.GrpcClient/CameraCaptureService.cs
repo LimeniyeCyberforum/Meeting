@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MeetingClient = MeetingGrpc.Protos.Meeting.MeetingClient;
+using FrameCaptureClient = MeetingGrpc.Protos.FrameCapture.FrameCaptureClient;
 
 
 namespace Meeting.Business.GrpcClient
@@ -16,11 +16,11 @@ namespace Meeting.Business.GrpcClient
     {
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
-        private readonly MeetingClient _client;
+        private readonly FrameCaptureClient _client;
 
         private readonly string _currentUserGuidString;
 
-        public CameraCaptureService(MeetingClient client, Guid currentUserGuid)
+        public CameraCaptureService(FrameCaptureClient client, Guid currentUserGuid)
             : base(currentUserGuid)
         {
             _client = client;
@@ -29,24 +29,26 @@ namespace Meeting.Business.GrpcClient
 
         public override async Task SendOwnCameraCaptureAsync(Stream stream)
         {
-            await _client.SendCameraFrameAsync(new CameraCapture()
-            {
-                UserGuid = _currentUserGuidString,
-                CaptureFrame = ByteString.FromStream(stream)
-            });
+            //await _client.SendCameraFrameAsync(new CameraCapture()
+            //{
+            //    UserGuid = _currentUserGuidString,
+            //    CaptureFrame = ByteString.FromStream(stream)
+            //});
         }
 
         public override Task UsersCameraCaptureSubscribeAsync()
         {
-            var call = _client.CameraCaptureSubscribe(new Empty());
+            //var call = _client.CameraCaptureSubscribe(new Empty());
 
-            return call.ResponseStream
-                .ToAsyncEnumerable()
-                .Finally(() => call.Dispose())
-                .ForEachAsync((x) =>
-                { 
-                    RaiseCameraFrameChangedAction(Guid.Parse(x.UserGuid), x.CaptureFrame.ToByteArray());
-                }, chatCancelationToken.Token);
+            //return call.ResponseStream
+            //    .ToAsyncEnumerable()
+            //    .Finally(() => call.Dispose())
+            //    .ForEachAsync((x) =>
+            //    { 
+            //        RaiseCameraFrameChangedAction(Guid.Parse(x.UserGuid), x.CaptureFrame.ToByteArray());
+            //    }, chatCancelationToken.Token);
+
+            return null;
         }
 
         public override Task UsersCameraCaptureUnsubscribeAsync()

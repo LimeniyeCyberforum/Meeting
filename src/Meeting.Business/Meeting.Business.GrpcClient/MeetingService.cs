@@ -5,121 +5,64 @@ using MeetingGrpc.Protos;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using MeetingClient = MeetingGrpc.Protos.Meeting.MeetingClient;
+using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
 
 namespace Meeting.Business.GrpcClient
 {
     public class MeetingService : MeetingServiceAbstract
     {
-        private readonly MeetingClient _client;
+        private readonly AuthorizationClient _client;
         //private readonly GrpcChannel _channel;
 
-        public MeetingService(MeetingClient client)
+        public MeetingService(AuthorizationClient client)
         {
-            var secure = false;
-
-            if (secure)
-            {
-                //var httpHandler = new HttpClientHandler();
-
-                // Here you can disable validation for server certificate for your easy local test
-                // See https://docs.microsoft.com/en-us/aspnet/core/grpc/troubleshoot#call-a-grpc-service-with-an-untrustedinvalid-certificate
-                //httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-
-                //_client = new Meeting.MeetingClient(GrpcChannel.ForAddress("https://localhost:50052", new GrpcChannelOptions { HttpHandler = httpHandler }));
-
-                //    var httpHandler = new HttpClientHandler();
-                //    httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-
-                //    using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
-                //    _client = new GrpsServer.Messanger.MessangerClient(channel);
-
-
-                var serverCACert = File.ReadAllText(@"C:\localhost_server.crt");
-                var clientCert = File.ReadAllText(@"C:\localhost_client.crt");
-                var clientKey = File.ReadAllText(@"C:\localhost_clientkey.pem");
-                var keyPair = new KeyCertificatePair(clientCert, clientKey);
-                //var credentials = new SslCredentials(serverCACert, keyPair);
-
-                // Client authentication is an option. You can remove it as follows if you only need SSL.
-                var credentials = new SslCredentials(serverCACert);
-
-                _client = new MeetingClient(
-                    new Channel("0.0.0.0", 7129, credentials)); //7129
-
-
-            }
-            else
-            {
-                //var httpHandler = new HttpClientHandler();
-                _client = client;
-
-                try
-                {
-                    //httpHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
-
-                    ////ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
-                    //AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-                    //AppContext.SetSwitch("System.Net.SocketsHttpHandler.Http3Support", true);
-                    //ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
-
-                    //var channel = GrpcChannel.ForAddress("https://localhost:7129", new GrpcChannelOptions { HttpHandler = httpHandler });
-
-                    //_client = new Meeting.MeetingClient(channel);
-
-
-                    //var channel = GrpcChannel.ForAddress(new Uri("https://localhost:7129"));
-                    //_client = new Meeting.MeetingClient(channel);
-                }
-                catch(Exception ex)
-                {
-
-                }
-
-            }
+            _client = client;
         }
 
         public override UserDto Connect(string username)
         {
-            var result = _client.Connect(new ConnectRequest()
-            {
-                Username = username
-            });
+            //var result = _client.Connect(new ConnectRequest()
+            //{
+            //    Username = username
+            //});
 
-            if (!result.IsSuccessfully)
-                throw new ArgumentException(result.ErrorMessage);
+            //if (!result.IsSuccessfully)
+            //    throw new ArgumentException(result.ErrorMessage);
 
-            Guid userGuid = Guid.Parse(result.Guid);
-            var user = new UserDto(userGuid, username);
+            //Guid userGuid = Guid.Parse(result.Guid);
+            //var user = new UserDto(userGuid, username);
 
-            Initialize(userGuid, user);
+            //Initialize(userGuid, user);
 
-            return user;
+            //return user;
+
+            return null;
         }
 
         public override async Task<UserDto> ConnectAsync(string username)
         {
-            var result = await _client.ConnectAsync(new ConnectRequest()
-            {
-                Username = username
-            });
+            //var result = await _client.ConnectAsync(new ConnectRequest()
+            //{
+            //    Username = username
+            //});
 
-            if (!result.IsSuccessfully)
-                throw new ArgumentException(result.ErrorMessage);
+            //if (!result.IsSuccessfully)
+            //    throw new ArgumentException(result.ErrorMessage);
 
-            Guid userGuid = Guid.Parse(result.Guid);
-            var user = new UserDto(userGuid, username);
+            //Guid userGuid = Guid.Parse(result.Guid);
+            //var user = new UserDto(userGuid, username);
 
-            Initialize(userGuid, user);
+            //Initialize(userGuid, user);
 
-            return user;
+            //return user;
+
+            return null;
         }
 
         private void Initialize(Guid currentUserGuid, UserDto user)
         {
-            MessageService = new MessageService(_client);
-            CameraCaptureService = new CameraCaptureService(_client, currentUserGuid);
+            //MessageService = new MessageService(_client);
+            //CameraCaptureService = new CameraCaptureService(_client, currentUserGuid);
             RaiseConnectionStateChangedAction(ConnectionAction.Connected, user);
         }
     }

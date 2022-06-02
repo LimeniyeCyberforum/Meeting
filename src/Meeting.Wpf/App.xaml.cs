@@ -31,6 +31,9 @@ namespace Meeting.WPF
             };
             var channel = GrpcChannel.ForAddress("https://3.72.127.66:5010/", channelOptions);
 
+            //var test = new MeetingClient(channel);
+            //var res = test.Connect(new MeetingGrpc.Protos.ConnectRequest { Username = "asf"});
+
             MainWindow = new MainWindow()
             {
                 DataContext = new MainViewModel(new MeetingService(new MeetingClient(channel)))

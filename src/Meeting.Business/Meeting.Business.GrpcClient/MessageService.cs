@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MeetingClient = MeetingGrpc.Protos.Meeting.MeetingClient;
+using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
 
 namespace Meeting.Business.GrpcClient
 {
@@ -14,9 +14,9 @@ namespace Meeting.Business.GrpcClient
     {
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
-        private readonly MeetingClient _client;
+        private readonly ChatClient _client;
 
-        public MessageService(MeetingClient client)
+        public MessageService(ChatClient client)
             : base()
         {
             _client = client;
@@ -49,7 +49,7 @@ namespace Meeting.Business.GrpcClient
             _client.SendMessage(new MessageRequest()
             {
                 MessageGuid = messageGuid.ToString(),
-                UserGuid = userGuid.ToString(),
+                //UserGuid = userGuid.ToString(),
                 Message = message
             });
         }
@@ -59,7 +59,7 @@ namespace Meeting.Business.GrpcClient
             await _client.SendMessageAsync(new MessageRequest() 
             {
                 MessageGuid = messageGuid.ToString(),
-                UserGuid = userGuid.ToString(),
+                //UserGuid = userGuid.ToString(),
                 Message = message
             });
         }
