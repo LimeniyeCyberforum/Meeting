@@ -7,15 +7,8 @@ namespace Meeting.Business.Common.Abstractions.FrameCapture
 {
     public abstract class FrameCaptureServiceAbstract
     {
-        public Guid CurrentUserGuid { get; }
-
         public event EventHandler<FrameCaptureEventArgs> FrameCaptureChanged;
         public event EventHandler<FrameCaptureStateEventArgs> FrameCaptureStateChanged;
-
-        public FrameCaptureServiceAbstract(Guid currentUserGuid)
-        {
-            CurrentUserGuid = currentUserGuid;
-        }
 
         protected void RaiseFrameCaptureChangedAction(Guid frameAreaGuid, byte[] frameBytes, DateTime dateTime)
         {
