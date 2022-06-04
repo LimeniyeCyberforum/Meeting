@@ -1,5 +1,6 @@
 ﻿using Meeting.Business.Common.EventArgs;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -7,6 +8,8 @@ namespace Meeting.Business.Common.Abstractions.FrameCapture
 {
     public abstract class FrameCaptureServiceAbstract
     {
+        public IReadOnlyList<Guid> ActiveFrameCaptures { get; }
+
         public event EventHandler<FrameCaptureEventArgs> FrameCaptureChanged;
         public event EventHandler<FrameCaptureStateEventArgs> FrameCaptureStateChanged;
 
@@ -20,10 +23,10 @@ namespace Meeting.Business.Common.Abstractions.FrameCapture
             FrameCaptureStateChanged?.Invoke(this, new FrameCaptureStateEventArgs(frameAreaGuid, newStateIsOn));
         }
 
-        public abstract Task SendOwnCameraFrameAsync(Stream stream);
+        public abstract Task SendOwnCameraFrameAsync(byte stream);
 
-        public abstract Task UsersCameraCaptureSubscribeAsync();
+        public abstract Task FrameCapturesSubscribeAsync();
 
-        public abstract Task UsersCameraCaptureUnsubscribeAsync();
+        public abstract Task FrameCapturesUnsubscribeAsync();
     }
 }
