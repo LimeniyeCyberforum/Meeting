@@ -11,6 +11,7 @@ namespace Meeting.Business.Common.Abstractions.Users
     public class UsersService
     {
         protected readonly Dictionary<Guid, UserDto> users = new Dictionary<Guid, UserDto>();
+
         private int messagesChangedSyncNumber = 0;
 
         public IReadOnlyDictionary<Guid, UserDto> Users { get; }
