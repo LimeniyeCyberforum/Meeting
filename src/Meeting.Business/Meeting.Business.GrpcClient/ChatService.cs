@@ -1,6 +1,7 @@
 ﻿using Framework.EventArgs;
 using Google.Protobuf.WellKnownTypes;
 using Meeting.Business.Common.Abstractions.Chat;
+using Meeting.Business.Common.DataTypes;
 using MeetingGrpc.Protos;
 using System;
 using System.Linq;
@@ -28,13 +29,24 @@ namespace Meeting.Business.GrpcClient
 
             return call.ResponseStream
                 .ToAsyncEnumerable()
-                .Finally(() =>
-                {
-                    call.Dispose();
-                })
+                .Finally(() => call.Dispose())
                 .ForEachAsync((x) =>
                 {
-                    RaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Added, x.ToMessageDto());
+                    MessageDto message = new(Guid.Parse(x.LobbyMessage.MessageGuid), Guid.Parse(x.LobbyMessage.UserGuid), x.LobbyMessage.Username, x.LobbyMessage.MessageGuid, x.LobbyMessage.Time.ToDateTime());
+                    switch (x.Action)
+                    {
+                        case MeetingGrpc.Protos.Action.Added:
+                            SmartRaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Added, message);
+                            break;
+                        case MeetingGrpc.Protos.Action.Removed:
+                            SmartRaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Removed, message);
+                            break;
+                        case MeetingGrpc.Protos.Action.Changed:
+                            SmartRaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Changed, message);
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
 
                 }, chatCancelationToken.Token);
         }
