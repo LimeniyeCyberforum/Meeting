@@ -16,17 +16,20 @@ namespace Meeting.Business.Common.Abstractions.Users
 
         public IReadOnlyDictionary<Guid, UserDto> Users { get; }
 
+        public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, UserDto>> UsersChanged;
+
         public UsersServiceAbstract()
         {
             Users = new ReadOnlyDictionary<Guid, UserDto>(users);
         }
 
-        public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, UserDto>> UsersChanged;
+        public abstract void UsersSubscribe();
 
+        public abstract void UsersUnsubscribe();
 
         /// <summary>
         /// The method automaticty changes the dictionary from action and raises notification
-        /// </summary>
+        /// </summary>>
         protected void SmartRaiseUsersChangedEvent(NotifyDictionaryChangedAction action, UserDto newUser = null, UserDto oldUser = null)
         {
             switch (action)
