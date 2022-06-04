@@ -44,7 +44,7 @@ namespace Meeting.Business.GrpcClient
             throw new NotImplementedException();
         }
 
-        public override void SendMessage(Guid messageGuid, Guid userGuid, string message)
+        public override void SendMessage(Guid messageGuid, string message)
         {
             _client.SendMessage(new MessageRequest()
             {
@@ -54,7 +54,7 @@ namespace Meeting.Business.GrpcClient
             });
         }
 
-        public override async Task SendMessageAsync(Guid messageGuid, Guid userGuid, string message)
+        public override async Task SendMessageAsync(Guid messageGuid, string message)
         {
             await _client.SendMessageAsync(new MessageRequest() 
             {

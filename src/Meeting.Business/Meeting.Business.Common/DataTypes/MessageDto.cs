@@ -6,7 +6,6 @@ namespace Meeting.Business.Common.DataTypes
     {
         public Guid Guid { get; }
 
-        // TODO : Temporary
         public Guid UserGuid { get; }
 
         public string Message { get; }
