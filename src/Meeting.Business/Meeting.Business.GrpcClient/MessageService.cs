@@ -1,6 +1,6 @@
 ﻿using Framework.EventArgs;
 using Google.Protobuf.WellKnownTypes;
-using Meeting.Business.Common.Abstractions.Messanger;
+using Meeting.Business.Common.Abstractions.Chat;
 using MeetingGrpc.Protos;
 using System;
 using System.Linq;
@@ -10,7 +10,7 @@ using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
 
 namespace Meeting.Business.GrpcClient
 {
-    public class MessageService : MessageServiceAbstract
+    public class MessageService : ChatServiceAbstract
     {
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
@@ -66,7 +66,7 @@ namespace Meeting.Business.GrpcClient
 
         //private AsyncDuplexStreamingCall<MessageRequest, MessageReplay> _call;
         //private AsyncDuplexStreamingCall<CameraCaptureTest, CameraCaptureTest> _call2;
-        //private GrpsServer.Messanger.MessangerClient _client;
+        //private GrpsServer.Chat.MessangerClient _client;
 
         //public override void SendMessage(Guid guid, string username, string message)
         //{
@@ -104,7 +104,7 @@ namespace Meeting.Business.GrpcClient
         //    httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
 
         //    using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
-        //    _client = new GrpsServer.Messanger.MessangerClient(channel);
+        //    _client = new GrpsServer.Chat.MessangerClient(channel);
         //    _call = _client.MessageStream();
         //    _call2 = _client.CameraCaptureStream();
 

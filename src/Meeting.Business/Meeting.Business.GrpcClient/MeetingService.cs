@@ -1,22 +1,44 @@
-﻿using Grpc.Core;
-using Meeting.Business.Common.Abstractions;
+﻿using Grpc.Net.Client;
 using Meeting.Business.Common.DataTypes;
-using MeetingGrpc.Protos;
 using System;
-using System.IO;
 using System.Threading.Tasks;
+
+using Meeting.Business.Common.Abstractions.Authorization;
+using Meeting.Business.Common.Abstractions.Users;
+using Meeting.Business.Common.Abstractions.Chat;
+using Meeting.Business.Common.Abstractions.FrameCapture;
+
 using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
+using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
+using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
+using FrameCapture = MeetingGrpc.Protos.FrameCapture.FrameCaptureClient;
+
 
 namespace Meeting.Business.GrpcClient
 {
-    public class MeetingService : MeetingServiceAbstract
+    public class MeetingService //: MeetingServiceAbstract
     {
-        private readonly AuthorizationClient _client;
+        //private readonly AuthorizationClient _client;
         //private readonly GrpcChannel _channel;
 
-        public MeetingService(AuthorizationClient client)
+        public AuthorizationServiceAbstract Authorization { get; }
+        public UsersServiceAbstract Users { get; }
+        public ChatServiceAbstract Chat { get; }
+        public FrameCaptureServiceAbstract FrameCaptures { get; }
+
+        public MeetingService()
         {
-            _client = client;
+            var channel = GrpcChannel.ForAddress("https://localhost:5010/"/*, channelOptions*/);
+
+            var authClient = new AuthorizationClient(channel);
+            var users = new UsersClient(channel);
+            var chatClient = new ChatClient(channel);
+            var frameCaptures = new FrameCapture(channel);
+
+
+           
+
+            var reply = chatClient.SendMessage(new MessageRequest { Message = "Hello world!", MessageGuid = Guid.NewGuid().ToString() }, metadata);
         }
 
         public override UserDto Connect(string username)

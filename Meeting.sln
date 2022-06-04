@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meeting.Xamarin", "src\Meet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meeting.Xamarin.Android", "src\Meeting.Xamarin.Android\Meeting.Xamarin.Android.csproj", "{C9F8FA2F-9EDD-4BCD-B2ED-1B60A2A57DE3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingGrpc.Server", "src\Meeting.Business\meeting-backend\src\MeetingServer.Grpc\MeetingGrpc.Server\MeetingGrpc.Server.csproj", "{E364F794-A5D7-497A-9918-0C3EF68C67BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{C9F8FA2F-9EDD-4BCD-B2ED-1B60A2A57DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9F8FA2F-9EDD-4BCD-B2ED-1B60A2A57DE3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C9F8FA2F-9EDD-4BCD-B2ED-1B60A2A57DE3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E364F794-A5D7-497A-9918-0C3EF68C67BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E364F794-A5D7-497A-9918-0C3EF68C67BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E364F794-A5D7-497A-9918-0C3EF68C67BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E364F794-A5D7-497A-9918-0C3EF68C67BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{EF0D8DEA-DA32-4CC0-99DE-84B3BDF19379} = {52F30133-875F-476F-8FD9-8591EFA497D3}
 		{4E684D2F-B326-4DB1-A91C-38704A81ACE3} = {32C97FFA-C585-412F-99CD-063FCE8D282D}
 		{C9F8FA2F-9EDD-4BCD-B2ED-1B60A2A57DE3} = {32C97FFA-C585-412F-99CD-063FCE8D282D}
+		{E364F794-A5D7-497A-9918-0C3EF68C67BA} = {13640C8F-0284-48D6-94ED-484EDED9F670}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C8047A6-01EE-4859-B4C5-3BBFBA57F8F0}

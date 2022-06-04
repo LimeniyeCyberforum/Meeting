@@ -1,6 +1,6 @@
 ﻿using Framework.EventArgs;
 using Meeting.Business.Common.Abstractions;
-using Meeting.Business.Common.Abstractions.Messanger;
+using Meeting.Business.Common.Abstractions.Chat;
 using Meeting.Business.Common.DataTypes;
 using MvvmCommon.WindowsDesktop;
 using System;
@@ -14,7 +14,7 @@ namespace Meeting.WPF.Chat
     public class ChatViewModel : BaseInpc
     {
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
-        private readonly MessageServiceAbstract _messageService;
+        private readonly ChatServiceAbstract _messageService;
 
         private UserDto _userDto;
 
@@ -50,7 +50,7 @@ namespace Meeting.WPF.Chat
         }
         #endregion
 
-        public ChatViewModel(MessageServiceAbstract messageService, IMeetingConnectionService meetingConnection)
+        public ChatViewModel(ChatServiceAbstract messageService, IMeetingConnectionService meetingConnection)
         {
             _messageService = messageService;
             meetingConnection.ConnectionStateChanged += OnConnectionStateChanged;

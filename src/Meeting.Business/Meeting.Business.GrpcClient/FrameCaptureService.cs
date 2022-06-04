@@ -8,19 +8,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FrameCaptureClient = MeetingGrpc.Protos.FrameCapture.FrameCaptureClient;
-
+using Meeting.Business.Common.Abstractions.FrameCapture;
 
 namespace Meeting.Business.GrpcClient
 {
-    public class CameraCaptureService : CameraCaptureServiceAbstract
+    public class FrameCaptureService : FrameCaptureServiceAbstract
     {
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
         private readonly FrameCaptureClient _client;
 
-        private readonly string _currentUserGuidString;
-
-        public CameraCaptureService(FrameCaptureClient client, Guid currentUserGuid)
+        public FrameCaptureService(FrameCaptureClient client, Guid currentUserGuid)
             : base(currentUserGuid)
         {
             _client = client;
