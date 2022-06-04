@@ -8,8 +8,4 @@
     <ProjectReference Include="..\..\Framework\Framework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Abstractions\Users\" />
-  </ItemGroup>
-
 </Project>
