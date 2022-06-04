@@ -12,7 +12,7 @@ namespace Meeting.Business.Common.Abstractions.Authorization
 
     public abstract class AuthorizationServiceAbstract
     {
-        public UserDto CurrentUser { get; }
+        public UserDto CurrentUser { get; protected set;  }
 
         public UserConnectionState CurrentConnectionState { get; protected set; }
 
