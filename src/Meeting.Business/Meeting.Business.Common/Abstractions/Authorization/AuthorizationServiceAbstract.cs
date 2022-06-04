@@ -6,8 +6,8 @@ namespace Meeting.Business.Common.Abstractions.Authorization
 {
     public enum UserConnectionState
     {
-        InTheLobby,
-        OutTheLobby
+        Connected,
+        Disconnected
     }
 
     public abstract class AuthorizationServiceAbstract
