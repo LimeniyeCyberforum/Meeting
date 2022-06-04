@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Meeting.Business.Common.Abstractions.Messanger
+namespace Meeting.Business.Common.Abstractions.Chat
 {
-    public abstract partial class MessageServiceAbstract
+    public abstract partial class ChatServiceAbstract
     {
         public abstract void SendMessage(Guid messageGuid, string message);
 

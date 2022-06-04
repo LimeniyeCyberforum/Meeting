@@ -4,9 +4,9 @@ using Meeting.Business.Common.DataTypes;
 using System;
 using System.Collections.Generic;
 
-namespace Meeting.Business.Common.Abstractions.Messanger
+namespace Meeting.Business.Common.Abstractions.Chat
 {
-    public abstract partial class MessageServiceAbstract
+    public abstract partial class ChatServiceAbstract
     {
         public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, MessageDto>> MessagesChanged;
 
