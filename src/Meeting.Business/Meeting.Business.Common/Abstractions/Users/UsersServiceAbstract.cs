@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Meeting.Business.Common.Abstractions.Users
 {
@@ -23,7 +24,7 @@ namespace Meeting.Business.Common.Abstractions.Users
             Users = new ReadOnlyDictionary<Guid, UserDto>(users);
         }
 
-        public abstract void UsersSubscribe();
+        public abstract Task UsersSubscribe();
 
         public abstract void UsersUnsubscribe();
 
