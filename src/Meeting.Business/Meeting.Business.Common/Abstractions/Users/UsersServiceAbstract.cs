@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Meeting.Business.Common.Abstractions.Users
 {
-    public class UsersService
+    public abstract class UsersServiceAbstract
     {
         protected readonly Dictionary<Guid, UserDto> users = new Dictionary<Guid, UserDto>();
 
@@ -16,7 +16,7 @@ namespace Meeting.Business.Common.Abstractions.Users
 
         public IReadOnlyDictionary<Guid, UserDto> Users { get; }
 
-        public UsersService()
+        public UsersServiceAbstract()
         {
             Users = new ReadOnlyDictionary<Guid, UserDto>(users);
         }
