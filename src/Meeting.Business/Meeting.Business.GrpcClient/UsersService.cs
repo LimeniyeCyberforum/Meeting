@@ -4,6 +4,7 @@ using Meeting.Business.Common.DataTypes;
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
 
 namespace Meeting.Business.GrpcClient
@@ -20,11 +21,11 @@ namespace Meeting.Business.GrpcClient
             _usersClient = usersClient;
         }
 
-        public override void UsersSubscribe()
+        public override Task UsersSubscribe()
         {
             var call = _usersClient.UsersSubscribe(new Empty());
 
-            call.ResponseStream
+            return call.ResponseStream
                 .ToAsyncEnumerable()
                 .Finally(() => call.Dispose())
                 .ForEachAsync((x) =>
