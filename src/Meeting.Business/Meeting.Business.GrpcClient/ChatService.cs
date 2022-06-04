@@ -61,7 +61,6 @@ namespace Meeting.Business.GrpcClient
             _client.SendMessage(new MessageRequest()
             {
                 MessageGuid = messageGuid.ToString(),
-                //UserGuid = userGuid.ToString(),
                 Message = message
             });
         }
@@ -71,7 +70,6 @@ namespace Meeting.Business.GrpcClient
             await _client.SendMessageAsync(new MessageRequest() 
             {
                 MessageGuid = messageGuid.ToString(),
-                //UserGuid = userGuid.ToString(),
                 Message = message
             });
         }
