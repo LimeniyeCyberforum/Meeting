@@ -10,13 +10,13 @@ using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
 
 namespace Meeting.Business.GrpcClient
 {
-    public class MessageService : ChatServiceAbstract
+    public class ChatService : ChatServiceAbstract
     {
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
         private readonly ChatClient _client;
 
-        public MessageService(ChatClient client)
+        public ChatService(ChatClient client)
             : base()
         {
             _client = client;
