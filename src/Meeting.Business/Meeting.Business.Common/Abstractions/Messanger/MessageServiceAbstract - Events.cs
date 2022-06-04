@@ -12,7 +12,10 @@ namespace Meeting.Business.Common.Abstractions.Messanger
 
         private int messagesChangedSyncNumber = 0;
 
-        protected void RaiseMessagesChangedEvent(NotifyDictionaryChangedAction action, MessageDto newMessage = null, MessageDto oldMessage = null)
+        /// <summary>
+        /// The method automaticty changes the dictionary from action and raises notification
+        /// </summary>
+        protected void SmartRaiseMessagesChangedEvent(NotifyDictionaryChangedAction action, MessageDto newMessage = null, MessageDto oldMessage = null)
         {
             switch (action)
             {
@@ -33,7 +36,10 @@ namespace Meeting.Business.Common.Abstractions.Messanger
             }
         }
 
-        protected void RaiseMessagesChangedEvent(IDictionary<Guid, MessageDto> newElements)
+        /// <summary>
+        /// The method automaticty finding changes and raises notifications
+        /// </summary>
+        protected void SmartRaiseMessagesChangedEvent(IDictionary<Guid, MessageDto> newElements)
         {
             messages.NewElementsHandler(this, newElements, MessagesChanged, ref messagesChangedSyncNumber);
         }
