@@ -7,10 +7,20 @@ namespace Meeting.Business.Common.Abstractions.FrameCapture
 {
     public abstract partial class CaptureFrameServiceAbstract
     {
-        public abstract Task SendFrameAsync(byte bytes);
+        public abstract Guid CreateCaptureArea();
+        public abstract Task<Guid> CreateCaptureAreaAsync();
+
+        public abstract void DestroyCaptureArea(Guid captureAreaGuid);
+        public abstract Task DestroyCaptureAreaAsync(Guid captureAreaGuid);
+
+        public abstract Task CaptureFrameAreasSubscribeAsync();
+        public abstract void CaptureFrameAreasUnsubscribe();
+
+        public abstract void SendFrame(byte bytes, Guid captureArea);
+        public abstract Task SendFrameAsync(byte bytes, Guid captureArea);
 
         public abstract Task CaptureFramesSubscribeAsync();
 
-        public abstract Task CaptureFramesUnsubscribeAsync();
+        public abstract void CaptureFramesUnsubscribe();
     }
 }
