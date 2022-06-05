@@ -40,7 +40,7 @@ namespace Meeting.Business.GrpcClient
                 .Finally(() => call.Dispose())
                 .ForEachAsync((x) =>
                 {
-                    RaiseCaptureFrameStateChangedAction(Guid.Parse(x.CatureAreaGuid), x.IsOn);
+                    RaiseCaptureFrameStateChangedAction(Guid.Parse(x.OwnerGuid), Guid.Parse(x.CatureAreaGuid), x.IsOn);
                 }, chatCancelationToken.Token);
         }
 

@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Meeting.Business.Common.DataTypes;
+using System;
 using System.Collections.Generic;
 
 namespace Meeting.Business.Common.Abstractions.FrameCapture
 {
     public abstract partial class CaptureFramesServiceAbstract
     {
-        protected List<Guid> activeCaptureFrames = new List<Guid>();
+        protected List<CaptureFrameAreaDto> activeCaptureFrames = new List<CaptureFrameAreaDto>();
 
-        public IReadOnlyList<Guid> ActiveCaptureFrames { get; }
+        public IReadOnlyList<CaptureFrameAreaDto> ActiveCaptureFrames { get; }
 
         public CaptureFramesServiceAbstract()
         { 
-            ActiveCaptureFrames = new List<Guid>(activeCaptureFrames);
+            ActiveCaptureFrames = new List<CaptureFrameAreaDto>(activeCaptureFrames);
         }
     }
 }
