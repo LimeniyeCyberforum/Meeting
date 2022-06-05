@@ -13,9 +13,9 @@ namespace Meeting.WPF.Windows
         private readonly IMeetingService _meetingService;
         private readonly CamStreaming? _cam;
 
-        private bool _isConnected = false;
-
+        private bool _isConnected = false, _isCameraOn = false;
         public bool IsConnected { get => _isConnected; private set => Set(ref _isConnected, value); }
+        public bool IsCameraOn { get => _isCameraOn; set => Set(ref _isCameraOn, value); }
 
         public ChatViewModel ChatVM { get; }
         public ConnectViewModel ConnectVM { get; }
@@ -28,6 +28,7 @@ namespace Meeting.WPF.Windows
             ConnectVM = new ConnectViewModel(_meetingService);
             CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames);
 
+            ProtectedPropertyChanged += OnProtectedPropertyChanged;
             _meetingService.AuthorizationStateChanged += OnConnectionStateChanged;
 
             _cam = CamInitializeTest();
@@ -64,6 +65,23 @@ namespace Meeting.WPF.Windows
         private void OnOwnCaptureFrameChanged(object? sender, Stream e)
         {
 
+        }
+
+        private void OnProtectedPropertyChanged(string propertyName, object oldValue, object newValue)
+        {
+            if (string.Equals(nameof(IsCameraOn), propertyName))
+            {
+                if (IsCameraOn)
+                {
+                    _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
+                    _ = _cam.Start();
+                }
+                else
+                {
+                    _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
+                    _ = _cam.Stop();
+                }
+            }
         }
     }
 }

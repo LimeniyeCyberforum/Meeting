@@ -3,17 +3,12 @@
         xmlns:converters="clr-namespace:Meeting.WPF.Converters"
         xmlns:connect="clr-namespace:Meeting.WPF.Connect"
         xmlns:chat="clr-namespace:Meeting.WPF.Chat"
+        xmlns:captureFrames="clr-namespace:Meeting.Wpf.CaptureFrames"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d local" WindowStartupLocation="CenterScreen"
         Style="{StaticResource TheWindowStyleForRealMenWithBallsOfSteel}"
         d:DataContext="{d:DesignInstance Type=local:MainViewModel}">
-
-    <Window.Resources>
-        <ResourceDictionary>
-            <converters:BytesToBitmapImageConverter x:Key="BytesToBitmapImageConverter"/>
-        </ResourceDictionary>
-    </Window.Resources>
 
     <Grid>
 
@@ -26,34 +21,12 @@
 
             <Grid Grid.Column="0" Margin="20">
                 <Border Background="#1c1f22" CornerRadius="20" BorderThickness="1" BorderBrush="#e64444"/>
-
-                <ItemsControl ItemsSource="{Binding InputVideoStreams}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="4" Margin="5"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <!--<ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="Grid.Row" Value="{Binding Row}"/>
-                        <Setter Property="Grid.Column" Value="{Binding Column}"/>
-                    </Style>
-                </ItemsControl.ItemContainerStyle>-->
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Border Background="Red" Width="300" Height="300"/>
-                                <Image Source="{Binding Value, Converter={StaticResource BytesToBitmapImageConverter}}"/>
-                                <!--<TextBlock Text="{Binding Name}"/>-->
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <captureFrames:CaptureFramesUserControl/>
             </Grid>
 
             <Border Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
                     Margin="0,30,0,30" Padding="10">
-                <ToggleButton Width="60" Height="60" BorderThickness="0" IsChecked="False">
+                <ToggleButton Width="60" Height="60" BorderThickness="0" IsChecked="{Binding IsCameraOn}">
                     <FrameworkElement.Style>
                         <Style TargetType="ToggleButton" BasedOn="{StaticResource ToggleButtonSvgContentStyle}">
                             <Setter Property="Content" Value="M3.27,2L2,3.27L4.73,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16C16.2,18 16.39,17.92 16.54,17.82L19.73,21L21,19.73M21,6.5L17,10.5V7A1,1 0 0,0 16,6H9.82L21,17.18V6.5Z"/>
