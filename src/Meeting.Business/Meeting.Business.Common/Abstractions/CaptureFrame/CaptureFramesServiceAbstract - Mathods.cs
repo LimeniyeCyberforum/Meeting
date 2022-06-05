@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Meeting.Business.Common.Abstractions.FrameCapture
 {
-    public abstract partial class CaptureFrameServiceAbstract
+    public abstract partial class CaptureFramesServiceAbstract
     {
         public abstract Guid CreateCaptureArea();
         public abstract Task<Guid> CreateCaptureAreaAsync();

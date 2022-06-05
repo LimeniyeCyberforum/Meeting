@@ -22,7 +22,7 @@ namespace Meeting.Business.GrpcClient
 
         public new UsersServiceAbstract Users { get; }
         public new ChatServiceAbstract Chat { get; }
-        public new CaptureFrameServiceAbstract CaptureFrames { get; }
+        public new CaptureFramesServiceAbstract CaptureFrames { get; }
 
         public MeetingService()
         {

@@ -3,7 +3,7 @@ using System;
 
 namespace Meeting.Business.Common.Abstractions.FrameCapture
 {
-    public abstract partial class CaptureFrameServiceAbstract
+    public abstract partial class CaptureFramesServiceAbstract
     {
         public event EventHandler<CaptureFrameEventArgs> CaptureFrameChanged;
         public event EventHandler<CaptureFrameStateEventArgs> CaptureFrameStateChanged;

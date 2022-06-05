@@ -12,7 +12,7 @@ using CaptureFramesClient = MeetingGrpc.Protos.CaptureFrames.CaptureFramesClient
 
 namespace Meeting.Business.GrpcClient
 {
-    public class CaptureFramesService : CaptureFrameServiceAbstract
+    public class CaptureFramesService : CaptureFramesServiceAbstract
     {
         private readonly Empty empty = new Empty();
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
