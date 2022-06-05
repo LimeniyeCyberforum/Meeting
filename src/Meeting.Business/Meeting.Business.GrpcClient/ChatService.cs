@@ -1,5 +1,6 @@
 ﻿using Framework.EventArgs;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Meeting.Business.Common.Abstractions.Chat;
 using Meeting.Business.Common.DataTypes;
 using MeetingGrpc.Protos;
@@ -17,10 +18,17 @@ namespace Meeting.Business.GrpcClient
 
         private readonly ChatClient _client;
 
+        private Metadata _metadata;
+
         public ChatService(ChatClient client)
             : base()
         {
             _client = client;
+        }
+
+        public void UpdateMetadata(Metadata newMetadata)
+        {
+            _metadata = newMetadata;
         }
 
         public override Task ChatSubscribeAsync()
@@ -62,7 +70,7 @@ namespace Meeting.Business.GrpcClient
             {
                 MessageGuid = messageGuid.ToString(),
                 Message = message
-            });
+            }, _metadata);
         }
 
         public override async Task SendMessageAsync(Guid messageGuid, string message)
@@ -71,66 +79,7 @@ namespace Meeting.Business.GrpcClient
             {
                 MessageGuid = messageGuid.ToString(),
                 Message = message
-            });
+            }, _metadata);
         }
-
-        //private AsyncDuplexStreamingCall<MessageRequest, MessageReplay> _call;
-        //private AsyncDuplexStreamingCall<CameraCaptureTest, CameraCaptureTest> _call2;
-        //private GrpsServer.Chat.MessangerClient _client;
-
-        //public override void SendMessage(Guid guid, string username, string message)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public override async Task SendMessageAsync(Guid guid, string username, string message)
-        //{
-        //    var response = await _client.SendMessageAsync(new MessageRequest() { Username = username, Message = message });
-        //}
-
-        //public override async Task SendCameraCaptureAsync(MemoryStream stream)
-        //{
-        //    try
-        //    {
-        //        await _call2.RequestStream.WriteAsync(new CameraCaptureTest() { CaptureFrame = ByteString.FromStream(stream) });
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //    //await _call.RequestStream.WriteAsync(new MessageRequest() { Username = "limeniye", Message = "fasf" });
-        //}
-
-        //private void StreamComplete()
-        //{
-        //    _call.RequestStream.CompleteAsync();
-        //}
-
-
-
-        //private async void InitializeStream()
-        //{
-        //    var httpHandler = new HttpClientHandler();
-        //    httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-
-        //    using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
-        //    _client = new GrpsServer.Chat.MessangerClient(channel);
-        //    _call = _client.MessageStream();
-        //    _call2 = _client.CameraCaptureStream();
-
-        //    await Task.Run(async () =>
-        //    {
-        //        await foreach (var response in _call2.ResponseStream.ReadAllAsync())
-        //        {
-        //            RaiseCameraCaptureChanged(response.CaptureFrame.ToByteArray());
-        //            //System.Diagnostics.Debug.WriteLine(response.CaptureFrame);
-        //        }
-
-        //        //await foreach (var response in _call.ResponseStream.ReadAllAsync())
-        //        //{
-        //        //    RaiseMessagesChangedEvent(Framework.EventArgs.NotifyDictionaryChangedAction.Added, new MessageDto(Guid.NewGuid(), response.Message, response.Username, response.Time.ToDateTime()));
-        //        //}
-        //    });
-        //}
     }
 }
