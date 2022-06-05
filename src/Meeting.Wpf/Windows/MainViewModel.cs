@@ -1,8 +1,4 @@
 ﻿using Meeting.Business.Common.Abstractions;
-using Meeting.Business.Common.DataTypes;
-using System;
-using System.Windows;
-using System.Windows.Threading;
 using WebcamWithOpenCV;
 using Meeting.WPF.Chat;
 using Meeting.WPF.Connect;
@@ -44,10 +40,7 @@ namespace Meeting.WPF.Windows
             if (_cam == null || _cam.CameraDeviceId != selectedCameraDeviceId)
             {
                 _cam?.Dispose();
-                result = new CamStreaming(
-                    frameWidth: 300,
-                    frameHeight: 300,
-                    selectedCameraDeviceId);
+                result = new CamStreaming( frameWidth: 300, frameHeight: 300, selectedCameraDeviceId);
             }
 
             return result;
