@@ -21,7 +21,7 @@ namespace Meeting.Business.GrpcClient
             _usersClient = usersClient;
         }
 
-        public override Task UsersSubscribe()
+        public override Task UsersSubscribeAsync()
         {
             var call = _usersClient.UsersSubscribe(new Empty());
 

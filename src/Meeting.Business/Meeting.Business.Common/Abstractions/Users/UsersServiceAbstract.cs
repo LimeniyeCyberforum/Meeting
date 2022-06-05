@@ -24,7 +24,7 @@ namespace Meeting.Business.Common.Abstractions.Users
             Users = new ReadOnlyDictionary<Guid, UserDto>(users);
         }
 
-        public abstract Task UsersSubscribe();
+        public abstract Task UsersSubscribeAsync();
 
         public abstract void UsersUnsubscribe();
 
