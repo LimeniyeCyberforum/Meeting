@@ -11,7 +11,7 @@ using Meeting.Business.Common.Abstractions.FrameCapture;
 
 using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
 using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
-using FrameCapture = MeetingGrpc.Protos.FrameCapture.FrameCaptureClient;
+using CaptureFramesClient = MeetingGrpc.Protos.CaptureFrames.CaptureFramesClient;
 using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
 
 namespace Meeting.Business.GrpcClient
@@ -31,7 +31,7 @@ namespace Meeting.Business.GrpcClient
 
             Users = new UsersService(new UsersClient(channel));
             Chat = new ChatService(new ChatClient(channel));
-            FrameCaptures = new FrameCaptureService(new FrameCapture(channel));
+            FrameCaptures = new CaptureFramesService(new CaptureFramesClient(channel));
         }
 
         public override void JoinToLobby(string username)
@@ -61,7 +61,7 @@ namespace Meeting.Business.GrpcClient
         private void UpdateMetadata(Metadata metadata)
         {
             ((ChatService)Chat).UpdateMetadata(metadata);
-            ((FrameCaptureService)FrameCaptures).UpdateMetadata(metadata);
+            //((FrameCaptureService)FrameCaptures).UpdateMetadata(metadata);
         }
     }
 }

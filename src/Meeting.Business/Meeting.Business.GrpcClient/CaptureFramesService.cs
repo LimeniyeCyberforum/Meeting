@@ -1,25 +1,25 @@
-﻿using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-using System;
-using MeetingGrpc.Protos;
+﻿using System;
+using Grpc.Core;
 using System.IO;
 using System.Linq;
+using Google.Protobuf;
+using MeetingGrpc.Protos;
 using System.Threading;
 using System.Threading.Tasks;
-using FrameCaptureClient = MeetingGrpc.Protos.FrameCapture.FrameCaptureClient;
+using Google.Protobuf.WellKnownTypes;
 using Meeting.Business.Common.Abstractions.FrameCapture;
-using Grpc.Core;
+using CaptureFramesClient = MeetingGrpc.Protos.CaptureFrames.CaptureFramesClient;
 
 namespace Meeting.Business.GrpcClient
 {
-    public class FrameCaptureService : CaptureFrameServiceAbstract
+    public class CaptureFramesService : CaptureFrameServiceAbstract
     {
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
-        private readonly FrameCaptureClient _client;
+        private readonly CaptureFramesClient _client;
         private Metadata _metadata;
 
-        public FrameCaptureService(FrameCaptureClient client)
+        public CaptureFramesService(CaptureFramesClient client)
             : base()
         {
             _client = client;
@@ -81,7 +81,9 @@ namespace Meeting.Business.GrpcClient
 
         public override Guid CreateCaptureArea()
         {
+            //_client.SwitchFrameCaptureState
             throw new NotImplementedException();
+
         }
 
         public override Task<Guid> CreateCaptureAreaAsync()
