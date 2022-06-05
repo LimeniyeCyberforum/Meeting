@@ -13,30 +13,40 @@ namespace Meeting.Business.Common.Abstractions
         Disconnected
     }
 
-    public abstract class MeetingServiceAbstract
+    public interface IMeetingAuthorization
     {
-        public UsersServiceAbstract Users { get; }
-        public ChatServiceAbstract Chat { get; }
-        public CaptureFramesServiceAbstract CaptureFrames { get; }
+        UserDto CurrentUser { get; }
 
-        public UserDto CurrentUser { get; protected set; }
+        UserConnectionState CurrentConnectionState { get; }
 
-        public UserConnectionState CurrentConnectionState { get; protected set; }
+        event EventHandler<UserConnectionState> AuthorizationStateChanged;
 
-        public event EventHandler<UserConnectionState> AuthorizationStateChanged;
+        void JoinToLobby(string username);
 
-        public abstract void JoinToLobby(string username);
+        Task JoinToLobbyAsync(string username);
 
-        public abstract Task JoinToLobbyAsync(string username);
+        Task<bool> IsNameExistsAsync(string username);
 
-        public abstract bool IsNameExists(string username);
+        bool IsNameExists(string username);
+    }
 
-        public abstract Task<bool> IsNameExistsAsync(string username);
+    public interface IMeetingUsers
+    {
+        UsersServiceAbstract Users { get; }
+    }
 
-        protected void RaiseAuthorizationStateChangedEvent(UserConnectionState newState)
-        {
-            AuthorizationStateChanged?.Invoke(this, newState);
-        }
+    public interface IMeetingChat
+    {
+        ChatServiceAbstract Chat { get; }
+    }
 
+    public interface IMeetingCaptureFrames
+    {
+        CaptureFramesServiceAbstract CaptureFrames { get; }
+    }
+
+
+    public interface IMeetingService : IMeetingAuthorization, IMeetingUsers, IMeetingChat, IMeetingCaptureFrames
+    {
     }
 }

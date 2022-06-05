@@ -16,13 +16,21 @@ using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient
 
 namespace Meeting.Business.GrpcClient
 {
-    public sealed class MeetingService : MeetingServiceAbstract
+    public class MeetingService : IMeetingService
     {
         private readonly AuthorizationClient _authorizationClient;
 
-        public new UsersServiceAbstract Users { get; }
-        public new ChatServiceAbstract Chat { get; }
-        public new CaptureFramesServiceAbstract CaptureFrames { get; }
+        public UserDto CurrentUser { get; private set; }
+
+        public UserConnectionState CurrentConnectionState { get; private set; }
+
+        public ChatServiceAbstract Chat { get; }
+
+        public CaptureFramesServiceAbstract CaptureFrames { get; }
+
+        public UsersServiceAbstract Users { get; }
+
+        public event EventHandler<UserConnectionState> AuthorizationStateChanged;
 
         public MeetingService()
         {
@@ -34,7 +42,7 @@ namespace Meeting.Business.GrpcClient
             CaptureFrames = new CaptureFramesService(new CaptureFramesClient(channel));
         }
 
-        public override void JoinToLobby(string username)
+        public void JoinToLobby(string username)
         {
             var authReply = _authorizationClient.Connect(new MeetingGrpc.Protos.ConnectRequest { Username = username });
             var metadata = new Metadata();
@@ -46,7 +54,7 @@ namespace Meeting.Business.GrpcClient
             RaiseAuthorizationStateChangedEvent(UserConnectionState.Connected);
         }
 
-        public override async Task JoinToLobbyAsync(string username)
+        public async Task JoinToLobbyAsync(string username)
         {
             var authReply = await _authorizationClient.ConnectAsync(new MeetingGrpc.Protos.ConnectRequest { Username = username });
             var metadata = new Metadata();
@@ -58,21 +66,26 @@ namespace Meeting.Business.GrpcClient
             RaiseAuthorizationStateChangedEvent(UserConnectionState.Connected);
         }
 
-        private void UpdateMetadata(Metadata metadata)
+        public bool IsNameExists(string username)
+        {
+            return _authorizationClient.IsNameExists(new MeetingGrpc.Protos.CheckNameRequest { Username = username }).IsExists;
+        }
+
+        public async Task<bool> IsNameExistsAsync(string username)
+        {
+            var response = await _authorizationClient.IsNameExistsAsync(new MeetingGrpc.Protos.CheckNameRequest { Username = username });
+            return response.IsExists;
+        }
+
+        protected void UpdateMetadata(Metadata metadata)
         {
             ((ChatService)Chat).UpdateMetadata(metadata);
             ((CaptureFramesService)CaptureFrames).UpdateMetadata(metadata);
         }
 
-        public override bool IsNameExists(string username)
+        protected void RaiseAuthorizationStateChangedEvent(UserConnectionState newState)
         {
-            return _authorizationClient.IsNameExists(new MeetingGrpc.Protos.CheckNameRequest { Username = username }).IsExists;
-        }
-
-        public override async Task<bool> IsNameExistsAsync(string username)
-        {
-            var response = await _authorizationClient.IsNameExistsAsync(new MeetingGrpc.Protos.CheckNameRequest { Username = username });
-            return response.IsExists;
+            AuthorizationStateChanged?.Invoke(this, newState);
         }
     }
 }
