@@ -29,6 +29,10 @@ namespace Meeting.Business.Common.Abstractions
 
         public abstract Task JoinToLobbyAsync(string username);
 
+        public abstract bool IsNameExists(string username);
+
+        public abstract Task<bool> IsNameExistsAsync(string username);
+
         protected void RaiseAuthorizationStateChangedEvent(UserConnectionState newState)
         {
             AuthorizationStateChanged?.Invoke(this, newState);

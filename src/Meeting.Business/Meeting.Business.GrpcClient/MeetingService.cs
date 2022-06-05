@@ -63,5 +63,16 @@ namespace Meeting.Business.GrpcClient
             ((ChatService)Chat).UpdateMetadata(metadata);
             ((CaptureFramesService)CaptureFrames).UpdateMetadata(metadata);
         }
+
+        public override bool IsNameExists(string username)
+        {
+            return _authorizationClient.IsNameExists(new MeetingGrpc.Protos.CheckNameRequest { Username = username }).IsExists;
+        }
+
+        public override async Task<bool> IsNameExistsAsync(string username)
+        {
+            var response = await _authorizationClient.IsNameExistsAsync(new MeetingGrpc.Protos.CheckNameRequest { Username = username });
+            return response.IsExists;
+        }
     }
 }
