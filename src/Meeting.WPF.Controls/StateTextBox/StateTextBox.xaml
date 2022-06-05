@@ -24,10 +24,11 @@
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="4"/>
         <Setter Property="Margin" Value="4"/>
-        <Setter Property="Status" Value="Success"/>
+        <Setter Property="Status" Value="Empty"/>
         <Setter Property="PlaceholderFontSize" Value="13"/>
         <Setter Property="PlaceholderHorizontalAlignment" Value="Stretch"/>
         <Setter Property="PlaceholderVerticalAlignment" Value="Center"/>
+        <Setter Property="IsEnabled" Value="True"/>
         <Setter Property="PlaceholderOpacity" Value="0.5"/>
 
         <Setter Property="Template">
@@ -87,14 +88,26 @@
                                 <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
                                               Margin="{TemplateBinding Padding}"/>
 
-                                <Border HorizontalAlignment="Right">
-                                    <Path Fill="Black" Data="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
+                                <Border x:Name="PART_Status" HorizontalAlignment="Right" Width="50" Cursor="Hand" Background="Transparent"
+                                        Visibility="Collapsed">
+                                    <Path x:Name="PART_Status_Content_Path" Width="24" Height="24"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </Grid>
                         </Border>
                     </Grid>
 
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Status" Value="Success">
+                            <Setter TargetName="PART_Status" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="PART_Status_Content_Path" Property="Fill" Value="#58ad94"/>
+                            <Setter TargetName="PART_Status_Content_Path" Property="Data" Value="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+                        </Trigger>                        
+                        <Trigger Property="Status" Value="Fail">
+                            <Setter TargetName="PART_Status" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="PART_Status_Content_Path" Property="Fill" Value="Red"/>
+                            <Setter TargetName="PART_Status_Content_Path" Property="Data" Value="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z"/>
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" TargetName="border" Value="0.56"/>
                         </Trigger>
