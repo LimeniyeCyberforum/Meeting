@@ -17,7 +17,7 @@ namespace Meeting.Business.Common.Abstractions
     {
         public UsersServiceAbstract Users { get; }
         public ChatServiceAbstract Chat { get; }
-        public FrameCaptureServiceAbstract FrameCaptures { get; }
+        public CaptureFrameServiceAbstract FrameCaptures { get; }
 
         public UserDto CurrentUser { get; protected set; }
 

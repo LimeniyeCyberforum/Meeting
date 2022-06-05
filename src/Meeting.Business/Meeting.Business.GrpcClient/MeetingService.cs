@@ -1,91 +1,66 @@
-﻿using Grpc.Net.Client;
-using Meeting.Business.Common.DataTypes;
-using System;
+﻿using System;
+using Grpc.Core;
+using Grpc.Net.Client;
 using System.Threading.Tasks;
+using Meeting.Business.Common.DataTypes;
 
-using Meeting.Business.Common.Abstractions.Authorization;
-using Meeting.Business.Common.Abstractions.Users;
+using Meeting.Business.Common.Abstractions;
 using Meeting.Business.Common.Abstractions.Chat;
+using Meeting.Business.Common.Abstractions.Users;
 using Meeting.Business.Common.Abstractions.FrameCapture;
 
-using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
-using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
 using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
+using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
 using FrameCapture = MeetingGrpc.Protos.FrameCapture.FrameCaptureClient;
-
+using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
 
 namespace Meeting.Business.GrpcClient
 {
-    public class MeetingService //: MeetingServiceAbstract
+    public sealed class MeetingService : MeetingServiceAbstract
     {
-        //private readonly AuthorizationClient _client;
-        //private readonly GrpcChannel _channel;
+        private Metadata _metadata;
+        private readonly AuthorizationClient _authorizationClient;
 
-        public AuthorizationServiceAbstract Authorization { get; }
-        public UsersServiceAbstract Users { get; }
-        public ChatServiceAbstract Chat { get; }
-        public FrameCaptureServiceAbstract FrameCaptures { get; }
+        public new UsersServiceAbstract Users { get; }
+        public new ChatServiceAbstract Chat { get; }
+        public new CaptureFrameServiceAbstract FrameCaptures { get; }
 
         public MeetingService()
         {
             var channel = GrpcChannel.ForAddress("https://localhost:5010/"/*, channelOptions*/);
+            _authorizationClient = new AuthorizationClient(channel);
 
-            var authClient = new AuthorizationClient(channel);
-            var users = new UsersClient(channel);
-            var chatClient = new ChatClient(channel);
+            Users = new UsersService(new UsersClient(channel));
+            Chat = new ChatService(new ChatClient(channel));
             var frameCaptures = new FrameCapture(channel);
+            //Chat = new 
 
 
-           
-
-            var reply = chatClient.SendMessage(new MessageRequest { Message = "Hello world!", MessageGuid = Guid.NewGuid().ToString() }, metadata);
+            //var reply = chatClient.SendMessage(new MessageRequest { Message = "Hello world!", MessageGuid = Guid.NewGuid().ToString() }, metadata);
         }
 
-        public override UserDto Connect(string username)
+        public override void JoinToLobby(string username)
         {
-            //var result = _client.Connect(new ConnectRequest()
-            //{
-            //    Username = username
-            //});
+            var authReply = _authorizationClient.Connect(new MeetingGrpc.Protos.ConnectRequest { Username = username });
+            var metadata = new Metadata();
+            metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
+            _metadata = metadata;
 
-            //if (!result.IsSuccessfully)
-            //    throw new ArgumentException(result.ErrorMessage);
-
-            //Guid userGuid = Guid.Parse(result.Guid);
-            //var user = new UserDto(userGuid, username);
-
-            //Initialize(userGuid, user);
-
-            //return user;
-
-            return null;
+            CurrentUser = new UserDto(Guid.Parse(authReply.UserGuid), username);
+            CurrentConnectionState = UserConnectionState.Connected;
+            RaiseAuthorizationStateChangedEvent(UserConnectionState.Connected);
         }
 
-        public override async Task<UserDto> ConnectAsync(string username)
+        public override async Task JoinToLobbyAsync(string username)
         {
-            //var result = await _client.ConnectAsync(new ConnectRequest()
-            //{
-            //    Username = username
-            //});
+            var authReply = await _authorizationClient.ConnectAsync(new MeetingGrpc.Protos.ConnectRequest { Username = username });
+            var metadata = new Metadata();
+            metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
+            _metadata = metadata;
 
-            //if (!result.IsSuccessfully)
-            //    throw new ArgumentException(result.ErrorMessage);
-
-            //Guid userGuid = Guid.Parse(result.Guid);
-            //var user = new UserDto(userGuid, username);
-
-            //Initialize(userGuid, user);
-
-            //return user;
-
-            return null;
-        }
-
-        private void Initialize(Guid currentUserGuid, UserDto user)
-        {
-            //MessageService = new MessageService(_client);
-            //CameraCaptureService = new CameraCaptureService(_client, currentUserGuid);
-            RaiseConnectionStateChangedAction(ConnectionAction.Connected, user);
+            CurrentUser = new UserDto(Guid.Parse(authReply.UserGuid), username);
+            CurrentConnectionState = UserConnectionState.Connected;
+            RaiseAuthorizationStateChangedEvent(UserConnectionState.Connected);
         }
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Meeting.Business.Common.EventArgs
 {
-    public class FrameCaptureEventArgs : System.EventArgs
+    public class CaptureFrameEventArgs : System.EventArgs
     {
         public Guid CaptureAreadGuid { get; }
         public byte[] Bytes { get; }
         public DateTime DateTime { get; }
 
-        public FrameCaptureEventArgs(Guid captureAreadGuid, byte[] bytes, DateTime dateTime)
+        public CaptureFrameEventArgs(Guid captureAreadGuid, byte[] bytes, DateTime dateTime)
         {
             CaptureAreadGuid = captureAreadGuid;
             Bytes = bytes;
