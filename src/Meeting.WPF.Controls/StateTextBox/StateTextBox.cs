@@ -72,6 +72,23 @@ namespace Meeting.WPF.Controls
 
         #endregion
 
+        #region DependencyProperty : IsValid
+
+        public bool? IsValid
+        {
+            get => (bool?)GetValue(IsValidProperty);
+            set => SetValue(IsValidProperty, value);
+        }
+
+        public static readonly DependencyProperty IsValidProperty =
+            DependencyProperty.Register(nameof(IsValid), typeof(bool?),
+                typeof(StateTextBox), new FrameworkPropertyMetadata(null, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
+                {
+                    (s as StateTextBox)?.OnIsValidPropertyChanged(e);
+                }));
+
+        #endregion
+
         #region DependencyProperty : CommandProperty
 
         public ICommand Command
@@ -122,6 +139,46 @@ namespace Meeting.WPF.Controls
 
         protected virtual void OnStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
+            var newValue = (StatusEnum)e.NewValue;
+            var oldValue = (StatusEnum)e.OldValue;
+
+            if (newValue != oldValue)
+            {
+                if (newValue == StatusEnum.Success)
+                {
+                    IsValid = true;
+                }
+                else if (newValue == StatusEnum.Fail)
+                {
+                    IsValid = false;
+                }
+                else
+                {
+                    IsValid = null;
+                }
+            }
+        }
+
+        protected virtual void OnIsValidPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            var newValue = (bool?)e.NewValue;
+            var oldValue = (bool?)e.OldValue;
+
+            if (newValue != oldValue)
+            {
+                if (newValue == true)
+                {
+                    Status = StatusEnum.Success;
+                }
+                else if (newValue == false)
+                {
+                    Status = StatusEnum.Fail;
+                }
+                else
+                {
+                    Status = StatusEnum.Empty;
+                }
+            }
         }
 
         protected void RaiseStatusEmptiedEvent(StateTextBox container)
