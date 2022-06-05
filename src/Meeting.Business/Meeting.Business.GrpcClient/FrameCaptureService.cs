@@ -1,6 +1,5 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-using Meeting.Business.Common.Abstractions.CameraCapture;
 using System;
 using MeetingGrpc.Protos;
 using System.IO;
@@ -12,7 +11,7 @@ using Meeting.Business.Common.Abstractions.FrameCapture;
 
 namespace Meeting.Business.GrpcClient
 {
-    public class FrameCaptureService : FrameCaptureServiceAbstract
+    public class FrameCaptureService : CaptureFrameServiceAbstract
     {
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
