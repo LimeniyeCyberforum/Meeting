@@ -12,7 +12,7 @@ namespace Meeting.Business.Common.Abstractions.FrameCapture
         public IReadOnlyList<Guid> ActiveCaptureFrames { get; }
 
         public CaptureFrameServiceAbstract()
-        {
+        { 
             ActiveCaptureFrames = new List<Guid>(activeCaptureFrames);
         }
     }
