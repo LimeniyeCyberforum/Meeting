@@ -14,6 +14,7 @@ namespace Meeting.Business.GrpcClient
 {
     public class CaptureFramesService : CaptureFrameServiceAbstract
     {
+        private readonly Empty empty = new Empty();
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
         private readonly CaptureFramesClient _client;
@@ -61,7 +62,15 @@ namespace Meeting.Business.GrpcClient
 
         public override Task CaptureFrameAreasSubscribeAsync()
         {
-            throw new NotImplementedException();
+            var call = _client.CaptureFrameAreasSubscribe(new Empty());
+
+            return call.ResponseStream
+                .ToAsyncEnumerable()
+                .Finally(() => call.Dispose())
+                .ForEachAsync((x) =>
+                {
+                    RaiseCaptureFrameStateChangedAction(Guid.Parse(x.CatureAreaGuid), x.IsOn);
+                }, chatCancelationToken.Token);
         }
 
         public override void CaptureFrameAreasUnsubscribe()
@@ -71,7 +80,14 @@ namespace Meeting.Business.GrpcClient
 
         public override Task CaptureFramesSubscribeAsync()
         {
-            throw new NotImplementedException();
+            var call = _client.CaptureFramesSubscribe(new Empty());
+
+            return call.ResponseStream
+                .ToAsyncEnumerable()
+                .Finally(() => call.Dispose())
+                .ForEachAsync((x) =>
+                    RaiseCaptureFrameChangedAction(Guid.Parse(x.CatureAreaGuid), x.Bytes.ToByteArray(), x.Time.ToDateTime()), 
+                    chatCancelationToken.Token);
         }
 
         public override void CaptureFramesUnsubscribe()
@@ -81,14 +97,13 @@ namespace Meeting.Business.GrpcClient
 
         public override Guid CreateCaptureArea()
         {
-            //_client.SwitchFrameCaptureState
-            throw new NotImplementedException();
-
+           return Guid.Parse(_client.CreateCaptureArea(empty, _metadata).AreaGuid);
         }
 
-        public override Task<Guid> CreateCaptureAreaAsync()
+        public override async Task<Guid> CreateCaptureAreaAsync()
         {
-            throw new NotImplementedException();
+            var areaGuid = await _client.CreateCaptureAreaAsync(empty, _metadata);
+            return Guid.Parse(areaGuid.AreaGuid);
         }
 
         public override void DestroyCaptureArea(Guid captureAreaGuid)
@@ -101,14 +116,24 @@ namespace Meeting.Business.GrpcClient
             throw new NotImplementedException();
         }
 
-        public override void SendFrame(byte bytes, Guid captureArea)
+        public override void SendFrame(byte bytes, Guid captureArea, DateTime dateTime)
         {
-            throw new NotImplementedException();
+            _client.SendCaptureFrame(new CaptureFrame
+            {
+                CatureAreaGuid = captureArea.ToString(),
+                Bytes = ByteString.CopyFrom(bytes),
+                Time = dateTime.ToTimestamp()
+            }, _metadata);
         }
 
-        public override Task SendFrameAsync(byte bytes, Guid captureArea)
+        public override async Task SendFrameAsync(byte bytes, Guid captureArea, DateTime dateTime)
         {
-            throw new NotImplementedException();
+            await _client.SendCaptureFrameAsync(new CaptureFrame
+            {
+                CatureAreaGuid = captureArea.ToString(),
+                Bytes = ByteString.CopyFrom(bytes),
+                Time = dateTime.ToTimestamp()
+            }, _metadata);
         }
     }
 }
