@@ -5,7 +5,7 @@ namespace Meeting.WPF.Connect
 {
     public class ConnectViewModel : BaseInpc
     {
-        private readonly MeetingServiceAbstract _meetingConnectionService;
+        private readonly IMeetingAuthorization _meetingAuthorization;
 
         private string _name;
 
@@ -18,7 +18,7 @@ namespace Meeting.WPF.Connect
 
         private async void OnJoinExecute()
         {
-            await _meetingConnectionService.JoinToLobbyAsync(Name);
+            await _meetingAuthorization.JoinToLobbyAsync(Name);
         }
 
         private bool CanJoinExecute()
@@ -27,9 +27,9 @@ namespace Meeting.WPF.Connect
         }
         #endregion
 
-        public ConnectViewModel(MeetingServiceAbstract meetingConnectionService)
+        public ConnectViewModel(IMeetingAuthorization meetingAuthorization)
         {
-            _meetingConnectionService = meetingConnectionService;
+            _meetingAuthorization = meetingAuthorization;
         }
     }
 }

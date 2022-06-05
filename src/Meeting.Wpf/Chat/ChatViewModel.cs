@@ -15,8 +15,7 @@ namespace Meeting.WPF.Chat
     {
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly ChatServiceAbstract _messageService;
-        // TODO : Temporary. Shpuld be interface
-        private readonly MeetingServiceAbstract _meetingService;
+        private readonly IMeetingAuthorization _meetingAuthorization;
 
         private string _message;
 
@@ -50,9 +49,9 @@ namespace Meeting.WPF.Chat
         }
         #endregion
 
-        public ChatViewModel(ChatServiceAbstract messageService, MeetingServiceAbstract meetingConnection)
+        public ChatViewModel(ChatServiceAbstract messageService, IMeetingAuthorization meetingAuthorization)
         {
-            _meetingService = meetingConnection;
+            _meetingAuthorization = meetingAuthorization;
 
             _messageService = messageService;
 
@@ -62,7 +61,7 @@ namespace Meeting.WPF.Chat
 
             foreach (var item in _messageService.Messages.Values)
             {
-                if (item.UserGuid == _meetingService.CurrentUser?.Guid)
+                if (item.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
                 {
                     Messages.Add(new OwnMessage(item.Guid, item.Message, MessageStatus.Readed, item.DateTime));
                 }
@@ -83,7 +82,7 @@ namespace Meeting.WPF.Chat
                 switch (e.Action)
                 {
                     case NotifyDictionaryChangedAction.Added:
-                        if (newValue.UserGuid == _meetingService.CurrentUser?.Guid)
+                        if (newValue.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
                         {
                             var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
                             if (index > -1)

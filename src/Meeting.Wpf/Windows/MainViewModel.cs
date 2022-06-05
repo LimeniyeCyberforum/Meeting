@@ -10,7 +10,7 @@ namespace Meeting.WPF.Windows
 {
     public class MainViewModel : BaseInpc
     {
-        private readonly MeetingServiceAbstract _meetingServiceAbstract;
+        private readonly IMeetingService _meetingService;
         private readonly CamStreaming? _cam;
 
         private bool _isConnected = false;
@@ -21,14 +21,14 @@ namespace Meeting.WPF.Windows
         public ConnectViewModel ConnectVM { get; }
         public CaptureFramesViewModel CaptureFramesVM { get; }
 
-        public MainViewModel(MeetingServiceAbstract meetingServiceAbstract)
+        public MainViewModel(IMeetingService meetingService)
         {
-            ChatVM = new ChatViewModel(meetingServiceAbstract.Chat, meetingServiceAbstract);
-            ConnectVM = new ConnectViewModel(meetingServiceAbstract);
-            CaptureFramesVM = new CaptureFramesViewModel(meetingServiceAbstract.CaptureFrames);
+            _meetingService = meetingService;
+            ChatVM = new ChatViewModel(_meetingService.Chat, _meetingService);
+            ConnectVM = new ConnectViewModel(_meetingService);
+            CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames);
 
-            _meetingServiceAbstract = meetingServiceAbstract;
-            _meetingServiceAbstract.AuthorizationStateChanged += OnConnectionStateChanged;
+            _meetingService.AuthorizationStateChanged += OnConnectionStateChanged;
 
             _cam = CamInitializeTest();
         }
