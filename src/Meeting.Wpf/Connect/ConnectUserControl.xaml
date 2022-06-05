@@ -13,7 +13,9 @@
                 HorizontalAlignment="Center" VerticalAlignment="Center">
 
             <Grid>
-                <controls:StateTextBox Text="{Binding ConnectVM.Name, UpdateSourceTrigger=PropertyChanged}" Placeholder="Name" MinWidth="200" MaxWidth="250"
+                <controls:StateTextBox Placeholder="Name" MinWidth="200" MaxWidth="250"
+                                       Text="{Binding ConnectVM.Name, UpdateSourceTrigger=PropertyChanged}" 
+                                       IsValid="{Binding ConnectVM.IsValidName}"
                                        Command="{Binding ConnectVM.JoinCommand}"/>
             </Grid>
         </Border>

@@ -82,10 +82,11 @@ namespace Meeting.WPF.Controls
 
         public static readonly DependencyProperty IsValidProperty =
             DependencyProperty.Register(nameof(IsValid), typeof(bool?),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(null, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
-                {
-                    (s as StateTextBox)?.OnIsValidPropertyChanged(e);
-                }));
+                typeof(StateTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                    delegate(DependencyObject s, DependencyPropertyChangedEventArgs e)
+                    {
+                        (s as StateTextBox)?.OnIsValidPropertyChanged(e);
+                    }));
 
         #endregion
 

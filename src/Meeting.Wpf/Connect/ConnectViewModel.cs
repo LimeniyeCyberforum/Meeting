@@ -8,8 +8,10 @@ namespace Meeting.WPF.Connect
         private readonly IMeetingAuthorization _meetingAuthorization;
 
         private string _name;
+        private bool? _isValidName = null;
 
         public string Name { get => _name; set => Set(ref _name, value); }
+        public bool? IsValidName { get => _isValidName; set => Set(ref _isValidName, value); }
 
         #region JoinCommand
         private RelayCommandAsync _joinCommand;
@@ -37,7 +39,13 @@ namespace Meeting.WPF.Connect
         {
             if (string.Equals(propertyName, nameof(Name)))
             {
-                var res = _meetingAuthorization.IsNameExists(Name);
+                if (string.IsNullOrWhiteSpace(Name))
+                {
+                    IsValidName = null;
+                    return;
+                }
+
+                IsValidName = !_meetingAuthorization.IsNameExists(Name);
             }
         }
     }
