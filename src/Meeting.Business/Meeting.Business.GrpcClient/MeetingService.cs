@@ -22,7 +22,7 @@ namespace Meeting.Business.GrpcClient
 
         public new UsersServiceAbstract Users { get; }
         public new ChatServiceAbstract Chat { get; }
-        public new CaptureFrameServiceAbstract FrameCaptures { get; }
+        public new CaptureFrameServiceAbstract CaptureFrames { get; }
 
         public MeetingService()
         {
@@ -31,7 +31,7 @@ namespace Meeting.Business.GrpcClient
 
             Users = new UsersService(new UsersClient(channel));
             Chat = new ChatService(new ChatClient(channel));
-            FrameCaptures = new CaptureFramesService(new CaptureFramesClient(channel));
+            CaptureFrames = new CaptureFramesService(new CaptureFramesClient(channel));
         }
 
         public override void JoinToLobby(string username)
@@ -61,7 +61,7 @@ namespace Meeting.Business.GrpcClient
         private void UpdateMetadata(Metadata metadata)
         {
             ((ChatService)Chat).UpdateMetadata(metadata);
-            //((FrameCaptureService)FrameCaptures).UpdateMetadata(metadata);
+            ((CaptureFramesService)CaptureFrames).UpdateMetadata(metadata);
         }
     }
 }
