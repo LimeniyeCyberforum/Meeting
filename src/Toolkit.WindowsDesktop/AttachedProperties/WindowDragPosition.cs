@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Meeting.WPF.AttachedProperties
+namespace Toolkit.WindowsDesktop.AttachedProperties
 {
     public class WindowDragPosition
     {

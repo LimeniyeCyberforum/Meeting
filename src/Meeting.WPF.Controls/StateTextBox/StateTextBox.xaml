@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Meeting.WPF.Controls">
+                    xmlns:local="clr-namespace:Meeting.WPF.Controls"
+                    xmlns:attachedProperties="clr-namespace:Toolkit.WindowsDesktop.AttachedProperties;assembly=Toolkit.WindowsDesktop">
 
     <SolidColorBrush x:Key="PlaceholderTextBox.Static.Border" Color="#FFABAdB3"/>
     <SolidColorBrush x:Key="PlaceholderTextBox.MouseOver.Border" Color="#FF7EB4EA"/>
@@ -23,6 +24,7 @@
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="4"/>
         <Setter Property="Margin" Value="4"/>
+        <Setter Property="Status" Value="Success"/>
         <Setter Property="PlaceholderFontSize" Value="13"/>
         <Setter Property="PlaceholderHorizontalAlignment" Value="Stretch"/>
         <Setter Property="PlaceholderVerticalAlignment" Value="Center"/>
@@ -85,13 +87,9 @@
                                 <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
                                               Margin="{TemplateBinding Padding}"/>
 
-
-                                <!--<ScrollViewer Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
-
-                                <Label x:Name="Placeholder" Visibility="Collapsed"
-                                       Content="{Binding Placeholder, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                       Margin="3" FontSize="{Binding PlaceholderFontSize, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                       Opacity="0.5"/>-->
+                                <Border HorizontalAlignment="Right">
+                                    <Path Fill="Black" Data="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
+                                </Border>
                             </Grid>
                         </Border>
                     </Grid>

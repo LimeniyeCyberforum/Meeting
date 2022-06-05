@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls.Primitives;
 
-namespace Meeting.WPF.AttachedProperties
+namespace Toolkit.WindowsDesktop.AttachedProperties
 {
     public static class FrmElem
     {
