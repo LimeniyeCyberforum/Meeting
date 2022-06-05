@@ -18,7 +18,6 @@ namespace Meeting.Business.GrpcClient
 {
     public sealed class MeetingService : MeetingServiceAbstract
     {
-        private Metadata _metadata;
         private readonly AuthorizationClient _authorizationClient;
 
         public new UsersServiceAbstract Users { get; }
@@ -32,9 +31,7 @@ namespace Meeting.Business.GrpcClient
 
             Users = new UsersService(new UsersClient(channel));
             Chat = new ChatService(new ChatClient(channel));
-            var frameCaptures = new FrameCapture(channel);
-
-            //var reply = chatClient.SendMessage(new MessageRequest { Message = "Hello world!", MessageGuid = Guid.NewGuid().ToString() }, metadata);
+            FrameCaptures = new FrameCaptureService(new FrameCapture(channel));
         }
 
         public override void JoinToLobby(string username)
@@ -42,7 +39,6 @@ namespace Meeting.Business.GrpcClient
             var authReply = _authorizationClient.Connect(new MeetingGrpc.Protos.ConnectRequest { Username = username });
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
-            _metadata = metadata;
             UpdateMetadata(metadata);
 
             CurrentUser = new UserDto(Guid.Parse(authReply.UserGuid), username);
@@ -55,7 +51,6 @@ namespace Meeting.Business.GrpcClient
             var authReply = await _authorizationClient.ConnectAsync(new MeetingGrpc.Protos.ConnectRequest { Username = username });
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
-            _metadata = metadata;
             UpdateMetadata(metadata);
 
             CurrentUser = new UserDto(Guid.Parse(authReply.UserGuid), username);
@@ -66,6 +61,7 @@ namespace Meeting.Business.GrpcClient
         private void UpdateMetadata(Metadata metadata)
         {
             ((ChatService)Chat).UpdateMetadata(metadata);
+            ((FrameCaptureService)FrameCaptures).UpdateMetadata(metadata);
         }
     }
 }
