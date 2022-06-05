@@ -33,8 +33,6 @@ namespace Meeting.Business.GrpcClient
             Users = new UsersService(new UsersClient(channel));
             Chat = new ChatService(new ChatClient(channel));
             var frameCaptures = new FrameCapture(channel);
-            //Chat = new 
-
 
             //var reply = chatClient.SendMessage(new MessageRequest { Message = "Hello world!", MessageGuid = Guid.NewGuid().ToString() }, metadata);
         }
@@ -45,6 +43,7 @@ namespace Meeting.Business.GrpcClient
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
             _metadata = metadata;
+            UpdateMetadata(metadata);
 
             CurrentUser = new UserDto(Guid.Parse(authReply.UserGuid), username);
             CurrentConnectionState = UserConnectionState.Connected;
@@ -57,10 +56,16 @@ namespace Meeting.Business.GrpcClient
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
             _metadata = metadata;
+            UpdateMetadata(metadata);
 
             CurrentUser = new UserDto(Guid.Parse(authReply.UserGuid), username);
             CurrentConnectionState = UserConnectionState.Connected;
             RaiseAuthorizationStateChangedEvent(UserConnectionState.Connected);
+        }
+
+        private void UpdateMetadata(Metadata metadata)
+        {
+            ((ChatService)Chat).UpdateMetadata(metadata);
         }
     }
 }
