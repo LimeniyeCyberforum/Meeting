@@ -1,8 +1,12 @@
 ﻿using Framework;
 using Framework.Delegates;
 using System;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows;
-
+using System.Windows.Automation;
+using System.Windows.Automation.Peers;
+using System.Windows.Input;
 
 namespace Meeting.WPF.Controls
 {
@@ -19,10 +23,36 @@ namespace Meeting.WPF.Controls
 
     public class StateTextBox : PlaceholderTextBox.PlaceholderTextBox
     {
+        private SerialDisposable _eventSubscriptions = new SerialDisposable();
+
+        private const string ELEMENT_STATUS = "PART_Status";
+
         static StateTextBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(StateTextBox),
                 new FrameworkPropertyMetadata(typeof(StateTextBox)));
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            _eventSubscriptions.Disposable = null;
+            CompositeDisposable disposable = new CompositeDisposable();
+            FrameworkElement? statusElement = GetTemplateChild(ELEMENT_STATUS) as FrameworkElement;
+            if (statusElement != null)
+            {
+                statusElement.MouseUp += OnStatusElementMouseUp;
+                disposable.Add(Disposable.Create(delegate 
+                {
+                    statusElement.MouseUp -= OnStatusElementMouseUp;
+                }));
+            }
+            _eventSubscriptions.Disposable = disposable;
+        }
+
+        private void OnStatusElementMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Command?.Execute(CommandParameter);
         }
 
         #region DependencyProperty : Status
@@ -39,6 +69,34 @@ namespace Meeting.WPF.Controls
                 {
                     (s as StateTextBox)?.OnStatusPropertyChanged(e);
                 }));
+
+        #endregion
+
+        #region DependencyProperty : CommandProperty
+
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(nameof(Command), typeof(ICommand),
+                typeof(StateTextBox), new PropertyMetadata(default));
+
+        #endregion
+
+        #region DependencyProperty : CommandParameterProperty
+
+        public object CommandParameter
+        {
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
+        }
+
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register(nameof(CommandParameter), typeof(object),
+                typeof(StateTextBox), new PropertyMetadata(default));
 
         #endregion
 
