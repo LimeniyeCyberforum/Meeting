@@ -23,13 +23,22 @@ namespace Meeting.WPF.Connect
 
         private bool CanJoinExecute()
         {
-            return !(JoinCommand.IsBusy || string.IsNullOrEmpty(Name) || Name == "");
+            return !(JoinCommand.IsBusy || string.IsNullOrWhiteSpace(Name));
         }
         #endregion
 
         public ConnectViewModel(IMeetingAuthorization meetingAuthorization)
         {
             _meetingAuthorization = meetingAuthorization;
+            ProtectedPropertyChanged += OnProtectedPropertyChanged;
+        }
+
+        private void OnProtectedPropertyChanged(string propertyName, object oldValue, object newValue)
+        {
+            if (string.Equals(propertyName, nameof(Name)))
+            {
+                var res = _meetingAuthorization.IsNameExists(Name);
+            }
         }
     }
 }
