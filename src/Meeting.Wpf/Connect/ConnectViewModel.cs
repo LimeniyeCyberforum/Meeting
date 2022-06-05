@@ -5,7 +5,7 @@ namespace Meeting.WPF.Connect
 {
     public class ConnectViewModel : BaseInpc
     {
-        private readonly IMeetingConnectionService _meetingConnectionService;
+        private readonly MeetingServiceAbstract _meetingConnectionService;
 
         private string _name;
 
@@ -18,16 +18,16 @@ namespace Meeting.WPF.Connect
 
         private async void OnJoinExecute()
         {
-            await _meetingConnectionService.ConnectAsync(Name);
+            await _meetingConnectionService.JoinToLobbyAsync(Name);
         }
 
         private bool CanJoinExecute()
         {
-            return JoinCommand.IsBusy || string.IsNullOrEmpty(Name) || Name == "" ? false : true;
+            return !(JoinCommand.IsBusy || string.IsNullOrEmpty(Name) || Name == "");
         }
         #endregion
 
-        public ConnectViewModel(IMeetingConnectionService meetingConnectionService)
+        public ConnectViewModel(MeetingServiceAbstract meetingConnectionService)
         {
             _meetingConnectionService = meetingConnectionService;
         }

@@ -15,8 +15,8 @@ namespace Meeting.WPF.Chat
     {
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly ChatServiceAbstract _messageService;
-
-        private UserDto _userDto;
+        // TODO : Temporary. Shpuld be interface
+        private readonly MeetingServiceAbstract _meetingService;
 
         private string _message;
 
@@ -41,7 +41,7 @@ namespace Meeting.WPF.Chat
 
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
-            await _messageService.SendMessageAsync(messageGuid, _userDto.Guid, message);
+            await _messageService.SendMessageAsync(messageGuid, message);
         }
 
         private bool CanSendMessageExecute()
@@ -50,16 +50,19 @@ namespace Meeting.WPF.Chat
         }
         #endregion
 
-        public ChatViewModel(ChatServiceAbstract messageService, IMeetingConnectionService meetingConnection)
+        public ChatViewModel(ChatServiceAbstract messageService, MeetingServiceAbstract meetingConnection)
         {
-            _messageService = messageService;
-            meetingConnection.ConnectionStateChanged += OnConnectionStateChanged;
+            _meetingService = meetingConnection;
 
-            _userDto = meetingConnection.CurrentUser;
+            _messageService = messageService;
+
+            _messageService.MessagesChanged += OnMessagesChanged;
+
+            _messageService.ChatSubscribeAsync();
 
             foreach (var item in _messageService.Messages.Values)
             {
-                if (item.UserGuid == _userDto.Guid)
+                if (item.UserGuid == _meetingService.CurrentUser?.Guid)
                 {
                     Messages.Add(new OwnMessage(item.Guid, item.Message, MessageStatus.Readed, item.DateTime));
                 }
@@ -67,39 +70,6 @@ namespace Meeting.WPF.Chat
                 {
                     Messages.Add(new Message(item.Guid, item.Message, item.DateTime));
                 }
-            }
-
-            _messageService.MessagesChanged += OnMessagesChanged;
-
-            _messageService.ChatSubscribeAsync();
-        }
-
-        private void OnConnectionStateChanged(object? sender, (ConnectionAction Action, UserDto User) e)
-        {
-            if (e.Action == ConnectionAction.Connected)
-            {
-                _userDto = e.User;
-
-                Messages.Clear();
-                foreach (var item in _messageService.Messages.Values)
-                {
-                    if (item.UserGuid == _userDto.Guid)
-                    {
-                        Messages.Add(new OwnMessage(item.Guid, item.Message, MessageStatus.Readed, item.DateTime));
-                    }
-                    else
-                    {
-                        Messages.Add(new Message(item.Guid, item.Message, item.DateTime));
-                    }
-                }
-
-                _messageService.MessagesChanged += OnMessagesChanged;
-            }
-            else
-            {
-                _userDto = null;
-                _messageService.MessagesChanged -= OnMessagesChanged;
-                Messages.Clear();
             }
         }
 
@@ -113,8 +83,7 @@ namespace Meeting.WPF.Chat
                 switch (e.Action)
                 {
                     case NotifyDictionaryChangedAction.Added:
-
-                        if (newValue.UserGuid == _userDto.Guid)
+                        if (newValue.UserGuid == _meetingService.CurrentUser?.Guid)
                         {
                             var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
                             if (index > -1)

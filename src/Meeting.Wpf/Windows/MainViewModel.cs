@@ -7,36 +7,37 @@ using WebcamWithOpenCV;
 using Meeting.WPF.Chat;
 using Meeting.WPF.Connect;
 using MvvmCommon.WindowsDesktop;
+using Meeting.Wpf.CaptureFrames;
+using System.IO;
 
 namespace Meeting.WPF.Windows
 {
     public class MainViewModel : BaseInpc
     {
-        private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly MeetingServiceAbstract _meetingServiceAbstract;
-        private readonly CamStreaming _cam;
+        private readonly CamStreaming? _cam;
+
         private bool _isConnected = false;
-        private ChatViewModel _chatViewModel;
 
         public bool IsConnected { get => _isConnected; private set => Set(ref _isConnected, value); }
-        public ChatViewModel ChatVM { get => _chatViewModel; private set => Set(ref _chatViewModel, value); }
 
+        public ChatViewModel ChatVM { get; }
         public ConnectViewModel ConnectVM { get; }
-
-        public ObservableDictionary<Guid, byte[]> InputVideoStreams { get; } = new ObservableDictionary<Guid, byte[]>();
+        public CaptureFramesViewModel CaptureFramesVM { get; }
 
         public MainViewModel(MeetingServiceAbstract meetingServiceAbstract)
         {
+            ChatVM = new ChatViewModel(meetingServiceAbstract.Chat, meetingServiceAbstract);
             ConnectVM = new ConnectViewModel(meetingServiceAbstract);
+            CaptureFramesVM = new CaptureFramesViewModel(meetingServiceAbstract.CaptureFrames);
 
             _meetingServiceAbstract = meetingServiceAbstract;
-            _meetingServiceAbstract.ConnectionStateChanged += OnConnectionStateChanged;
+            _meetingServiceAbstract.AuthorizationStateChanged += OnConnectionStateChanged;
 
             _cam = CamInitializeTest();
         }
 
-
-        private CamStreaming CamInitializeTest()
+        private CamStreaming? CamInitializeTest()
         {
             CamStreaming result = null;
             var selectedCameraDeviceId = CameraDevicesEnumerator.GetAllConnectedCameras()[0].OpenCvId;
@@ -52,33 +53,24 @@ namespace Meeting.WPF.Windows
             return result;
         }
 
-
-
-        private void OnConnectionStateChanged(object? sender, (ConnectionAction Action, UserDto User) e)
+        private void OnConnectionStateChanged(object? sender, UserConnectionState action)
         {
-            IsConnected = e.Action == ConnectionAction.Connected ? true : false;
-            ChatVM = new ChatViewModel(_meetingServiceAbstract.MessageService, _meetingServiceAbstract);
-            _meetingServiceAbstract.CameraCaptureService.CameraFrameChanged += OnCameraFrameChanged;
-            _cam.CaptureFrameChanged += OnCaptureFrameChanged;
-            _meetingServiceAbstract.CameraCaptureService.UsersCameraCaptureSubscribeAsync();
-            //_ = _cam.Start();
-        }
+            IsConnected = action == UserConnectionState.Connected;
 
-        private void OnCaptureFrameChanged(object? sender, System.IO.Stream e)
-        {
-            _meetingServiceAbstract.CameraCaptureService.SendOwnCameraCaptureAsync(e);
-        }
-
-        private void OnCameraFrameChanged(object sender, Guid userGuid, byte[] frameBytes)
-        {
-            if (!InputVideoStreams.ContainsKey(userGuid))
+            if (action == UserConnectionState.Connected)
             {
-                dispatcher.BeginInvoke(() => InputVideoStreams.Add(userGuid, frameBytes));
+                _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
             }
             else
             {
-                dispatcher.BeginInvoke(() => InputVideoStreams[userGuid] = frameBytes);
+                _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
+                _ = _cam.Stop();
             }
+        }
+
+        private void OnOwnCaptureFrameChanged(object? sender, Stream e)
+        {
+
         }
     }
 }
