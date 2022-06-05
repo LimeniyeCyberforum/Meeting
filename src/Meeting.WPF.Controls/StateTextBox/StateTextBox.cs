@@ -52,7 +52,11 @@ namespace Meeting.WPF.Controls
 
         private void OnStatusElementMouseUp(object sender, MouseButtonEventArgs e)
         {
-            Command?.Execute(CommandParameter);
+            if (Command != null)
+            {
+                if (Command.CanExecute(CommandParameter))
+                    Command.Execute(CommandParameter);
+            }
         }
 
         #region DependencyProperty : Status
