@@ -1,13 +1,16 @@
 ﻿using Meeting.Business.Common.Abstractions;
 using Meeting.Business.Common.Abstractions.FrameCapture;
+using Meeting.Business.Common.DataTypes;
 using Meeting.WPF;
 using MvvmCommon.WindowsDesktop;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using WebcamWithOpenCV;
 
 namespace Meeting.Wpf.CaptureFrames
 {
@@ -15,7 +18,10 @@ namespace Meeting.Wpf.CaptureFrames
     {
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly CaptureFramesServiceAbstract _captureFramesService;
-        private readonly CamStreaming? _cam;
+        private readonly CamStreaming _cam;
+        private UserDto _currentUser;
+
+        private readonly IMeetingAuthorization _authorizationService;
         private readonly IMeetingUsers _meetingUsers;
 
         private bool _isCameraOn;
@@ -23,11 +29,14 @@ namespace Meeting.Wpf.CaptureFrames
 
         public ObservableDictionary<Guid, CaptureFrameViewModel> CaptureFrameAreas { get; } = new ObservableDictionary<Guid, CaptureFrameViewModel>();
 
-        public CaptureFramesViewModel(CaptureFramesServiceAbstract captureFramesService, IMeetingUsers users, CamStreaming? cam)
+        public CaptureFramesViewModel(CaptureFramesServiceAbstract captureFramesService, IMeetingUsers users, IMeetingAuthorization authorizationService)
         {
-            _cam = cam;
+            _cam = CamInitializeTest();
             _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
 
+
+            _authorizationService = authorizationService;
+            _authorizationService.AuthorizationStateChanged += OnConnectionStateChanged;
 
             _captureFramesService = captureFramesService;
             _captureFramesService.CaptureFrameStateChanged += OnCaptureFrameStateChanged;
@@ -52,9 +61,36 @@ namespace Meeting.Wpf.CaptureFrames
             ProtectedPropertyChanged += OnProtectedPropertyChanged;
         }
 
-        private void OnOwnCaptureFrameChanged(object? sender, Stream e)
-        {
 
+        private void OnConnectionStateChanged(object? sender, UserConnectionState action)
+        {
+            if (action == UserConnectionState.Connected)
+            {
+                _currentUser = _authorizationService.CurrentUser;
+            }
+            else if (action == UserConnectionState.Disconnected)
+            {
+                _ = _cam.Stop();
+                _cam.Dispose();
+            }
+        }
+
+        private CamStreaming? CamInitializeTest()
+        {
+            CamStreaming result = null;
+            var selectedCameraDeviceId = CameraDevicesEnumerator.GetAllConnectedCameras()[0].OpenCvId;
+            if (_cam == null || _cam.CameraDeviceId != selectedCameraDeviceId)
+            {
+                _cam?.Dispose();
+                result = new CamStreaming(frameWidth: 300, frameHeight: 300, selectedCameraDeviceId);
+            }
+
+            return result;
+        }
+
+        private void OnOwnCaptureFrameChanged(object? sender, byte[] e)
+        {
+            _captureFramesService.SendFrameAsync(e, _currentUser.Guid, DateTime.UtcNow);
         }
 
 
@@ -78,7 +114,7 @@ namespace Meeting.Wpf.CaptureFrames
             {
                 if (e.IsOn)
                 {
-                    CaptureFrameAreas.Add(e.CaptureAreadGuid, null);
+                    CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, null, e.CaptureAreadGuid, null));
                 }
                 else
                 {

@@ -27,11 +27,12 @@
                     </Style>
                 </ItemsControl.ItemContainerStyle>-->
             <ItemsControl.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="{x:Type local:CaptureFrameViewModel}">
                     <Grid>
                         <Border Background="White" CornerRadius="30"/>
-                        <Image Source="{Binding Value, Converter={StaticResource BytesToBitmapImageConverter}}"/>
-                        <!--<TextBlock Text="{Binding Name}"/>-->
+                        <Image Source="{Binding Value.Data, Converter={StaticResource BytesToBitmapImageConverter}}"/>
+                        <TextBlock Text="{Binding Value.OwnerName}" Foreground="Blue" Margin="20"
+                                   HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
