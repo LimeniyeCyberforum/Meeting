@@ -10,7 +10,7 @@ using Android.Views;
 
 namespace Meeting.Xamarin.Droid
 {
-    [Activity(Label = "Meeting.Xamarin", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
+    [Activity(Label = "Meeting.Xamarin", Icon = "@mipmap/icon", Theme = "@style/Theme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         public const int CameraPermissionsCode = 1;
@@ -26,7 +26,8 @@ namespace Meeting.Xamarin.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
+            //            Window.AddFlags(WindowManagerFlags.Fullscreen);
+            //Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
             base.OnCreate(savedInstanceState);
 
             Essentials.Platform.Init(this, savedInstanceState);
