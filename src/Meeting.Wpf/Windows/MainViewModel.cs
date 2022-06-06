@@ -24,9 +24,12 @@ namespace Meeting.WPF.Windows
         public MainViewModel(IMeetingService meetingService)
         {
             _meetingService = meetingService;
+            _meetingService.Chat.ChatSubscribeAsync();
+            _meetingService.Users.UsersSubscribeAsync();
+            _meetingService.CaptureFrames.CaptureFrameAreasSubscribeAsync();
             ChatVM = new ChatViewModel(_meetingService.Chat, _meetingService);
             ConnectVM = new ConnectViewModel(_meetingService);
-            CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames);
+            CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames, _meetingService);
 
             ProtectedPropertyChanged += OnProtectedPropertyChanged;
             _meetingService.AuthorizationStateChanged += OnConnectionStateChanged;
