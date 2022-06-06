@@ -40,7 +40,7 @@ namespace Meeting.Business.GrpcClient
                 .Finally(() => call.Dispose())
                 .ForEachAsync((x) =>
                 {
-                    MessageDto message = new(Guid.Parse(x.LobbyMessage.MessageGuid), Guid.Parse(x.LobbyMessage.UserGuid), x.LobbyMessage.Username, x.LobbyMessage.MessageGuid, x.LobbyMessage.Time.ToDateTime());
+                    MessageDto message = new(Guid.Parse(x.LobbyMessage.MessageGuid), Guid.Parse(x.LobbyMessage.UserGuid), x.LobbyMessage.Message, x.LobbyMessage.Username, x.LobbyMessage.Time.ToDateTime());
                     switch (x.Action)
                     {
                         case MeetingGrpc.Protos.Action.Added:

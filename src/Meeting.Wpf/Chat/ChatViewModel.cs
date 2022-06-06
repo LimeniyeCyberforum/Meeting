@@ -23,7 +23,7 @@ namespace Meeting.WPF.Chat
 
         public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>()
         {
-            new Message(Guid.NewGuid(), "Hello world", DateTime.Now)
+            new Message(Guid.NewGuid(), "Hello world", "Server", DateTime.Now)
         };
 
         #region SendMessageCommand
@@ -36,7 +36,7 @@ namespace Meeting.WPF.Chat
             var message = Message;
             Message = string.Empty;
             var messageGuid = Guid.NewGuid();
-            var newMessage = new OwnMessage(messageGuid, message, MessageStatus.Sending, null);
+            var newMessage = new OwnMessage(messageGuid, message, _meetingAuthorization.CurrentUser.UserName, MessageStatus.Sending, null);
 
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
@@ -63,11 +63,11 @@ namespace Meeting.WPF.Chat
             {
                 if (item.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
                 {
-                    Messages.Add(new OwnMessage(item.Guid, item.Message, MessageStatus.Readed, item.DateTime));
+                    Messages.Add(new OwnMessage(item.Guid, item.Message, item.UserName, MessageStatus.Readed, item.DateTime));
                 }
                 else
                 {
-                    Messages.Add(new Message(item.Guid, item.Message, item.DateTime));
+                    Messages.Add(new Message(item.Guid, item.Message, item.UserName, item.DateTime));
                 }
             }
         }
@@ -87,16 +87,16 @@ namespace Meeting.WPF.Chat
                             var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
                             if (index > -1)
                             {
-                                Messages[index] = new OwnMessage(newValue.Guid, newValue.Message, MessageStatus.Readed, newValue.DateTime);
+                                Messages[index] = new OwnMessage(newValue.Guid, newValue.Message, newValue.UserName, MessageStatus.Readed, newValue.DateTime);
                             }
                             else
                             {
-                                Messages.Add(new OwnMessage(newValue.Guid, newValue.Message, MessageStatus.Readed, newValue.DateTime));
+                                Messages.Add(new OwnMessage(newValue.Guid, newValue.Message, newValue.UserName, MessageStatus.Readed, newValue.DateTime));
                             }
                         }
                         else
                         {
-                            Messages.Add(new Message(newValue.Guid, newValue.Message, newValue.DateTime));
+                            Messages.Add(new Message(newValue.Guid, newValue.Message, newValue.UserName, newValue.DateTime));
                         }
 
                         break;
