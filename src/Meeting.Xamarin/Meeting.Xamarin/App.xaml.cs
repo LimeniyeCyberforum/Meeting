@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Meeting.Xamarin.Pages;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Meeting.Xamarin
 {
@@ -10,7 +9,7 @@ namespace Meeting.Xamarin
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new MeetingPage();
         }
 
         protected override void OnStart()
