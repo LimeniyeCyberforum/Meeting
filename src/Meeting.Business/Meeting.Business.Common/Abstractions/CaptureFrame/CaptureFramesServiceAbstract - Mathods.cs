@@ -16,8 +16,8 @@ namespace Meeting.Business.Common.Abstractions.FrameCapture
         public abstract Task CaptureFrameAreasSubscribeAsync();
         public abstract void CaptureFrameAreasUnsubscribe();
 
-        public abstract void SendFrame(byte bytes, Guid captureArea, DateTime dateTime);
-        public abstract Task SendFrameAsync(byte bytes, Guid captureArea, DateTime dateTime);
+        public abstract void SendFrame(byte[] bytes, Guid captureArea, DateTime dateTime);
+        public abstract Task SendFrameAsync(byte[] bytes, Guid captureArea, DateTime dateTime);
 
         public abstract Task CaptureFramesSubscribeAsync();
 

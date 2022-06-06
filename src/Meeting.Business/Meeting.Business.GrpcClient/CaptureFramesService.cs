@@ -87,7 +87,7 @@ namespace Meeting.Business.GrpcClient
             throw new NotImplementedException();
         }
 
-        public override void SendFrame(byte bytes, Guid captureArea, DateTime dateTime)
+        public override void SendFrame(byte[] bytes, Guid captureArea, DateTime dateTime)
         {
             _client.SendCaptureFrame(new CaptureFrame
             {
@@ -97,7 +97,7 @@ namespace Meeting.Business.GrpcClient
             }, _metadata);
         }
 
-        public override async Task SendFrameAsync(byte bytes, Guid captureArea, DateTime dateTime)
+        public override async Task SendFrameAsync(byte[] bytes, Guid captureArea, DateTime dateTime)
         {
             await _client.SendCaptureFrameAsync(new CaptureFrame
             {
