@@ -31,7 +31,7 @@ namespace Meeting.WPF.Chat
         public RelayCommandAsync SendMessageCommand => _sendMessageCommand ?? (
             _sendMessageCommand = new RelayCommandAsync(OnSendMessageExecute, CanSendMessageExecute));
 
-        private async void OnSendMessageExecute()
+        private void OnSendMessageExecute()
         {
             var message = Message;
             Message = string.Empty;
@@ -40,7 +40,7 @@ namespace Meeting.WPF.Chat
 
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
-            await _messageService.SendMessageAsync(messageGuid, message);
+            _messageService.SendMessageAsync(messageGuid, message);
         }
 
         private bool CanSendMessageExecute()
