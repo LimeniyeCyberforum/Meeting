@@ -17,7 +17,7 @@
         <ItemsControl ItemsSource="{Binding CaptureFramesVM.CaptureFrameAreas}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="4" Margin="5"/>
+                    <UniformGrid Margin="5"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <!--<ItemsControl.ItemContainerStyle>
@@ -29,7 +29,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <Border Background="Red" Width="300" Height="300"/>
+                        <Border Background="White" CornerRadius="30"/>
                         <Image Source="{Binding Value, Converter={StaticResource BytesToBitmapImageConverter}}"/>
                         <!--<TextBlock Text="{Binding Name}"/>-->
                     </Grid>
