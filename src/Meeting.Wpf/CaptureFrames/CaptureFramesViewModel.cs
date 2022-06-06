@@ -4,6 +4,7 @@ using Meeting.WPF;
 using MvvmCommon.WindowsDesktop;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
@@ -14,12 +15,20 @@ namespace Meeting.Wpf.CaptureFrames
     {
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly CaptureFramesServiceAbstract _captureFramesService;
+        private readonly CamStreaming? _cam;
         private readonly IMeetingUsers _meetingUsers;
+
+        private bool _isCameraOn;
+        public bool IsCameraOn { get => _isCameraOn; set => Set(ref _isCameraOn, value); }
 
         public ObservableDictionary<Guid, CaptureFrameViewModel> CaptureFrameAreas { get; } = new ObservableDictionary<Guid, CaptureFrameViewModel>();
 
-        public CaptureFramesViewModel(CaptureFramesServiceAbstract captureFramesService, IMeetingUsers users)
+        public CaptureFramesViewModel(CaptureFramesServiceAbstract captureFramesService, IMeetingUsers users, CamStreaming? cam)
         {
+            _cam = cam;
+            _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
+
+
             _captureFramesService = captureFramesService;
             _captureFramesService.CaptureFrameStateChanged += OnCaptureFrameStateChanged;
             _captureFramesService.CaptureFrameChanged += OnCaptureFrameChanged;
@@ -39,7 +48,15 @@ namespace Meeting.Wpf.CaptureFrames
                 if (captureFrameArea == null)
                     CaptureFrameAreas.Add(item.Key, new CaptureFrameViewModel(item.Key, item.Value.UserName, item.Key, null));
             }
+
+            ProtectedPropertyChanged += OnProtectedPropertyChanged;
         }
+
+        private void OnOwnCaptureFrameChanged(object? sender, Stream e)
+        {
+
+        }
+
 
         private void OnUsersChanged(object? sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, Business.Common.DataTypes.UserDto> e)
         {
@@ -77,6 +94,23 @@ namespace Meeting.Wpf.CaptureFrames
                 var area = CaptureFrameAreas[e.CaptureAreadGuid];
                 area.Data = e.Bytes;
             });
+        }
+
+        private void OnProtectedPropertyChanged(string propertyName, object oldValue, object newValue)
+        {
+            if (string.Equals(nameof(IsCameraOn), propertyName))
+            {
+                if (IsCameraOn)
+                {
+                    _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
+                    _ = _cam.Start();
+                }
+                else
+                {
+                    _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
+                    _ = _cam.Stop();
+                }
+            }
         }
     }
 }

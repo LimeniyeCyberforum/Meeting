@@ -13,9 +13,8 @@ namespace Meeting.WPF.Windows
         private readonly IMeetingService _meetingService;
         private readonly CamStreaming? _cam;
 
-        private bool _isConnected = false, _isCameraOn = false;
+        private bool _isConnected = false;
         public bool IsConnected { get => _isConnected; private set => Set(ref _isConnected, value); }
-        public bool IsCameraOn { get => _isCameraOn; set => Set(ref _isCameraOn, value); }
 
         public ChatViewModel ChatVM { get; }
         public ConnectViewModel ConnectVM { get; }
@@ -23,18 +22,16 @@ namespace Meeting.WPF.Windows
 
         public MainViewModel(IMeetingService meetingService)
         {
+            _cam = CamInitializeTest();
             _meetingService = meetingService;
             _meetingService.Chat.ChatSubscribeAsync();
             _meetingService.Users.UsersSubscribeAsync();
             _meetingService.CaptureFrames.CaptureFrameAreasSubscribeAsync();
             ChatVM = new ChatViewModel(_meetingService.Chat, _meetingService);
             ConnectVM = new ConnectViewModel(_meetingService);
-            CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames, _meetingService);
+            CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames, _meetingService, _cam);
 
-            ProtectedPropertyChanged += OnProtectedPropertyChanged;
             _meetingService.AuthorizationStateChanged += OnConnectionStateChanged;
-
-            _cam = CamInitializeTest();
         }
 
         private CamStreaming? CamInitializeTest()
@@ -54,36 +51,10 @@ namespace Meeting.WPF.Windows
         {
             IsConnected = action == UserConnectionState.Connected;
 
-            if (action == UserConnectionState.Connected)
+            if (action == UserConnectionState.Disconnected)
             {
-                _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
-            }
-            else
-            {
-                _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
                 _ = _cam.Stop();
-            }
-        }
-
-        private void OnOwnCaptureFrameChanged(object? sender, Stream e)
-        {
-
-        }
-
-        private void OnProtectedPropertyChanged(string propertyName, object oldValue, object newValue)
-        {
-            if (string.Equals(nameof(IsCameraOn), propertyName))
-            {
-                if (IsCameraOn)
-                {
-                    _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
-                    _ = _cam.Start();
-                }
-                else
-                {
-                    _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
-                    _ = _cam.Stop();
-                }
+                _cam.Dispose();
             }
         }
     }

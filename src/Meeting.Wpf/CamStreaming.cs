@@ -11,7 +11,7 @@ using WebcamWithOpenCV;
 
 namespace Meeting.WPF
 {
-    internal class CamStreaming
+    public class CamStreaming
     {
         private System.Drawing.Bitmap _lastFrame;
         private Task _previewTask;
