@@ -26,7 +26,7 @@ namespace Meeting.WPF
         public bool FlipHorizontally { get; set; }
 
         public event EventHandler OnQRCodeRead;
-        public event EventHandler<Stream> CaptureFrameChanged;
+        public event EventHandler<byte[]> CaptureFrameChanged;
         private readonly OpenCVQRCodeReader _qrCodeReader;
 
         private int _currentBarcodeReadFrameCount = 0;
@@ -76,36 +76,36 @@ namespace Meeting.WPF
                             {
                                 //var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
                                 //await messageService.SendCameraCaptureAsync(frame.ToMemoryStream());
-                                CaptureFrameChanged?.Invoke(this, frame.ToMemoryStream());
+                                CaptureFrameChanged?.Invoke(this, frame.ToBytes());
 
-                                if (OnQRCodeRead != null)
-                                {
-                                    // Try read the barcode every n frames to reduce latency
-                                    if (_currentBarcodeReadFrameCount % _readBarcodeEveryNFrame == 0)
-                                    {
-                                        try
-                                        {
-                                            string qrCodeData = _qrCodeReader.DetectBarcode(frame);
-                                            OnQRCodeRead.Invoke(
-                                                this,
-                                                new QRCodeReadEventArgs(qrCodeData));
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Debug.WriteLine(ex);
-                                        }
-                                    }
+                                //if (OnQRCodeRead != null)
+                                //{
+                                //    // Try read the barcode every n frames to reduce latency
+                                //    if (_currentBarcodeReadFrameCount % _readBarcodeEveryNFrame == 0)
+                                //    {
+                                //        try
+                                //        {
+                                //            string qrCodeData = _qrCodeReader.DetectBarcode(frame);
+                                //            OnQRCodeRead.Invoke(
+                                //                this,
+                                //                new QRCodeReadEventArgs(qrCodeData));
+                                //        }
+                                //        catch (Exception ex)
+                                //        {
+                                //            Debug.WriteLine(ex);
+                                //        }
+                                //    }
 
-                                    _currentBarcodeReadFrameCount += 1 % _readBarcodeEveryNFrame;
-                                }
+                                //    _currentBarcodeReadFrameCount += 1 % _readBarcodeEveryNFrame;
+                                //}
 
-                                // Releases the lock on first not empty frame
-                                if (initializationSemaphore != null)
-                                    initializationSemaphore.Release();
+                                //// Releases the lock on first not empty frame
+                                //if (initializationSemaphore != null)
+                                //    initializationSemaphore.Release();
 
-                                _lastFrame = FlipHorizontally
-                                    ? BitmapConverter.ToBitmap(frame.Flip(FlipMode.Y))
-                                    : BitmapConverter.ToBitmap(frame);
+                                //_lastFrame = FlipHorizontally
+                                //    ? BitmapConverter.ToBitmap(frame.Flip(FlipMode.Y))
+                                //    : BitmapConverter.ToBitmap(frame);
 
                                 //var lastFrameBitmapImage = _lastFrame.ToBitmapSource();
                                 //lastFrameBitmapImage.Freeze();
