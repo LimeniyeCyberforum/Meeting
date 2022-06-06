@@ -13,6 +13,9 @@ using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
 using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
 using CaptureFramesClient = MeetingGrpc.Protos.CaptureFrames.CaptureFramesClient;
 using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
+using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
+using System.IO;
 
 namespace Meeting.Business.GrpcClient
 {
@@ -34,7 +37,9 @@ namespace Meeting.Business.GrpcClient
 
         public MeetingService()
         {
-            var channel = GrpcChannel.ForAddress("https://localhost:5010/"/*, channelOptions*/);
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
+            var channel = GrpcChannel.ForAddress("https://3.72.127.66:5010/", GetTemporaryGrpcChannelOptions());
             _authorizationClient = new AuthorizationClient(channel);
 
             Users = new UsersService(new UsersClient(channel));
@@ -86,6 +91,22 @@ namespace Meeting.Business.GrpcClient
         protected void RaiseAuthorizationStateChangedEvent(UserConnectionState newState)
         {
             AuthorizationStateChanged?.Invoke(this, newState);
+        }
+
+        private GrpcChannelOptions GetTemporaryGrpcChannelOptions()
+        {
+            var path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"Resources\limeniye-certificate.crt");
+            var cert = X509Certificate.CreateFromCertFile(path);
+            var certificate = new X509Certificate2(cert);
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            handler.ClientCertificates.Add(certificate);
+            HttpClient httpClient = new(handler);
+            var channelOptions = new GrpcChannelOptions
+            {
+                HttpClient = httpClient
+            };
+            return channelOptions;
         }
     }
 }
