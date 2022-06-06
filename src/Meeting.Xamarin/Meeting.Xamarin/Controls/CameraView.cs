@@ -1,7 +1,13 @@
 ﻿using Xamarin.Forms;
 
-namespace Meeting.Xamarin.Renderers
+namespace Meeting.Xamarin.Controls
 {
+	public enum CameraOptions
+	{
+		Rear,
+		Front
+	}
+
 	public class CameraView : View
 	{
 		public static readonly BindableProperty CameraProperty = BindableProperty.Create(

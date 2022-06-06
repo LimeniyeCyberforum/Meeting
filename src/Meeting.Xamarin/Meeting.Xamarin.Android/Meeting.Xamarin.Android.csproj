@@ -70,6 +70,7 @@
     <Compile Include="Renderers\Camera\CameraTextureView.cs" />
     <Compile Include="Renderers\Camera\CameraViewServiceRenderer.cs" />
     <Compile Include="Renderers\Camera\ImageAvailableListener.cs" />
+    <Compile Include="Renderers\GridSplitter\GridSplitterRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -6,7 +6,7 @@ using Android.OS;
 using AndroidX.Core.App;
 using AndroidX.Core.Content;
 using Meeting.Xamarin.Droid.Renderers.Camera;
-using Meeting.Xamarin.Renderers;
+using Meeting.Xamarin.Controls;
 using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
