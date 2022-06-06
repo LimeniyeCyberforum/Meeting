@@ -8,8 +8,8 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Meeting.Xamarin.Renderers;
 using Java.Lang;
+using Meeting.Xamarin.Renderers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -88,7 +88,7 @@ namespace Meeting.Xamarin.Droid.Renderers.Camera
 				byte[] bitmapData = stream.ToArray();
 				//System.Diagnostics.Debug.WriteLine(bitmapData.LongLength);
 				var test = new MemoryStream(bitmapData);
-				await MainPage.MeetingServiceAbstract.CameraCaptureService.SendOwnCameraCaptureAsync(test);
+				//await MainPage.MeetingServiceAbstract.CameraCaptureService.SendOwnCameraCaptureAsync(test);
 			}
         }
 
