@@ -21,7 +21,9 @@ namespace Meeting.Xamarin.Controls
                 UpdateRow(dragOffsetY);
             }
             else
+            {
                 UpdateColumn(dragOffsetX);
+            }
         }
 
         private bool IsRowSplitter()
