@@ -1,4 +1,5 @@
-﻿using Meeting.Xamarin.Pages;
+﻿using Meeting.Business.GrpcClient;
+using Meeting.Xamarin.Pages;
 using Xamarin.Forms;
 
 namespace Meeting.Xamarin
@@ -9,7 +10,10 @@ namespace Meeting.Xamarin
         {
             InitializeComponent();
 
-            MainPage = new MeetingPage();
+            MainPage = new MeetingPage()
+            {
+                BindingContext = new MeetingViewModel(new MeetingService())
+            };
         }
 
         protected override void OnStart()
