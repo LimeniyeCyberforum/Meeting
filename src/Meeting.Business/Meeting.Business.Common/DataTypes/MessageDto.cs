@@ -20,12 +20,11 @@ namespace Meeting.Business.Common.DataTypes
         {
             Guid = guid;
             UserGuid = userGuid;
-            UserName = userName;
             Message = message ?? string.Empty;
             UserName = userName ?? string.Empty;
             DateTime = dateTime ?? new DateTime();
 
-            hash = (Guid, Message, UserName, DateTime).GetHashCode();
+            hash = (Guid, UserGuid, Message, UserName, DateTime).GetHashCode();
         }
 
         public bool Equals(MessageDto other)
@@ -33,7 +32,7 @@ namespace Meeting.Business.Common.DataTypes
             return other.Guid == Guid && other.UserGuid == UserGuid &&
                 Equals(other.Message, Message) &&
                 Equals(other.UserName, UserName) &&
-                DateTime == DateTime;
+                other.DateTime == DateTime;
         }
 
         public override bool Equals(object obj)
