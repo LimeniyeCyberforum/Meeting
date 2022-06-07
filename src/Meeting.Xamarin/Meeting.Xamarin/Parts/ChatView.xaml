@@ -26,17 +26,19 @@
         </CollectionView.ItemTemplate>
     </CollectionView>
 
-    <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="20">
-        <Entry x:Name="entryMessage" TextColor="White" FontSize="20"
-               HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+    <Frame Grid.Row="1" BackgroundColor="#b4b3b4" CornerRadius="30" Margin="10" Padding="10">
+        <StackLayout Orientation="Horizontal">
+            <Editor x:Name="entry" Text="{Binding ChatVM.Message}" Margin="10,0,0,0" AutoSize="TextChanges"
+                    HorizontalOptions="FillAndExpand"/>
 
-        <Frame WidthRequest="50" HeightRequest="40" IsClippedToBounds="True" CornerRadius="80" Padding="5">
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding ChatVM.SendMessageCommand}"/>
-            </Frame.GestureRecognizers>
+            <Frame WidthRequest="40" HeightRequest="40" IsClippedToBounds="True" CornerRadius="20" Padding="5">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChatVM.SendMessageCommand}"/>
+                </Frame.GestureRecognizers>
 
-            <Image Source="chevron_right"/>
-        </Frame>
+                <Image Source="chevron_right"/>
+            </Frame>
+        </StackLayout>
+    </Frame>
 
-    </StackLayout>
 </Grid>

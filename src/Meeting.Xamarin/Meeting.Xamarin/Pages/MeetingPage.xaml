@@ -1,23 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage x:Class="Meeting.Xamarin.Pages.MeetingPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:controls="clr-namespace:Meeting.Xamarin.Controls">
+             xmlns:controls="clr-namespace:Meeting.Xamarin.Controls"
+             xmlns:parts="clr-namespace:Meeting.Xamarin.Parts">
 
-    <Grid BackgroundColor="Red">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" BackgroundColor="Green">
-            
+        <Grid Grid.Row="0">
+            <!--<toolkit:AvatarView-->
         </Grid>
         
         <controls:GridSplitter Grid.Row="1" VerticalOptions="Center" />
 
-        <Grid Grid.Row="2" BackgroundColor="AliceBlue"> 
-            
+        <Grid Grid.Row="2">
+            <parts:ChatView/>
         </Grid>
         
     </Grid>
