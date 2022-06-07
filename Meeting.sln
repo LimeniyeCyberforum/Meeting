@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingGrpc.Server", "src\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meeting.Xamarin.Android", "src\Meeting.Xamarin\Meeting.Xamarin.Android\Meeting.Xamarin.Android.csproj", "{02A7988D-BD61-4318-AED9-3ACC0803CF06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meeting.Xamarin", "src\Meeting.Xamarin\Meeting.Xamarin\Meeting.Xamarin.csproj", "{E7067FCA-537B-440A-93CE-A0889C349D22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meeting.Xamarin", "src\Meeting.Xamarin\Meeting.Xamarin\Meeting.Xamarin.csproj", "{E7067FCA-537B-440A-93CE-A0889C349D22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit.Xamarin", "src\Toolkit.Xamarin\Toolkit.Xamarin.csproj", "{6FD4F4E4-98B4-4636-ACD3-83FC6ED984A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{E7067FCA-537B-440A-93CE-A0889C349D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7067FCA-537B-440A-93CE-A0889C349D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7067FCA-537B-440A-93CE-A0889C349D22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FD4F4E4-98B4-4636-ACD3-83FC6ED984A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FD4F4E4-98B4-4636-ACD3-83FC6ED984A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FD4F4E4-98B4-4636-ACD3-83FC6ED984A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FD4F4E4-98B4-4636-ACD3-83FC6ED984A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{E364F794-A5D7-497A-9918-0C3EF68C67BA} = {13640C8F-0284-48D6-94ED-484EDED9F670}
 		{02A7988D-BD61-4318-AED9-3ACC0803CF06} = {32C97FFA-C585-412F-99CD-063FCE8D282D}
 		{E7067FCA-537B-440A-93CE-A0889C349D22} = {32C97FFA-C585-412F-99CD-063FCE8D282D}
+		{6FD4F4E4-98B4-4636-ACD3-83FC6ED984A8} = {DDD378E2-A8AD-4BA3-BE26-0F4DEC63F37D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C8047A6-01EE-4859-B4C5-3BBFBA57F8F0}
