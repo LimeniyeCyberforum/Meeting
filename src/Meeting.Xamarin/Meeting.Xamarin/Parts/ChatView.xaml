@@ -1,43 +1,42 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Grid x:Class="Meeting.Xamarin.Parts.ChatView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
         <RowDefinition Height="Auto"/>
-        <RowDefinition/>
     </Grid.RowDefinitions>
 
-    <StackLayout Grid.Row="1" Orientation="Horizontal">
-        <Entry x:Name="entryMessage" TextColor="White" Background="Red"
-               HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-
-        <Button WidthRequest="60" HorizontalOptions="End" Command="{Binding ChatVM.SendMessageCommand}"/>
-    </StackLayout>
-
-    <CollectionView Grid.Row="1" ItemsSource="{Binding ChatVM.Messages}" Background="Green">
+    <CollectionView Grid.Row="0" ItemsSource="{Binding ChatVM.Messages}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="10*"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid HorizontalOptions="EndAndExpand" Margin="30,0,0,0">
+                        <Rectangle Fill="#2b5278" RadiusX="20" RadiusY="20" Margin="10"/>
 
-                    <Rectangle Grid.Column="1" Fill="#2b5278" RadiusX="20" RadiusY="20" Margin="10"
-                               HorizontalOptions="FillAndExpand"
-                               VerticalOptions="FillAndExpand">
-                    </Rectangle>
-
-                    <Grid Grid.Column="1" Background="#2b5278" Padding="10"
-                          VerticalOptions="FillAndExpand"
-                          HorizontalOptions="FillAndExpand">
-
-                        <StackLayout>
-                            <Editor Text="{Binding Message, Mode=OneWay}" TextColor="Black" IsReadOnly="True" Background="#00FFFFF"/>
-                            <Label Text="{Binding DateTime, StringFormat='{}{0:hh:mm:ss tt}'}" TextColor="#6ebddd"
-                                   FontSize="10" HorizontalOptions="End"/>
-                        </StackLayout>
+                        <Grid Padding="25">
+                            <StackLayout>
+                                <Label Text="{Binding Message, Mode=OneWay}" TextColor="White" Background="#00FFFFF"
+                                        HorizontalOptions="StartAndExpand" Margin="0,0,10,0"/>
+                                <Label Text="{Binding DateTime, StringFormat='{}{0:hh:mm:ss tt}'}" TextColor="#6ebddd"
+                                       FontSize="10" HorizontalOptions="End"/>
+                            </StackLayout>
+                        </Grid>
                     </Grid>
                 </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
+
+    <StackLayout Grid.Row="1" Orientation="Horizontal" Margin="20">
+        <Entry x:Name="entryMessage" TextColor="White" FontSize="20"
+               HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+
+        <Frame WidthRequest="50" HeightRequest="40" IsClippedToBounds="True" CornerRadius="80" Padding="5">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ChatVM.SendMessageCommand}"/>
+            </Frame.GestureRecognizers>
+
+            <Image Source="chevron_right"/>
+        </Frame>
+
+    </StackLayout>
 </Grid>
