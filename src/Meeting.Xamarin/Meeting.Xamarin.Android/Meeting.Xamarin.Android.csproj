@@ -99,7 +99,7 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
+    <AndroidResource Include="Resources\drawable\chevron_right.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Meeting.Xamarin\Meeting.Xamarin.csproj">
