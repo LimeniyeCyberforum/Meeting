@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Meeting.Business.Common.DataTypes;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Meeting.WPF.Chat
@@ -18,11 +19,11 @@ namespace Meeting.WPF.Chat
 
         private DataTemplate SelectTemplateCore(object item)
         {
-            if (item is OwnMessage)
+            if (item is OwnerMessageDto)
             {
                 return OwnerMessage;
             }
-            else if(item is Message)
+            else if(item is MessageDto)
             {
                 return AnotherMessage;
             }

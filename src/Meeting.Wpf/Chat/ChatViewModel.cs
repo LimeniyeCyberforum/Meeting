@@ -21,9 +21,9 @@ namespace Meeting.WPF.Chat
 
         public string Message { get => _message; set => Set(ref _message, value); }
 
-        public ObservableCollection<Message> Messages { get; } = new ObservableCollection<Message>()
+        public ObservableCollection<MessageDto> Messages { get; } = new ObservableCollection<MessageDto>()
         {
-            new Message(Guid.NewGuid(), "Hello world", "Server", DateTime.Now)
+            new MessageDto(Guid.NewGuid(), Guid.Empty, "Hello world", "Server", DateTime.Now)
         };
 
         #region SendMessageCommand
@@ -36,7 +36,7 @@ namespace Meeting.WPF.Chat
             var message = Message;
             Message = string.Empty;
             var messageGuid = Guid.NewGuid();
-            var newMessage = new OwnMessage(messageGuid, message, _meetingAuthorization.CurrentUser.UserName, MessageStatus.Sending, null);
+            var newMessage = new OwnerMessageDto(messageGuid, _meetingAuthorization.CurrentUser.Guid, message, _meetingAuthorization.CurrentUser.UserName, null, MessageStatus.Sending);
 
             _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
 
@@ -63,11 +63,12 @@ namespace Meeting.WPF.Chat
             {
                 if (item.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
                 {
-                    Messages.Add(new OwnMessage(item.Guid, item.Message, item.UserName, MessageStatus.Readed, item.DateTime));
+                    // TODO : Input type should be OwnerMessageDto
+                    Messages.Add(new OwnerMessageDto(item.Guid, item.UserGuid, item.Message, item.UserName, item.DateTime, MessageStatus.Readed));
                 }
                 else
                 {
-                    Messages.Add(new Message(item.Guid, item.Message, item.UserName, item.DateTime));
+                    Messages.Add(item);
                 }
             }
         }
@@ -84,51 +85,27 @@ namespace Meeting.WPF.Chat
                     case NotifyDictionaryChangedAction.Added:
                         if (newValue.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
                         {
-                            var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
+                            var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Guid == newValue.Guid));
                             if (index > -1)
                             {
-                                Messages[index] = new OwnMessage(newValue.Guid, newValue.Message, newValue.UserName, MessageStatus.Readed, newValue.DateTime);
+                                Messages[index] = new OwnerMessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime, MessageStatus.Readed);
                             }
                             else
                             {
-                                Messages.Add(new OwnMessage(newValue.Guid, newValue.Message, newValue.UserName, MessageStatus.Readed, newValue.DateTime));
+                                Messages.Add(new OwnerMessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime, MessageStatus.Readed));
                             }
                         }
                         else
                         {
-                            Messages.Add(new Message(newValue.Guid, newValue.Message, newValue.UserName, newValue.DateTime));
+                            Messages.Add(new MessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime));
                         }
-
-                        break;
-                    case NotifyDictionaryChangedAction.Changed:
-                        throw new NotImplementedException();
-                        //var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
-                        //Messages[index] = new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now);
                         break;
                     case NotifyDictionaryChangedAction.Removed:
-                        Messages.Remove(Messages.FirstOrDefault(x => x.Id == newValue.Guid));
+                        if (Messages.Contains(newValue))
+                            Messages.Remove(newValue);
                         break;
-                    case NotifyDictionaryChangedAction.Cleared:
-                        Messages.Clear();
-                        break;
-                    case NotifyDictionaryChangedAction.Initialized:
-                        Messages.Clear();
+                    default:
                         throw new NotImplementedException();
-
-
-                        //if (true)
-                        //{
-                        //    Messages.Add(new OwnMessage(newValue.Guid, newValue.Message, MessageStatus.Readed, newValue.DateTime));
-                        //}
-                        //else
-                        //{
-                        //    // TODO : Is not my message
-                        //}
-                        //foreach (var item in e.NewDictionary.Values.Select(x => new Message(newValue.Guid, newValue.Message, false, true, MessageStatus.Readed, DateTime.Now)))
-                        //{
-                        //    Messages.Add(item);
-                        //}
-                        break;
                 }
             });
         }
