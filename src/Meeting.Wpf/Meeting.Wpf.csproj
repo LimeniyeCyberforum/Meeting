@@ -65,10 +65,4 @@
     <ProjectReference Include="..\Toolkit.WindowsDesktop\Toolkit.WindowsDesktop.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Resources\limeniye-certificate.crt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
