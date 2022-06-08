@@ -16,6 +16,8 @@ using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
+using Xamarin.Essentials;
+using Grpc.Net.Client.Web;
 
 namespace Meeting.Business.GrpcClient
 {
@@ -37,11 +39,8 @@ namespace Meeting.Business.GrpcClient
 
         public MeetingService()
         {
-            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-
-            var channel = GrpcChannel.ForAddress("https://3.72.127.66:5010/", GetTemporaryGrpcChannelOptions());
+            var channel = GetGrpcChannel();
             _authorizationClient = new AuthorizationClient(channel);
-
             Users = new UsersService(new UsersClient(channel));
             Chat = new ChatService(new ChatClient(channel));
             CaptureFrames = new CaptureFramesService(new CaptureFramesClient(channel));
@@ -93,20 +92,118 @@ namespace Meeting.Business.GrpcClient
             AuthorizationStateChanged?.Invoke(this, newState);
         }
 
-        private GrpcChannelOptions GetTemporaryGrpcChannelOptions()
+        //private GrpcChannelOptions GetTemporaryGrpcChannelOptions()
+        //{
+        //    //var path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"Resources\limeniye-certificate.crt");
+        //    //var cert = X509Certificate.CreateFromCertFile(path);
+        //    //var certificate = new X509Certificate2(cert);
+        //    var httpClientHandler = new HttpClientHandler();
+        //    httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+        //    //handler.ClientCertificates.Add(certificate);
+        //    HttpClient httpClient = new(httpClientHandler);
+        //    var channelOptions = new GrpcChannelOptions
+        //    {
+        //        HttpClient = httpClient
+        //    };
+        //    return channelOptions;
+        //}
+
+        //private GrpcChannel GetGrpcChannel(string address)
+        //{
+        //    //var path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"Resources\limeniye-certificate.crt");
+        //    //var cert = X509Certificate.CreateFromCertFile(path);
+        //    //var certificate = new X509Certificate2(cert);
+        //    var httpClientHandler = new HttpClientHandler();
+        //    //httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+
+        //    httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+        //    {
+        //        if (cert.Issuer.Equals("CN=localhost"))
+        //            return true;
+        //        return errors == System.Net.Security.SslPolicyErrors.None;
+        //    };
+        //    //httpClientHandler.ClientCertificates.Add(certificate);
+
+        //    var grpcWebHandler = new GrpcWebHandler(GrpcWebMode.GrpcWebText, httpClientHandler);
+        //    var gpTest = new HttpClient(grpcWebHandler);
+
+        //    var fasf = ToAuthChannel(gpTest, BaseUri);
+
+
+
+        //    HttpClient httpClient = null;
+
+        //    if (DeviceInfo.Platform == DevicePlatform.Android)
+        //    {
+        //        httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWebText, httpClientHandler));
+        //    }
+        //    else
+        //    {
+        //        httpClient = new(httpClientHandler);
+        //    }
+
+        //    var channelOptions = new GrpcChannelOptions
+        //    {
+        //        HttpClient = httpClient,
+        //        Credentials = ChannelCredentials.SecureSsl // тут может быть ошибка
+        //    };
+
+        //    return GrpcChannel.ForAddress(address, channelOptions);
+        //}
+
+        private string GetServerAddress()
         {
-            var path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"Resources\limeniye-certificate.crt");
-            var cert = X509Certificate.CreateFromCertFile(path);
-            var certificate = new X509Certificate2(cert);
-            var handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
-            handler.ClientCertificates.Add(certificate);
-            HttpClient httpClient = new(handler);
-            var channelOptions = new GrpcChannelOptions
+            var address = "https://3.72.127.66:5010";
+#if DEBUG
+            if (DeviceInfo.Platform == DevicePlatform.Android)
             {
-                HttpClient = httpClient
+                address = "https://10.0.2.2:5010";
+            }
+            else
+            {
+                address = "https://localhost:5010";
+            }
+#endif
+            return address;
+        }
+
+        private GrpcChannel GetGrpcChannel()
+        {
+            //var path = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"Resources\limeniye-certificate.crt");
+            //var cert = X509Certificate.CreateFromCertFile(path);
+            //var certificate = new X509Certificate2(cert);
+
+            string address = GetServerAddress();
+
+            AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+
+            var httpClientHandler = new HttpClientHandler();
+
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+            {
+                if (cert.Issuer.Equals("CN=localhost"))
+                    return true;
+                return errors == System.Net.Security.SslPolicyErrors.None;
             };
-            return channelOptions;
+            //httpClientHandler.ClientCertificates.Add(certificate);
+
+            HttpClient httpClient = null;
+
+            if (DeviceInfo.Platform == DevicePlatform.Android)
+            {
+                var grpcWebHandler = new GrpcWebHandler(GrpcWebMode.GrpcWebText, httpClientHandler);
+                httpClient = new HttpClient(grpcWebHandler);
+            }
+            else
+            {
+                httpClient = new(httpClientHandler);
+            }
+
+            return GrpcChannel.ForAddress(address, new GrpcChannelOptions
+            {
+                HttpClient = httpClient,
+                Credentials = ChannelCredentials.SecureSsl
+            });
         }
     }
 }
