@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage x:Class="Meeting.Xamarin.Pages.MeetingPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
+              xmlns:rv="clr-namespace:Sharpnado.MaterialFrame;assembly=Sharpnado.MaterialFrame"
              xmlns:controls="clr-namespace:Meeting.Xamarin.Controls"
              xmlns:parts="clr-namespace:Meeting.Xamarin.Parts">
 
-    <Grid>
+    <Grid Padding="0">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
@@ -20,7 +21,23 @@
         <Grid Grid.Row="2">
             <parts:ChatView/>
         </Grid>
-        
+
+        <Grid Grid.RowSpan="3">
+            <rv:MaterialFrame MaterialBlurStyle="Dark" Margin="-20">
+                <Grid>
+                    <rv:MaterialFrame MaterialBlurStyle="Dark" Margin="-20"/>
+
+                    <rv:MaterialFrame MaterialBlurStyle="ExtraLight" HeightRequest="100" Opacity="0.5" CornerRadius="30" Margin="30"
+                                      HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+
+
+                    </rv:MaterialFrame>
+                </Grid>
+            </rv:MaterialFrame>
+
+            <Entry Placeholder="Name" PlaceholderColor="#363636" TextColor="White" Margin="50"
+                   VerticalOptions="CenterAndExpand" HeightRequest="60"/>
+        </Grid>
     </Grid>
     
 </ContentPage>
