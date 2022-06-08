@@ -1,5 +1,6 @@
 ﻿using Meeting.Business.GrpcClient;
 using Meeting.Xamarin.Pages;
+using Sharpnado.MaterialFrame;
 using Xamarin.Forms;
 
 namespace Meeting.Xamarin
@@ -9,6 +10,7 @@ namespace Meeting.Xamarin
         public App()
         {
             InitializeComponent();
+            Initializer.Initialize(true, true);
 
             MainPage = new MeetingPage()
             {
