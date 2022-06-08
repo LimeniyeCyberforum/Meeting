@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Toolkit.Xamarin;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Meeting.Xamarin.Parts
 {
@@ -30,7 +31,7 @@ namespace Meeting.Xamarin.Parts
 
         private bool CanJoinExecute()
         {
-            return !(JoinCommand.IsExecuting || string.IsNullOrWhiteSpace(Name));
+            return !(string.IsNullOrWhiteSpace(Name) || IsValidName == false);
         }
         #endregion
 
@@ -47,10 +48,12 @@ namespace Meeting.Xamarin.Parts
                 if (string.IsNullOrWhiteSpace(Name))
                 {
                     IsValidName = null;
-                    return;
                 }
-
-                IsValidName = !_meetingAuthorization.IsNameExists(Name);
+                else
+                {
+                    Application.Current.Dispatcher.BeginInvokeOnMainThread(() =>
+                        IsValidName = !_meetingAuthorization.IsNameExists(Name));
+                }
             }
         }
     }

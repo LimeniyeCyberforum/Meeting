@@ -19,7 +19,7 @@
 
         <Frame CornerRadius="10" HeightRequest="20" IsClippedToBounds="True">
             <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding ConnectVM.JoinCommand}"/>
+                <TapGestureRecognizer Command="{Binding ConnectVM.JoinCommand}" />
             </Frame.GestureRecognizers>
 
             <Frame.Style>
@@ -31,6 +31,9 @@
             </Frame.Style>
 
             <Frame.Triggers>
+                <DataTrigger TargetType="Frame" Binding="{Binding ConnectVM.IsValidName, Mode=OneWay}" Value="True">
+                    <Setter Property="IsEnabled" Value="True"/>
+                </DataTrigger>
                 <Trigger TargetType="Frame" Property="IsEnabled" Value="True">
                     <Trigger.EnterActions>
                         <xanimations:AnimateColor TargetProperty="Frame.BackgroundColor" To="#427454" Duration="200"/>
