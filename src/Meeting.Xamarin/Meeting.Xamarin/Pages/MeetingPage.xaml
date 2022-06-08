@@ -23,6 +23,11 @@
         </Grid>
 
         <Grid Grid.RowSpan="3">
+            <Grid.Triggers>
+                <DataTrigger TargetType="Grid" Binding="{Binding IsConnected}" Value="True">
+                    <Setter Property="IsVisible" Value="False"/>
+                </DataTrigger>
+            </Grid.Triggers>
             <parts:ConnectView/>
         </Grid>
     </Grid>
