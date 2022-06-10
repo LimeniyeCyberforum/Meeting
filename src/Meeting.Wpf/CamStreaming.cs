@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebcamWithOpenCV;
 
-namespace Meeting.WPF
+namespace Meeting.Wpf
 {
     public class CamStreaming
     {

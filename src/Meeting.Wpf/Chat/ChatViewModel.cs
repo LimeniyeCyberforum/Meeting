@@ -9,7 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Meeting.WPF.Chat
+namespace Meeting.Wpf.Chat
 {
     public class ChatViewModel : BaseInpc
     {

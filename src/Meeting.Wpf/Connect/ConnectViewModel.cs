@@ -1,7 +1,7 @@
 ﻿using Meeting.Business.Common.Abstractions;
 using MvvmCommon.WindowsDesktop;
 
-namespace Meeting.WPF.Connect
+namespace Meeting.Wpf.Connect
 {
     public class ConnectViewModel : BaseInpc
     {

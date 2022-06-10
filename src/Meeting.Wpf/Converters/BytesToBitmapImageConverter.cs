@@ -5,7 +5,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Meeting.WPF.Converters
+namespace Meeting.Wpf.Converters
 {
     public class BytesToBitmapImageConverter : IValueConverter
     {

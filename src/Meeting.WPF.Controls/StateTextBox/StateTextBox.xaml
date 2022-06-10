@@ -1,5 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Meeting.WPF.Controls"
+                    xmlns:local="clr-namespace:Meeting.Wpf.Controls"
                     xmlns:attachedProperties="clr-namespace:Toolkit.WindowsDesktop.AttachedProperties;assembly=Toolkit.WindowsDesktop">
 
     <SolidColorBrush x:Key="PlaceholderTextBox.Static.Border" Color="#FFABAdB3"/>

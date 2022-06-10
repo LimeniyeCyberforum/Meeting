@@ -1,10 +1,10 @@
 ﻿using Meeting.Business.Common.Abstractions;
-using Meeting.WPF.Chat;
-using Meeting.WPF.Connect;
+using Meeting.Wpf.Chat;
+using Meeting.Wpf.Connect;
 using MvvmCommon.WindowsDesktop;
 using Meeting.Wpf.CaptureFrames;
 
-namespace Meeting.WPF.Windows
+namespace Meeting.Wpf.Windows
 {
     public class MainViewModel : BaseInpc
     {

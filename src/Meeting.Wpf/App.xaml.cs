@@ -1,8 +1,8 @@
 ﻿using Meeting.Business.GrpcClient;
-using Meeting.WPF.Windows;
+using Meeting.Wpf.Windows;
 using System.Windows;
 
-namespace Meeting.WPF
+namespace Meeting.Wpf
 {
     public partial class App : Application
     {

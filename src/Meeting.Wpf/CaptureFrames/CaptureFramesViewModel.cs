@@ -1,7 +1,7 @@
 ﻿using Meeting.Business.Common.Abstractions;
 using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
-using Meeting.WPF;
+using Meeting.Wpf;
 using MvvmCommon.WindowsDesktop;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Meeting.WPF
+namespace Meeting.Wpf
 {
     public partial class MainWindow : Window
     {

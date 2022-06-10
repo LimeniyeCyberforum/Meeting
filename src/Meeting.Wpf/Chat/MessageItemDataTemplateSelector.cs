@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Meeting.WPF.Chat
+namespace Meeting.Wpf.Chat
 {
     public class MessageItemDataTemplateSelector : DataTemplateSelector
     {

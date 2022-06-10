@@ -8,7 +8,7 @@ using System.Windows.Automation;
 using System.Windows.Automation.Peers;
 using System.Windows.Input;
 
-namespace Meeting.WPF.Controls
+namespace Meeting.Wpf.Controls
 {
     public enum StatusEnum
     {

@@ -61,7 +61,7 @@
     <ProjectReference Include="..\Framework\Framework.csproj" />
     <ProjectReference Include="..\Meeting.Business\Meeting.Business.Common\Meeting.Business.Common.csproj" />
     <ProjectReference Include="..\Meeting.Business\Meeting.Business.GrpcClient\Meeting.Business.GrpcClient.csproj" />
-    <ProjectReference Include="..\Meeting.WPF.Controls\Meeting.WPF.Controls.csproj" />
+    <ProjectReference Include="..\Meeting.WPF.Controls\Meeting.Wpf.Controls.csproj" />
     <ProjectReference Include="..\Toolkit.WindowsDesktop\Toolkit.WindowsDesktop.csproj" />
   </ItemGroup>
 

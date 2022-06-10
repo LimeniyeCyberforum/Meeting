@@ -2,7 +2,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Meeting.Wpf.CaptureFrames"
-             xmlns:converters="clr-namespace:Meeting.WPF.Converters"
+             xmlns:converters="clr-namespace:Meeting.Wpf.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=local:CaptureFramesViewModel}">
@@ -10,6 +10,7 @@
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <converters:BytesToBitmapImageConverter x:Key="BytesToBitmapImageConverter"/>
+            <converters:StringToFirstLetterConverter x:Key="StringToFirstLetterConverter"/>
         </ResourceDictionary>
     </FrameworkElement.Resources>
 
@@ -20,19 +21,15 @@
                     <UniformGrid Margin="5"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-            <!--<ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="Grid.Row" Value="{Binding Row}"/>
-                        <Setter Property="Grid.Column" Value="{Binding Column}"/>
-                    </Style>
-                </ItemsControl.ItemContainerStyle>-->
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type local:CaptureFrameViewModel}">
                     <Grid>
-                        <Border Background="White" CornerRadius="30"/>
+                        <Border Background="White" CornerRadius="20,20,20,10"/>
                         <Image Source="{Binding Value.Data, Converter={StaticResource BytesToBitmapImageConverter}}"/>
-                        <TextBlock Text="{Binding Value.OwnerName}" Foreground="Blue" Margin="20"
-                                   HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                        <!--<TextBlock Text="{Binding Value.OwnerName, Converter={StaticResource converters:StringToFirstLetterConverter}}" Foreground="#216868"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                        <TextBlock Text="{Binding Value.OwnerName}" Foreground="#216868" Margin="5,0,0,3"
+                                   HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

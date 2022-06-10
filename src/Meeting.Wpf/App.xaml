@@ -1,4 +1,4 @@
-﻿<Application x:Class="Meeting.WPF.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+﻿<Application x:Class="Meeting.Wpf.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Startup="OnApplicationLaunched">
     <Application.Resources>
         <ResourceDictionary>
@@ -6,7 +6,7 @@
                 <ResourceDictionary Source="/Styles/WindowStyle.xaml"/>
                 <ResourceDictionary Source="/Styles/ToggleButtonStyles.xaml"/>
                 <ResourceDictionary Source="/Styles/ScrollViewerStyle.xaml"/>
-                <ResourceDictionary Source="/Meeting.WPF.Controls;component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="/Meeting.Wpf.Controls;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
