@@ -11,6 +11,12 @@ namespace Meeting.Business.Common.Abstractions.FrameCapture
         public abstract void DestroyCaptureArea(Guid captureAreaGuid);
         public abstract Task DestroyCaptureAreaAsync(Guid captureAreaGuid);
 
+        public abstract void TurnOnCaptureArea(Guid captureAreaGuid);
+        public abstract Task TurnOnCaptureAreaAsync(Guid captureAreaGuid);
+
+        public abstract void TurnOffCaptureArea(Guid captureAreaGuid);
+        public abstract Task TurnOffCaptureAreaAsync(Guid captureAreaGuid);
+
         public abstract Task CaptureFrameAreasSubscribeAsync();
         public abstract void CaptureFrameAreasUnsubscribe();
 
