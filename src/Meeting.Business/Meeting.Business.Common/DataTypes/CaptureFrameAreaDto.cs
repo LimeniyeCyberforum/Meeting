@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.DtoTypes;
+using System;
 
 namespace Meeting.Business.Common.DataTypes
 {

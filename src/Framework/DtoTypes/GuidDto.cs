@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Meeting.Business.Common.DataTypes
+namespace Framework.DtoTypes
 {
     public abstract class GuidDto : IEquatable<GuidDto>
     {
