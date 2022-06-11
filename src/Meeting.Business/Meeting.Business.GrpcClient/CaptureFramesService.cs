@@ -79,12 +79,20 @@ namespace Meeting.Business.GrpcClient
 
         public override void DestroyCaptureArea(Guid captureAreaGuid)
         {
-            throw new NotImplementedException();
+            _client.DestroyCaptureArea(new DestroyCaptureAreaRequest
+            {
+                AreaGuid = captureAreaGuid.ToString(),
+                Time = DateTime.UtcNow.ToTimestamp()
+            }, _metadata);
         }
 
-        public override Task DestroyCaptureAreaAsync(Guid captureAreaGuid)
+        public override async Task DestroyCaptureAreaAsync(Guid captureAreaGuid)
         {
-            throw new NotImplementedException();
+            await _client.DestroyCaptureAreaAsync(new DestroyCaptureAreaRequest
+            {
+                AreaGuid = captureAreaGuid.ToString(),
+                Time = DateTime.UtcNow.ToTimestamp()
+            }, _metadata);
         }
 
         public override void SendFrame(byte[] bytes, Guid captureArea, DateTime dateTime)

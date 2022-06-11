@@ -1,13 +1,9 @@
 ﻿using Meeting.Business.Common.Abstractions;
 using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
-using Meeting.Wpf;
 using MvvmCommon.WindowsDesktop;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using WebcamWithOpenCV;
@@ -121,9 +117,10 @@ namespace Meeting.Wpf.CaptureFrames
                 }
                 else
                 {
-                    if (e.OwnerGuid == e.CaptureAreadGuid)
+                    if (_meetingUsers.Users.Users.ContainsKey(e.CaptureAreadGuid))
                     {
                         var captureFrame = CaptureFrameAreas[e.CaptureAreadGuid];
+                        captureFrame.Data = null;
                     }
                     else
                     {
@@ -155,6 +152,7 @@ namespace Meeting.Wpf.CaptureFrames
                 {
                     _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
                     _ = _cam.Stop();
+                    _captureFramesService.DestroyCaptureArea(_currentUser.Guid);
                 }
             }
         }
