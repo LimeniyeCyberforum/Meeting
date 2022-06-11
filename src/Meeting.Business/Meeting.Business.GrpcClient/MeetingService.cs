@@ -43,7 +43,7 @@ namespace Meeting.Business.GrpcClient
             _authorizationClient = new AuthorizationClient(channel);
             Users = new UsersService(new UsersClient(channel));
             Chat = new ChatService(new ChatClient(channel));
-            CaptureFrames = new CaptureFramesService(new CaptureFramesClient(channel));
+            CaptureFrames = new CaptureFramesService(new CaptureFramesClient(channel), Users);
         }
 
         public void JoinToLobby(string username)
