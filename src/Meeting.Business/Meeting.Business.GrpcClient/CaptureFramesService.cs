@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Meeting.Business.Common.Abstractions.FrameCapture;
 using CaptureFramesClient = MeetingGrpc.Protos.CaptureFrames.CaptureFramesClient;
+using Meeting.Business.Common.Abstractions.Users;
+using Meeting.Business.Common.DataTypes;
 
 namespace Meeting.Business.GrpcClient
 {
@@ -18,12 +20,14 @@ namespace Meeting.Business.GrpcClient
         private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
 
         private readonly CaptureFramesClient _client;
+        private readonly UsersServiceAbstract _usersService;
         private Metadata _metadata;
 
-        public CaptureFramesService(CaptureFramesClient client)
+        public CaptureFramesService(CaptureFramesClient client, UsersServiceAbstract usersService)
             : base()
         {
             _client = client;
+            _usersService = usersService;
         }
 
         public void UpdateMetadata(Metadata metadata)
@@ -40,7 +44,31 @@ namespace Meeting.Business.GrpcClient
                 .Finally(() => call.Dispose())
                 .ForEachAsync((x) =>
                 {
-                    RaiseCaptureFrameStateChangedAction(Guid.Parse(x.OwnerGuid), Guid.Parse(x.CatureAreaGuid), x.IsOn, x.Time.ToDateTime());
+                    var areadGuid = Guid.Parse(x.CatureAreaGuid);
+                    var ownerGuid = Guid.Parse(x.OwnerGuid);
+                    if (x.IsOn)
+                    {
+                        var newCaptureFrame = new CaptureFrameAreaDto(areadGuid, ownerGuid, true);
+                        if (!_usersService.Users.ContainsKey(ownerGuid))
+                        {
+                            activeCaptureFrames.Add(areadGuid, newCaptureFrame);
+                            RaiseCaptureFrameStateChangedAction(ownerGuid, areadGuid, Common.EventArgs.CaptureFrameState.Created, x.Time.ToDateTime());
+                        }
+                        activeCaptureFrames[areadGuid] = newCaptureFrame;
+                        RaiseCaptureFrameStateChangedAction(ownerGuid, areadGuid, Common.EventArgs.CaptureFrameState.Enabled, x.Time.ToDateTime());
+                    }
+                    else
+                    {
+                        var newCaptureFrame = new CaptureFrameAreaDto(areadGuid, ownerGuid, false);
+                        if (!_usersService.Users.ContainsKey(ownerGuid))
+                        {
+                            activeCaptureFrames.Remove(areadGuid);
+                            RaiseCaptureFrameStateChangedAction(ownerGuid, areadGuid, Common.EventArgs.CaptureFrameState.Removed, x.Time.ToDateTime());
+                            return;
+                        }
+                        activeCaptureFrames[areadGuid] = newCaptureFrame;
+                        RaiseCaptureFrameStateChangedAction(ownerGuid, areadGuid, Common.EventArgs.CaptureFrameState.Disabled, x.Time.ToDateTime());
+                    }
                 }, chatCancelationToken.Token);
         }
 
@@ -57,8 +85,11 @@ namespace Meeting.Business.GrpcClient
                 .ToAsyncEnumerable()
                 .Finally(() => call.Dispose())
                 .ForEachAsync((x) =>
-                    RaiseCaptureFrameChangedAction(Guid.Parse(x.CatureAreaGuid), x.Bytes.ToByteArray(), x.Time.ToDateTime()), 
-                    chatCancelationToken.Token);
+                {
+                    //activeCaptureFrames.Add()
+                    RaiseCaptureFrameChangedAction(Guid.Parse(x.CatureAreaGuid), x.Bytes.ToByteArray(), x.Time.ToDateTime());
+                },
+                chatCancelationToken.Token);
         }
 
         public override void CaptureFramesUnsubscribe()
@@ -68,7 +99,7 @@ namespace Meeting.Business.GrpcClient
 
         public override Guid CreateCaptureArea()
         {
-           return Guid.Parse(_client.CreateCaptureArea(DateTime.UtcNow.ToTimestamp(), _metadata).AreaGuid);
+            return Guid.Parse(_client.CreateCaptureArea(DateTime.UtcNow.ToTimestamp(), _metadata).AreaGuid);
         }
 
         public override async Task<Guid> CreateCaptureAreaAsync()
