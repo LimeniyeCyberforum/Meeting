@@ -23,7 +23,7 @@ namespace Meeting.Wpf.Chat
 
         public ObservableCollection<MessageDto> Messages { get; } = new ObservableCollection<MessageDto>()
         {
-            new MessageDto(Guid.NewGuid(), Guid.Empty, "Hello world", "Server", DateTime.Now)
+            new MessageDto(Guid.NewGuid(), Guid.Empty, "Hello world", "Server", DateTime.UtcNow)
         };
 
         #region SendMessageCommand

@@ -114,11 +114,21 @@ namespace Meeting.Wpf.CaptureFrames
             {
                 if (e.IsOn)
                 {
+                    if (CaptureFrameAreas.ContainsKey(e.CaptureAreadGuid))
+                        return;
+
                     CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, null, e.CaptureAreadGuid, null));
                 }
                 else
                 {
-                    CaptureFrameAreas.Remove(e.CaptureAreadGuid);
+                    if (e.OwnerGuid == e.CaptureAreadGuid)
+                    {
+                        var captureFrame = CaptureFrameAreas[e.CaptureAreadGuid];
+                    }
+                    else
+                    {
+                        CaptureFrameAreas.Remove(e.CaptureAreadGuid);
+                    }
                 }
             });
         }

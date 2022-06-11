@@ -25,10 +25,23 @@
                 <DataTemplate DataType="{x:Type local:CaptureFrameViewModel}">
                     <Grid>
                         <Border Background="#427d83" CornerRadius="20,20,20,10"/>
-                        <Image x:Name="captureFrame" Source="{Binding Value.Data, Converter={StaticResource BytesToBitmapImageConverter}}"/>
+                        <Image x:Name="captureFrame" Source="{Binding Value.Data, Converter={StaticResource BytesToBitmapImageConverter}}"
+                               Stretch="Uniform" Visibility="Visible">
+                            <!--<Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </Style>
+                            </Image.Style>-->
+                        </Image>
 
                         <!-- Default -->
-                        <Grid x:Name="default">
+                        <Grid x:Name="default" Visibility="Collapsed">
+                            <!--<Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Style>
+                            </Grid.Style>-->
+
                             <Border Background="#2b2731" Margin="10" CornerRadius="20"/>
                             <TextBlock Text="{Binding Value.OwnerName, Converter={StaticResource StringToFirstLetterConverter}}" 
                                        Foreground="#16b1a5" FontSize="25"

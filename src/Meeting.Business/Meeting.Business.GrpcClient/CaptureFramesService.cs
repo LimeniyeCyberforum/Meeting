@@ -40,7 +40,7 @@ namespace Meeting.Business.GrpcClient
                 .Finally(() => call.Dispose())
                 .ForEachAsync((x) =>
                 {
-                    RaiseCaptureFrameStateChangedAction(Guid.Parse(x.OwnerGuid), Guid.Parse(x.CatureAreaGuid), x.IsOn);
+                    RaiseCaptureFrameStateChangedAction(Guid.Parse(x.OwnerGuid), Guid.Parse(x.CatureAreaGuid), x.IsOn, x.Time.ToDateTime());
                 }, chatCancelationToken.Token);
         }
 
@@ -68,12 +68,12 @@ namespace Meeting.Business.GrpcClient
 
         public override Guid CreateCaptureArea()
         {
-           return Guid.Parse(_client.CreateCaptureArea(empty, _metadata).AreaGuid);
+           return Guid.Parse(_client.CreateCaptureArea(DateTime.UtcNow.ToTimestamp(), _metadata).AreaGuid);
         }
 
         public override async Task<Guid> CreateCaptureAreaAsync()
         {
-            var areaGuid = await _client.CreateCaptureAreaAsync(empty, _metadata);
+            var areaGuid = await _client.CreateCaptureAreaAsync(DateTime.UtcNow.ToTimestamp(), _metadata);
             return Guid.Parse(areaGuid.AreaGuid);
         }
 
