@@ -13,9 +13,9 @@ namespace Meeting.Business.Common.Abstractions.FrameCapture
             CaptureFrameChanged?.Invoke(this, new CaptureFrameEventArgs(frameAreaGuid, frameBytes, dateTime));
         }
 
-        protected void RaiseCaptureFrameStateChangedAction(Guid ownerGuid, Guid frameAreaGuid, bool newStateIsOn, DateTime dateTime)
+        protected void RaiseCaptureFrameStateChangedAction(Guid ownerGuid, Guid frameAreaGuid, CaptureFrameState newCaptureState, DateTime dateTime)
         {
-            CaptureFrameStateChanged?.Invoke(this, new CaptureFrameStateEventArgs(ownerGuid, frameAreaGuid, newStateIsOn, dateTime));
+            CaptureFrameStateChanged?.Invoke(this, new CaptureFrameStateEventArgs(ownerGuid, frameAreaGuid, newCaptureState, dateTime));
         }
     }
 }

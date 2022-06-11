@@ -1,19 +1,19 @@
-﻿using Framework.Interfaces;
-using Meeting.Business.Common.DataTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Meeting.Business.Common.DataTypes;
 
 namespace Meeting.Business.Common.Abstractions.FrameCapture
 {
     public abstract partial class CaptureFramesServiceAbstract
     {
-        protected HashSet<CaptureFrameAreaDto> activeCaptureFrames = new HashSet<CaptureFrameAreaDto>();
+        protected Dictionary<Guid, CaptureFrameAreaDto> activeCaptureFrames = new Dictionary<Guid, CaptureFrameAreaDto>();
 
-        public IReadonlyHashSet<CaptureFrameAreaDto> ActiveCaptureFrames { get; }
+        public IReadOnlyDictionary<Guid, CaptureFrameAreaDto> ActiveCaptureFrames { get; }
 
         public CaptureFramesServiceAbstract()
         { 
-            ActiveCaptureFrames = new ReadonlyHashSet<CaptureFrameAreaDto>(activeCaptureFrames);
+            ActiveCaptureFrames = new ReadOnlyDictionary<Guid, CaptureFrameAreaDto>(activeCaptureFrames);
         }
     }
 }
