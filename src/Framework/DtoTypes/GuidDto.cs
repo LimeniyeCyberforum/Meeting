@@ -9,7 +9,7 @@ namespace Framework.DtoTypes
         public GuidDto(Guid guid)
         {
             Guid = guid;
-            hash = guid.GetHashCode();
+            hash = HashCode.Combine(guid.GetHashCode(), GetType().GetHashCode());
         }
 
         public sealed override bool Equals(object obj)
@@ -22,8 +22,10 @@ namespace Framework.DtoTypes
         public bool Equals(GuidDto other)
         {
             return !(other is null) &&
-                   Guid.Equals(other.Guid);
+                   Guid.Equals(other.Guid) &&
+                   GetType().Equals(other.GetType());
         }
+
         protected abstract bool EqualsCore(GuidDto dto);
         public sealed override int GetHashCode() => hash;
     }
