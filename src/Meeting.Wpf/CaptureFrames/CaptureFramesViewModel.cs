@@ -40,7 +40,7 @@ namespace Meeting.Wpf.CaptureFrames
 
             foreach (var item in _captureFramesService.ActiveCaptureFrames)
             {
-                CaptureFrameAreas.Add(item.AreaGuid, new CaptureFrameViewModel(item.OwnerGuid, String.Empty, item.AreaGuid, null));
+                CaptureFrameAreas.Add(item.Guid, new CaptureFrameViewModel(item.OwnerGuid, String.Empty, item.Guid, null));
             }
 
             _meetingUsers = users;
@@ -108,24 +108,18 @@ namespace Meeting.Wpf.CaptureFrames
         {
             dispatcher.BeginInvoke(() =>
             {
-                if (e.IsOn)
+                switch (e.Action)
                 {
-                    if (CaptureFrameAreas.ContainsKey(e.CaptureAreadGuid))
-                        return;
-
-                    CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, null, e.CaptureAreadGuid, null));
-                }
-                else
-                {
-                    if (_meetingUsers.Users.Users.ContainsKey(e.CaptureAreadGuid))
-                    {
+                    case Business.Common.EventArgs.CaptureFrameState.Disabled:
                         var captureFrame = CaptureFrameAreas[e.CaptureAreadGuid];
                         captureFrame.Data = null;
-                    }
-                    else
-                    {
+                        break;
+                    case Business.Common.EventArgs.CaptureFrameState.Created:
+                        CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, "steve", e.CaptureAreadGuid, null));
+                        break;
+                    case Business.Common.EventArgs.CaptureFrameState.Removed:
                         CaptureFrameAreas.Remove(e.CaptureAreadGuid);
-                    }
+                        break;
                 }
             });
         }
