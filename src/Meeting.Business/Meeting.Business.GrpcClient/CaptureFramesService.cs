@@ -86,8 +86,14 @@ namespace Meeting.Business.GrpcClient
                 .Finally(() => call.Dispose())
                 .ForEachAsync((x) =>
                 {
-                    //activeCaptureFrames.Add()
-                    RaiseCaptureFrameChangedAction(Guid.Parse(x.CatureAreaGuid), x.Bytes.ToByteArray(), x.Time.ToDateTime());
+                    var areaGuid = Guid.Parse(x.CatureAreaGuid);
+                    if (activeCaptureFrames.TryGetValue(areaGuid, out CaptureFrameAreaDto value))
+                    {
+                        if (value.IsActive)
+                        {
+                            RaiseCaptureFrameChangedAction(areaGuid, x.Bytes.ToByteArray(), x.Time.ToDateTime());
+                        }
+                    }
                 },
                 chatCancelationToken.Token);
         }
