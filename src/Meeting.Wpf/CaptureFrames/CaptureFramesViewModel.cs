@@ -139,13 +139,13 @@ namespace Meeting.Wpf.CaptureFrames
                 {
                     _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
                     _ = _cam.Start();
-                    _captureFramesService.CreateCaptureArea(_currentUser.Guid);
+                    _captureFramesService.TurnOnCaptureArea(_currentUser.Guid);
                 }
                 else
                 {
                     _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
                     _ = _cam.Stop();
-                    _captureFramesService.DestroyCaptureArea(_currentUser.Guid);
+                    _captureFramesService.TurnOffCaptureArea(_currentUser.Guid);
                 }
             }
         }
