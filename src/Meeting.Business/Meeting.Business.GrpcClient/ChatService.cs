@@ -14,7 +14,7 @@ namespace Meeting.Business.GrpcClient
 {
     public class ChatService : ChatServiceAbstract
     {
-        private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
+        private CancellationTokenSource _chatSubscribeCancellationToken;
 
         private readonly ChatClient _client;
 
@@ -34,6 +34,7 @@ namespace Meeting.Business.GrpcClient
         public override Task ChatSubscribeAsync()
         {
             var call = _client.MessagesSubscribe(new Empty());
+            _chatSubscribeCancellationToken = new CancellationTokenSource();
 
             return call.ResponseStream
                 .ToAsyncEnumerable()
@@ -56,12 +57,12 @@ namespace Meeting.Business.GrpcClient
                             throw new NotImplementedException();
                     }
 
-                }, chatCancelationToken.Token);
+                }, _chatSubscribeCancellationToken.Token);
         }
 
-        public override Task ChatUnsubscribe()
+        public override void ChatUnsubscribe()
         {
-            throw new NotImplementedException();
+            _chatSubscribeCancellationToken.Cancel();
         }
 
         public override void SendMessage(Guid messageGuid, string message)
