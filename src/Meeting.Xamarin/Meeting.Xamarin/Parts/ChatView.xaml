@@ -1,11 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Grid x:Class="Meeting.Xamarin.Parts.ChatView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-      xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
-
-    <Grid.Behaviors>
-        <xct:EventToCommandBehavior EventName="Appearing" Command="{Binding AppearingCommand}" />
-        <xct:EventToCommandBehavior EventName="Disappearing" Command="{Binding DisappearingCommand}" />
-    </Grid.Behaviors>
+<Grid x:Class="Meeting.Xamarin.Parts.ChatView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <Grid.RowDefinitions>
         <RowDefinition Height="*"/>
