@@ -18,17 +18,17 @@
 
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <Frame WidthRequest="50" HeightRequest="50" IsClippedToBounds="True">
+                <Frame IsClippedToBounds="True" CornerRadius="30" Padding="0">
                     <Frame.Triggers>
                         <DataTrigger TargetType="Frame" Binding="{Binding Value.Data}" Value="{x:Null}">
                             <Setter TargetName="default" Property="IsVisible" Value="True"/>
                             <Setter TargetName="captureFrame" Property="IsVisible" Value="False"/>
                         </DataTrigger>
                     </Frame.Triggers>
-                    
-                    <Grid>
+
+                    <Grid WidthRequest="100" HeightRequest="100" Background="Green">
                         <Image x:Name="captureFrame" Source="{Binding Value.Data, Converter={StaticResource BytesToImageSourceConverter}}"
-                               Aspect="AspectFit" IsVisible="True"/>
+                               Aspect="AspectFit" IsVisible="False"/>
 
                         <!-- Default -->
                         <Grid x:Name="default" IsVisible="False" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">

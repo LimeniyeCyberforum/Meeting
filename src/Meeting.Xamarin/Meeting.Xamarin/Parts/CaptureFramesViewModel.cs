@@ -1,6 +1,7 @@
 ﻿using Meeting.Business.Common.Abstractions;
 using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
+using Meeting.Xamarin.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,6 +75,7 @@ namespace Meeting.Xamarin.Parts
             eventSubscriptions.Disposable = null;
             CompositeDisposable disposable = new CompositeDisposable();
 
+            CameraView.CaptureFrameChanged += OnOwnerCaptureFrameChanged;
             _meetingUsers.Users.UsersChanged += OnUsersChanged;
             _authorizationService.AuthorizationStateChanged += OnConnectionStateChanged;
             _captureFramesService.CaptureFrameChanged += OnCaptureFrameChanged;
@@ -82,6 +84,7 @@ namespace Meeting.Xamarin.Parts
 
             disposable.Add(Disposable.Create(delegate
             {
+                CameraView.CaptureFrameChanged -= OnOwnerCaptureFrameChanged;
                 _meetingUsers.Users.UsersChanged -= OnUsersChanged;
                 _authorizationService.AuthorizationStateChanged -= OnConnectionStateChanged;
                 _captureFramesService.CaptureFrameStateChanged -= OnCaptureFrameStateChanged;
@@ -89,6 +92,11 @@ namespace Meeting.Xamarin.Parts
                 ProtectedPropertyChanged -= OnProtectedPropertyChanged;
             }));
             eventSubscriptions.Disposable = disposable;
+        }
+
+        private void OnOwnerCaptureFrameChanged(object sender, CaptureFrameEventArgs e)
+        {
+            _captureFramesService.SendFrameAsync(e.Data, _currentUser.Guid, e.Time);
         }
 
         private void OnConnectionStateChanged(object sender, UserConnectionState action)
@@ -104,11 +112,6 @@ namespace Meeting.Xamarin.Parts
                 //_ = _cam.Stop();
                 //_cam.Dispose();
             }
-        }
-
-        private void OnOwnCaptureFrameChanged(object sender, byte[] e)
-        {
-            _captureFramesService.SendFrameAsync(e, _currentUser.Guid, DateTime.UtcNow);
         }
 
         private void OnUsersChanged(object sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, Business.Common.DataTypes.UserDto> e)
