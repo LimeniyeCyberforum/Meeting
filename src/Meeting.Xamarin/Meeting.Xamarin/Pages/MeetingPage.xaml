@@ -4,12 +4,16 @@
              xmlns:parts="clr-namespace:Meeting.Xamarin.Parts">
 
     <Grid>
-        
-        <!-- Own camera -->
+
+        <parts:CaptureFramesView/>
+
+        <!-- Own test camera -->
         <Frame HeightRequest="500" VerticalOptions="Start" Margin="50" IsClippedToBounds="True" CornerRadius="50" Padding="0">
             <controls:CameraView Camera="Rear"/>
         </Frame>
 
+        
+        
         <!-- Chat -->
         <Grid Padding="0">
             <Grid.RowDefinitions>
