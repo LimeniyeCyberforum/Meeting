@@ -1,17 +1,51 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Grid x:Class="Meeting.Xamarin.Parts.CaptureFramesView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-      xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+      xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+      xmlns:converters="clr-namespace:Meeting.Xamarin.Converters">
 
-    <CollectionView ItemsSource="{Binding CaptureFramesVM.CaptureFrameAreas}">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <converters:BytesToImageSourceConverter x:Key="BytesToImageSourceConverter"/>
+            <converters:StringToFirstLetterConverter x:Key="StringToFirstLetterConverter"/>
+        </ResourceDictionary>
+    </Grid.Resources>
+
+    <CollectionView ItemsSource="{Binding CaptureFramesVM.CaptureFrameAreas}" HeightRequest="500" VerticalOptions="Start">
         <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical"/>
+            <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10" Span="2"
+                             SnapPointsType="MandatorySingle" SnapPointsAlignment="End"/>
         </CollectionView.ItemsLayout>
 
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <Grid Padding="10" Background="Red">
-                  
-                </Grid>
+                <Frame WidthRequest="50" HeightRequest="50" IsClippedToBounds="True">
+                    <Frame.Triggers>
+                        <DataTrigger TargetType="Frame" Binding="{Binding Value.Data}" Value="{x:Null}">
+                            <Setter TargetName="default" Property="IsVisible" Value="True"/>
+                            <Setter TargetName="captureFrame" Property="IsVisible" Value="False"/>
+                        </DataTrigger>
+                    </Frame.Triggers>
+                    
+                    <Grid>
+                        <Image x:Name="captureFrame" Source="{Binding Value.Data, Converter={StaticResource BytesToImageSourceConverter}}"
+                               Aspect="AspectFit" IsVisible="True"/>
+
+                        <!-- Default -->
+                        <Grid x:Name="default" IsVisible="False" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Frame Background="#427d83" Margin="10" CornerRadius="20" />
+                            <Label Text="{Binding Value.OwnerName, Converter={StaticResource StringToFirstLetterConverter}}" 
+                                   TextColor="#16b1a5" FontSize="25"
+                                   HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                        </Grid>
+
+                        <!-- Username -->
+                        <Grid HorizontalOptions="StartAndExpand" VerticalOptions="EndAndExpand" Margin="7,0,0,3">
+                            <Rectangle Background="#3e5b96" xct:CornerRadiusEffect.CornerRadius="5,5,5,2" Opacity="0.5"/>
+                            <Label Text="{Binding Value.OwnerName}" FontSize="18"
+                                   TextColor="#f0f0f0" Margin="10,2,10,2"/>
+                        </Grid>
+                    </Grid>
+                </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

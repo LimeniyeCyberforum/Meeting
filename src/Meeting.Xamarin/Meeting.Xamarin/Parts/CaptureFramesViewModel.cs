@@ -2,6 +2,8 @@
 using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using Toolkit.Xamarin;
@@ -74,6 +76,7 @@ namespace Meeting.Xamarin.Parts
 
             _meetingUsers.Users.UsersChanged += OnUsersChanged;
             _authorizationService.AuthorizationStateChanged += OnConnectionStateChanged;
+            _captureFramesService.CaptureFrameChanged += OnCaptureFrameChanged;
             _captureFramesService.CaptureFrameStateChanged += OnCaptureFrameStateChanged;
             ProtectedPropertyChanged += OnProtectedPropertyChanged;
 
@@ -82,21 +85,11 @@ namespace Meeting.Xamarin.Parts
                 _meetingUsers.Users.UsersChanged -= OnUsersChanged;
                 _authorizationService.AuthorizationStateChanged -= OnConnectionStateChanged;
                 _captureFramesService.CaptureFrameStateChanged -= OnCaptureFrameStateChanged;
+                _captureFramesService.CaptureFrameChanged -= OnCaptureFrameChanged;
                 ProtectedPropertyChanged -= OnProtectedPropertyChanged;
             }));
             eventSubscriptions.Disposable = disposable;
         }
-
-        protected override void OnAppearing()
-        {
-            _captureFramesService.CaptureFrameChanged += OnCaptureFrameChanged;
-        }
-
-        protected override void OnDisappearing()
-        {
-            _captureFramesService.CaptureFrameChanged -= OnCaptureFrameChanged;
-        }
-
 
         private void OnConnectionStateChanged(object sender, UserConnectionState action)
         {
@@ -123,24 +116,31 @@ namespace Meeting.Xamarin.Parts
             var item = e.NewValue;
             var captureFrameArea = CaptureFrameAreas.Values.FirstOrDefault(x => x.OwnerGuid == item.Guid || x.AreaGuid == item.Guid);
 
-            if (captureFrameArea == null)
-                CaptureFrameAreas.Add(item.Guid, new CaptureFrameViewModel(item.Guid, item.Guid, item.UserName, null));
+            lock (((ICollection)CaptureFrameAreas).SyncRoot)
+            {
+                if (captureFrameArea == null)
+                    CaptureFrameAreas.Add(item.Guid, new CaptureFrameViewModel(item.Guid, item.Guid, item.UserName, null));
+            }
         }
 
         private void OnCaptureFrameStateChanged(object sender, Business.Common.EventArgs.CaptureFrameStateEventArgs e)
         {
-            switch (e.Action)
+            lock (((ICollection)CaptureFrameAreas).SyncRoot)
             {
-                case Business.Common.EventArgs.CaptureFrameState.Disabled:
-                    var captureFrame = CaptureFrameAreas[e.CaptureAreadGuid];
-                    captureFrame.Data = null;
-                    break;
-                case Business.Common.EventArgs.CaptureFrameState.Created:
-                    CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, "steve", null));
-                    break;
-                case Business.Common.EventArgs.CaptureFrameState.Removed:
-                    CaptureFrameAreas.Remove(e.CaptureAreadGuid);
-                    break;
+                switch (e.Action)
+                {
+                    case Business.Common.EventArgs.CaptureFrameState.Disabled:
+                        var captureFrame = CaptureFrameAreas[e.CaptureAreadGuid];
+                        captureFrame.Data = null;
+                        break;
+                    case Business.Common.EventArgs.CaptureFrameState.Created:
+                        var user = _meetingUsers.Users.Users[e.OwnerGuid];
+                        CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName + "switch", null));
+                        break;
+                    case Business.Common.EventArgs.CaptureFrameState.Removed:
+                        CaptureFrameAreas.Remove(e.CaptureAreadGuid);
+                        break;
+                }
             }
         }
 
@@ -158,12 +158,16 @@ namespace Meeting.Xamarin.Parts
                 if (IsCameraOn)
                 {
                     //_cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
-                    //_ = _cam.Start();
+                    //_cam.Start();
+
+                    _captureFramesService.TurnOnCaptureArea(_currentUser.Guid);
                 }
                 else
                 {
                     //_cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
-                    //_ = _cam.Stop();
+                    //_cam.Stop();
+
+                    _captureFramesService.TurnOffCaptureArea(_currentUser.Guid);
                 }
             }
         }
