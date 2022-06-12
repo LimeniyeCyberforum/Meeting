@@ -62,9 +62,12 @@ namespace Meeting.Xamarin.Droid
 
         private void OnCreate()
         {
-            _meetingService = new MeetingService();
-            _meetingService.OnCreate();
-            DependencyService.RegisterSingleton(_meetingService);
+            if (_meetingService is null)
+            {
+                _meetingService = MeetingService.Instance;
+                _meetingService.OnCreate();
+                DependencyService.RegisterSingleton(_meetingService);
+            }
         }
 
         protected override void OnResume()
