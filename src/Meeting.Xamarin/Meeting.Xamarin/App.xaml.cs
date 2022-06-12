@@ -1,4 +1,4 @@
-﻿using Meeting.Business.GrpcClient;
+﻿using Meeting.Business.Common.Abstractions;
 using Meeting.Xamarin.Pages;
 using Sharpnado.MaterialFrame;
 using Xamarin.Forms;
@@ -14,7 +14,7 @@ namespace Meeting.Xamarin
 
             MainPage = new MeetingPage()
             {
-                BindingContext = new MeetingViewModel(new MeetingService())
+                BindingContext = new MeetingViewModel(DependencyService.Get<IMeetingService>())
             };
         }
 
