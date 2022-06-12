@@ -7,6 +7,9 @@ using Android;
 using System;
 using Google.Android.Material.Snackbar;
 using Android.Views;
+using Meeting.Business.Common.Abstractions;
+using Meeting.Business.GrpcClient;
+using DependencyService = Xamarin.Forms.DependencyService;
 
 namespace Meeting.Xamarin.Droid
 {
@@ -24,6 +27,8 @@ namespace Meeting.Xamarin.Droid
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            OnCreate();
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             //            Window.AddFlags(WindowManagerFlags.Fullscreen);
@@ -50,6 +55,30 @@ namespace Meeting.Xamarin.Droid
             }
 
             CameraPermissionGranted?.Invoke(this, EventArgs.Empty);
+        }
+
+        private IMeetingService _meetingService;
+
+        private void OnCreate()
+        {
+            var meetingService = new MeetingService();
+            _meetingService = meetingService;
+
+            DependencyService.RegisterSingleton<IMeetingService>(meetingService);
+            _meetingService.Chat.ChatSubscribeAsync();
+            _meetingService.Users.UsersSubscribeAsync();
+            _meetingService.CaptureFrames.CaptureFrameAreasSubscribeAsync();
+            _meetingService.CaptureFrames.CaptureFramesSubscribeAsync();
+        }
+
+        protected override void OnDestroy()
+        {
+            _meetingService.Chat.ChatUnsubscribe();
+            _meetingService.Users.UsersUnsubscribe();
+            _meetingService.CaptureFrames.CaptureFramesUnsubscribe();
+            _meetingService.CaptureFrames.CaptureFramesUnsubscribe();
+
+            base.OnDestroy();
         }
     }
 }
