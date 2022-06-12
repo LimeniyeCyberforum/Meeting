@@ -2,9 +2,9 @@
 
 namespace Meeting.Wpf
 {
-    public partial class MainWindow : Window
+    public partial class MeetingWindow : Window
     {
-        public MainWindow()
+        public MeetingWindow()
         {
             InitializeComponent();
         }
