@@ -118,13 +118,13 @@ namespace Meeting.Wpf.CaptureFrames
             var item = e.NewValue;
             var captureFrameArea = CaptureFrameAreas.Values.FirstOrDefault(x => x.OwnerGuid == item.Guid || x.AreaGuid == item.Guid);
 
-            if (captureFrameArea == null)
+            dispatcher.BeginInvoke(() =>
             {
-                dispatcher.BeginInvoke(() =>
+                if (captureFrameArea == null)
                 {
                     CaptureFrameAreas.Add(item.Guid, new CaptureFrameViewModel(item.Guid, item.Guid, item.UserName, null));
-                });
-            }
+                }
+            });
         }
 
         private void OnCaptureFrameStateChanged(object? sender, Business.Common.EventArgs.CaptureFrameStateEventArgs e)
@@ -138,7 +138,8 @@ namespace Meeting.Wpf.CaptureFrames
                         captureFrame.Data = null;
                         break;
                     case Business.Common.EventArgs.CaptureFrameState.Created:
-                        CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, "steve", null));
+                        var user = _meetingUsers.Users.Users[e.OwnerGuid];
+                        CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
                         break;
                     case Business.Common.EventArgs.CaptureFrameState.Removed:
                         CaptureFrameAreas.Remove(e.CaptureAreadGuid);
@@ -166,7 +167,7 @@ namespace Meeting.Wpf.CaptureFrames
                     _cam.Start();
                     _captureFramesService.TurnOnCaptureArea(_currentUser.Guid);
                 }
-                else if(_cam != null)
+                else if (_cam != null)
                 {
                     _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
                     _cam.Stop();

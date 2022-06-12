@@ -26,8 +26,7 @@
                     <Grid Margin="1">
                         <Border Background="#2b2731" CornerRadius="20,20,20,10"/>
                         <Image x:Name="captureFrame" Source="{Binding Value.Data, Converter={StaticResource BytesToBitmapImageConverter}}"
-                               Stretch="Uniform" Visibility="Visible">
-                        </Image>
+                               Stretch="Uniform" Visibility="Visible"/>
 
                         <!-- Default -->
                         <Grid x:Name="default" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
