@@ -1,9 +1,9 @@
 The project is still very crude and actively developed.
 
-| Public Cloud Server | Platfroms | Server part | Load balancing |
+| Public Cloud Server | Platfroms | Server part | Load balancing | Server location |
 | ------------- | ------------- | ------------- | ------------- |
-| Amazon Web Services | Xamarin  | gRPC | No |
-| Amazon Web Services | WPF  | gRPC | No |
+| Amazon Web Services | Xamarin  | gRPC | No | Frankfurt |
+| Amazon Web Services | WPF  | gRPC | No | Frankfurt |
 
 Server part repository: https://github.com/LimeniyeCyberforum/meeting-backend
 
