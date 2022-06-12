@@ -9,9 +9,6 @@ using Meeting.Business.Common.Abstractions.Chat;
 using Meeting.Business.Common.Abstractions.Users;
 using Meeting.Business.Common.Abstractions.FrameCapture;
 
-using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
-using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
-using CaptureFramesClient = MeetingGrpc.Protos.CaptureFrames.CaptureFramesClient;
 using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
 using System.Net.Http;
 using Xamarin.Essentials;
@@ -19,30 +16,21 @@ using Grpc.Net.Client.Web;
 
 namespace Meeting.Business.GrpcClient
 {
-    public class MeetingService : IMeetingService
+    public partial class MeetingService : IMeetingService
     {
-        private readonly AuthorizationClient _authorizationClient;
+        private AuthorizationClient _authorizationClient;
 
         public UserDto CurrentUser { get; private set; }
 
         public UserConnectionState CurrentConnectionState { get; private set; }
 
-        public ChatServiceAbstract Chat { get; }
+        public ChatServiceAbstract Chat { get; private set; }
 
-        public CaptureFramesServiceAbstract CaptureFrames { get; }
+        public CaptureFramesServiceAbstract CaptureFrames { get; private set; }
 
-        public UsersServiceAbstract Users { get; }
+        public UsersServiceAbstract Users { get; private set; }
 
         public event EventHandler<UserConnectionState> AuthorizationStateChanged;
-
-        public MeetingService()
-        {
-            var channel = GetGrpcChannel();
-            _authorizationClient = new AuthorizationClient(channel);
-            Users = new UsersService(new UsersClient(channel));
-            Chat = new ChatService(new ChatClient(channel));
-            CaptureFrames = new CaptureFramesService(new CaptureFramesClient(channel), Users);
-        }
 
         public void JoinToLobby(string username)
         {
@@ -93,7 +81,7 @@ namespace Meeting.Business.GrpcClient
         private string GetServerAddress()
         {
             var address = "https://3.72.127.66:5010";
-            if (false) // Hot switcher
+            if (true) // Hot switcher
             {
                 address = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:5010" : "https://localhost:5010";
             }
