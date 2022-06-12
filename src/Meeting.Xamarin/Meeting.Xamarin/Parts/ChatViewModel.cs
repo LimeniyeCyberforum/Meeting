@@ -5,14 +5,15 @@ using Meeting.Business.Common.DataTypes;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reactive.Disposables;
 using Toolkit.Xamarin;
-using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Meeting.Xamarin.Parts
 {
     public class ChatViewModel : BaseInpc
     {
+        private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
         private readonly ChatServiceAbstract _messageService;
         private readonly IMeetingAuthorization _meetingAuthorization;
 
@@ -26,11 +27,11 @@ namespace Meeting.Xamarin.Parts
         };
 
         #region SendMessageCommand
-        private AsyncCommand _sendMessageCommand;
-        public AsyncCommand SendMessageCommand => _sendMessageCommand ?? (
-            _sendMessageCommand = new AsyncCommand(OnSendMessageExecute, CanSendMessageExecute));
+        private Command _sendMessageCommand;
+        public Command SendMessageCommand => _sendMessageCommand ?? (
+            _sendMessageCommand = new Command(OnSendMessageExecute, CanSendMessageExecute));
 
-        private async Task OnSendMessageExecute()
+        private async void OnSendMessageExecute()
         {
             var message = Message;
             Message = string.Empty;
@@ -51,18 +52,12 @@ namespace Meeting.Xamarin.Parts
         public ChatViewModel(ChatServiceAbstract messageService, IMeetingAuthorization meetingAuthorization)
         {
             _meetingAuthorization = meetingAuthorization;
-
             _messageService = messageService;
-
-            _messageService.MessagesChanged += OnMessagesChanged;
-
-            _messageService.ChatSubscribeAsync();
 
             foreach (var item in _messageService.Messages.Values)
             {
                 if (item.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
                 {
-                    // TODO : Input type should be OwnerMessageDto
                     Messages.Add(new OwnerMessageDto(item.Guid, item.UserGuid, item.Message, item.UserName, item.DateTime, MessageStatus.Readed));
                 }
                 else
@@ -70,6 +65,21 @@ namespace Meeting.Xamarin.Parts
                     Messages.Add(item);
                 }
             }
+
+            Subscriptions();
+        }
+
+        private void Subscriptions()
+        {
+            eventSubscriptions.Disposable = null;
+            CompositeDisposable disposable = new CompositeDisposable();
+            _messageService.MessagesChanged += OnMessagesChanged;
+
+            disposable.Add(Disposable.Create(delegate
+            {
+                _messageService.MessagesChanged -= OnMessagesChanged;
+            }));
+            eventSubscriptions.Disposable = disposable;
         }
 
         private void OnMessagesChanged(object sender, NotifyDictionaryChangedEventArgs<Guid, MessageDto> e)
