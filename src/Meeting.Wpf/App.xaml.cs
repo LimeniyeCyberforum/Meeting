@@ -12,7 +12,7 @@ namespace Meeting.Wpf
 
         private void OnApplicationLaunched(object sender, StartupEventArgs e)
         {
-            _meetingService = new MeetingService();
+            _meetingService = MeetingService.Instance;
             _meetingService.Chat.ChatSubscribeAsync();
             _meetingService.Users.UsersSubscribeAsync();
             _meetingService.CaptureFrames.CaptureFrameAreasSubscribeAsync();
