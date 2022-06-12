@@ -1,10 +1,35 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace Toolkit.Xamarin
 {
     public delegate bool Equality<T>(T left, T right);
+
+    public abstract partial class BaseInpc
+    {
+        #region AppearingCommand
+
+        private Command _appearingCommand;
+        public Command AppearingCommand => _appearingCommand ?? (
+            _appearingCommand = new Command(OnAppearing));
+
+        protected virtual void OnAppearing() { }
+
+        #endregion
+
+        #region DisappearingCommand
+
+        private Command _disappearingCommand;
+        public Command DisappearingCommand => _disappearingCommand ?? (
+            _disappearingCommand = new Command(OnDisappearing));
+
+        protected virtual void OnDisappearing() { }
+
+        #endregion
+
+    }
 
     public abstract partial class BaseInpc : INotifyPropertyChanged
     {
