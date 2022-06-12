@@ -1,7 +1,7 @@
 The project is still very crude and actively developed.
 
 | Public Cloud Server | Platfroms | Server part | Load balancing | Server location |
-| ------------- | ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
 | Amazon Web Services | Xamarin  | gRPC | No | Frankfurt |
 | Amazon Web Services | WPF  | gRPC | No | Frankfurt |
 
