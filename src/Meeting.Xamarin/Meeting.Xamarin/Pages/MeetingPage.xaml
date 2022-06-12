@@ -9,7 +9,8 @@
         <parts:CaptureFramesView/>
 
         <!-- Own test camera -->
-        <Frame HeightRequest="500" VerticalOptions="Start" Margin="50" IsClippedToBounds="True" CornerRadius="50" Padding="0">
+        <Frame HeightRequest="400" WidthRequest="200" Margin="0" IsClippedToBounds="True" CornerRadius="50" Padding="0"
+               VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" IsVisible="{Binding CaptureFramesVM.IsCameraOn}">
             <controls:CameraView Camera="Rear"/>
         </Frame>
 
