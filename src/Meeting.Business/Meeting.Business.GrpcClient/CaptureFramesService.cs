@@ -91,6 +91,7 @@ namespace Meeting.Business.GrpcClient
         public override void CaptureFrameAreasUnsubscribe()
         {
             _captureFramesSubscriptionCancelationToken.Cancel();
+            _captureFramesSubscriptionCancelationToken.Dispose();
         }
 
         public override Task CaptureFramesSubscribeAsync()
@@ -118,6 +119,7 @@ namespace Meeting.Business.GrpcClient
         public override void CaptureFramesUnsubscribe()
         {
             _captureFramesSubscribeCancelationToken.Cancel();
+            _captureFramesSubscribeCancelationToken.Dispose();
         }
 
         #endregion

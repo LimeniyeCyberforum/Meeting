@@ -53,6 +53,7 @@ namespace Meeting.Business.GrpcClient
         public override void UsersUnsubscribe()
         {
             _usersSubscribeCancellationToken.Cancel();
+            _usersSubscribeCancellationToken.Dispose();
         }
     }
 }

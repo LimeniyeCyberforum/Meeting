@@ -63,6 +63,7 @@ namespace Meeting.Business.GrpcClient
         public override void ChatUnsubscribe()
         {
             _chatSubscribeCancellationToken.Cancel();
+            _chatSubscribeCancellationToken.Dispose();
         }
 
         public override void SendMessage(Guid messageGuid, string message)
