@@ -1,12 +1,14 @@
 ﻿using Meeting.Business.Common.Abstractions;
 using Meeting.Xamarin.Parts;
+using System.Reactive.Disposables;
 using Toolkit.Xamarin;
-using Xamarin.Forms;
 
 namespace Meeting.Xamarin.Pages
 {
     public class MeetingViewModel : BaseInpc
     {
+        private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
+
         private readonly IMeetingService _meetingService;
 
         private bool _isConnected = false;
@@ -19,14 +21,24 @@ namespace Meeting.Xamarin.Pages
         public MeetingViewModel(IMeetingService meetingService)
         {
             _meetingService = meetingService;
-            _meetingService.Chat.ChatSubscribeAsync();
-            _meetingService.Users.UsersSubscribeAsync();
-            _meetingService.CaptureFrames.CaptureFrameAreasSubscribeAsync();
-            _meetingService.CaptureFrames.CaptureFramesSubscribeAsync();
+
             ChatVM = new ChatViewModel(_meetingService.Chat, _meetingService);
             ConnectVM = new ConnectViewModel(_meetingService);
             CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames, _meetingService, _meetingService);
+
+            Subscriptions();
+        }
+
+        private void Subscriptions()
+        {
+            eventSubscriptions.Disposable = null;
+            CompositeDisposable disposable = new CompositeDisposable();
             _meetingService.AuthorizationStateChanged += OnConnectionStateChanged;
+            disposable.Add(Disposable.Create(delegate
+            {
+                _meetingService.AuthorizationStateChanged -= OnConnectionStateChanged;
+            }));
+            eventSubscriptions.Disposable = disposable;
         }
 
         private void OnConnectionStateChanged(object sender, UserConnectionState action)

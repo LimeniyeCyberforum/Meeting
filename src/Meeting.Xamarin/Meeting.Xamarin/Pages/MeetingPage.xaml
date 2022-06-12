@@ -1,15 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage x:Class="Meeting.Xamarin.Pages.MeetingPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://xamarin.com/schemas/2020/toolkit"
              xmlns:controls="clr-namespace:Meeting.Xamarin.Controls"
              xmlns:parts="clr-namespace:Meeting.Xamarin.Parts">
-
-
+    
     <Grid>
         <Frame HeightRequest="500" VerticalOptions="Start" Margin="50" IsClippedToBounds="True" CornerRadius="50" Padding="0">
             <controls:CameraView Camera="Rear"/>
         </Frame>
-
 
         <Grid Padding="0">
             <Grid.RowDefinitions>
