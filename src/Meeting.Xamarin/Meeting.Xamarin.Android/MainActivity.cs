@@ -10,12 +10,14 @@ using Android.Views;
 using Meeting.Business.Common.Abstractions;
 using Meeting.Business.GrpcClient;
 using DependencyService = Xamarin.Forms.DependencyService;
+using Meeting.Business.Common.Abstractions.HibernateSessions;
 
 namespace Meeting.Xamarin.Droid
 {
     [Activity(Label = "Meeting.Xamarin", Icon = "@mipmap/icon", Theme = "@style/Theme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        private IMeetingService _meetingService;
         public const int CameraPermissionsCode = 1;
         public static readonly string[] CameraPermissions =
         {
@@ -31,8 +33,7 @@ namespace Meeting.Xamarin.Droid
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            //            Window.AddFlags(WindowManagerFlags.Fullscreen);
-            //Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+
             base.OnCreate(savedInstanceState);
 
             Essentials.Platform.Init(this, savedInstanceState);
@@ -57,28 +58,69 @@ namespace Meeting.Xamarin.Droid
             CameraPermissionGranted?.Invoke(this, EventArgs.Empty);
         }
 
-        private IMeetingService _meetingService;
+        #region Lifecycle
 
         private void OnCreate()
         {
-            var meetingService = new MeetingService();
-            _meetingService = meetingService;
+            _meetingService = new MeetingService();
+            _meetingService.OnCreate();
+            DependencyService.RegisterSingleton(_meetingService);
+        }
 
-            DependencyService.RegisterSingleton<IMeetingService>(meetingService);
-            _meetingService.Chat.ChatSubscribeAsync();
-            _meetingService.Users.UsersSubscribeAsync();
-            _meetingService.CaptureFrames.CaptureFrameAreasSubscribeAsync();
-            _meetingService.CaptureFrames.CaptureFramesSubscribeAsync();
+        protected override void OnResume()
+        {
+            try
+            {
+                if (_meetingService is not null)
+                    _meetingService.OnResume();
+            }
+            catch
+            {
+                // TODO : Should be handling
+                throw;
+            }
+            finally
+            {
+                base.OnResume();
+            }
+        }
+
+        protected override void OnPause()
+        {
+            try
+            {
+                if (_meetingService is not null)
+                    _meetingService.OnPause();
+            }
+            catch
+            {
+                // TODO : Should be handling
+                throw;
+            }
+            finally
+            {
+                base.OnPause();
+            }
         }
 
         protected override void OnDestroy()
         {
-            _meetingService.Chat.ChatUnsubscribe();
-            _meetingService.Users.UsersUnsubscribe();
-            _meetingService.CaptureFrames.CaptureFramesUnsubscribe();
-            _meetingService.CaptureFrames.CaptureFramesUnsubscribe();
-
-            base.OnDestroy();
+            try
+            {
+                if (_meetingService is not null)
+                    _meetingService.OnDestroy();
+            }
+            catch
+            {
+                // TODO : Should be handling
+                throw;
+            }
+            finally
+            {
+                base.OnDestroy();
+            }
         }
+
+        #endregion
     }
 }
