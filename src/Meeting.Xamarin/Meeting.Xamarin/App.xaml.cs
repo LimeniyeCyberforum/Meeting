@@ -17,17 +17,5 @@ namespace Meeting.Xamarin
                 BindingContext = new MeetingViewModel(DependencyService.Get<IMeetingService>())
             };
         }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
     }
 }
