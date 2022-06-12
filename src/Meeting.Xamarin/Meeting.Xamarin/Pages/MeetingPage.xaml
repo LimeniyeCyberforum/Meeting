@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage x:Class="Meeting.Xamarin.Pages.MeetingPage" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Meeting.Xamarin.Controls"
-             xmlns:parts="clr-namespace:Meeting.Xamarin.Parts">
+             xmlns:parts="clr-namespace:Meeting.Xamarin.Parts"
+             xmlns:behaviors="clr-namespace:Toolkit.Xamarin.Behaviors;assembly=Toolkit.Xamarin">
 
     <Grid>
 
@@ -12,8 +13,6 @@
             <controls:CameraView Camera="Rear"/>
         </Frame>
 
-        
-        
         <!-- Chat -->
         <Grid Padding="0">
             <Grid.RowDefinitions>
@@ -21,7 +20,29 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition/>
             </Grid.RowDefinitions>
+
+            <StackLayout Orientation="Horizontal" HeightRequest="70" Spacing="20"
+                         VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand">
+
+                <Frame IsClippedToBounds="True" CornerRadius="40" Padding="0"
+                       WidthRequest="{Binding Source={RelativeSource Mode=Self}, Path=Height}">
+                    <Frame.Behaviors>
+                        <behaviors:ToggleBehavior x:Name="autoToggleBehavior" IsToggled="{Binding CaptureFramesVM.IsCameraOn, Mode=TwoWay}"/>
+                    </Frame.Behaviors>
+
+                    <Image Source="video_off" Aspect="AspectFit" Margin="20">
+                        <Image.Triggers>
+                            <DataTrigger TargetType="Image" Binding="{Binding Source={x:Reference autoToggleBehavior},Path=IsToggled}" Value="True" >
+                                <Setter Property="Source" Value="video"/>
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+                </Frame>
+            </StackLayout>
+
+
             <controls:GridSplitter Grid.Row="1" VerticalOptions="Center" />
+            
             <parts:ChatView Grid.Row="2"/>
         </Grid>
 

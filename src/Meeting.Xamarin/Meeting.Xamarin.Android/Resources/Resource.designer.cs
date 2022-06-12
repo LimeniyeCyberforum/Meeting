@@ -23018,6 +23018,12 @@ namespace Meeting.Xamarin.Droid
 			// aapt resource value: 0x7F070161
 			public const int tooltip_frame_light = 2131165537;
 			
+			// aapt resource value: 0x7F070162
+			public const int video = 2131165538;
+			
+			// aapt resource value: 0x7F070163
+			public const int video_off = 2131165539;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
