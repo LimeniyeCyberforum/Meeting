@@ -6,19 +6,19 @@
         {
             meetingService.Chat.ChatSubscribeAsync();
             meetingService.Users.UsersSubscribeAsync();
-            meetingService.CaptureFrames.CaptureFramesSubscribeAsync();
+            meetingService.CaptureFrames.CaptureFrameAreasSubscribeAsync();
         }
 
         public static void OnStart(this IMeetingService meetingService) { }
 
         public static void OnResume(this IMeetingService meetingService)
         {
-            meetingService.CaptureFrames.CaptureFrameAreasSubscribeAsync();
+            meetingService.CaptureFrames.CaptureFramesSubscribeAsync();
         }
 
         public static void OnPause(this IMeetingService meetingService)
         {
-            meetingService.CaptureFrames.CaptureFrameAreasUnsubscribe();
+            meetingService.CaptureFrames.CaptureFramesUnsubscribe();
         }
 
         public static void OnStop(this IMeetingService meetingService) { }
