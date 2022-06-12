@@ -15,8 +15,8 @@ namespace Meeting.Business.GrpcClient
 {
     public class CaptureFramesService : CaptureFramesServiceAbstract
     {
-        private readonly Empty empty = new Empty();
-        private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
+        private CancellationTokenSource _captureFramesSubscriptionCancelationToken;
+        private CancellationTokenSource _captureFramesSubscribeCancelationToken;
 
         private readonly CaptureFramesClient _client;
         private readonly UsersServiceAbstract _usersService;
@@ -39,6 +39,7 @@ namespace Meeting.Business.GrpcClient
         public override Task CaptureFrameAreasSubscribeAsync()
         {
             var call = _client.CaptureFrameAreasSubscribe(new Empty());
+            _captureFramesSubscriptionCancelationToken = new CancellationTokenSource();
 
             return call.ResponseStream
                 .ToAsyncEnumerable()
@@ -50,7 +51,7 @@ namespace Meeting.Business.GrpcClient
 
                     SwitchCaptureFrameStateChanged(areaGuid, ownerGuid, x.Action, x.Time.ToDateTime());
 
-                }, chatCancelationToken.Token);
+                }, _captureFramesSubscriptionCancelationToken.Token);
         }
 
         private void SwitchCaptureFrameStateChanged(Guid areaGuid, Guid ownerGuid, CaptureStateAction action, DateTime dateTime)
@@ -89,12 +90,13 @@ namespace Meeting.Business.GrpcClient
 
         public override void CaptureFrameAreasUnsubscribe()
         {
-            throw new NotImplementedException();
+            _captureFramesSubscriptionCancelationToken.Cancel();
         }
 
         public override Task CaptureFramesSubscribeAsync()
         {
             var call = _client.CaptureFramesSubscribe(new Empty());
+            _captureFramesSubscribeCancelationToken = new CancellationTokenSource();
 
             return call.ResponseStream
                 .ToAsyncEnumerable()
@@ -110,12 +112,12 @@ namespace Meeting.Business.GrpcClient
                         }
                     }
                 },
-                chatCancelationToken.Token);
+                _captureFramesSubscribeCancelationToken.Token);
         }
 
         public override void CaptureFramesUnsubscribe()
         {
-            throw new NotImplementedException();
+            _captureFramesSubscribeCancelationToken.Cancel();
         }
 
         #endregion
