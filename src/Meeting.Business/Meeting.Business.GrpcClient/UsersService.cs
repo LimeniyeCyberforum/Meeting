@@ -11,7 +11,7 @@ namespace Meeting.Business.GrpcClient
 {
     public class UsersService : UsersServiceAbstract
     {
-        private readonly CancellationTokenSource chatCancelationToken = new CancellationTokenSource();
+        private CancellationTokenSource _usersSubscribeCancellationToken;
 
         private readonly UsersClient _usersClient;
 
@@ -24,6 +24,7 @@ namespace Meeting.Business.GrpcClient
         public override Task UsersSubscribeAsync()
         {
             var call = _usersClient.UsersSubscribe(new Empty());
+            _usersSubscribeCancellationToken = new CancellationTokenSource();
 
             return call.ResponseStream
                 .ToAsyncEnumerable()
@@ -46,12 +47,12 @@ namespace Meeting.Business.GrpcClient
                         default:
                             throw new NotImplementedException();
                     }
-                }, chatCancelationToken.Token);
+                }, _usersSubscribeCancellationToken.Token);
         }
 
         public override void UsersUnsubscribe()
         {
-            throw new NotImplementedException();
+            _usersSubscribeCancellationToken.Cancel();
         }
     }
 }
