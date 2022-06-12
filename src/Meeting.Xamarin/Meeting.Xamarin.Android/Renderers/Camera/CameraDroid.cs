@@ -78,16 +78,20 @@ namespace Meeting.Xamarin.Droid.Renderers.Camera
 		{
 		}
 
+		public event EventHandler<CaptureFrameEventArgs> CaptureFrameChanged;
+
 		public async void OnSurfaceTextureUpdated(SurfaceTexture surface)
 		{
+			var time = DateTime.UtcNow;
             using var bitmap = _cameraTexture.Bitmap;
 
             using (var stream = new MemoryStream())
             {
                 await bitmap.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, stream);
 				byte[] bitmapData = stream.ToArray();
+				CaptureFrameChanged?.Invoke(this, new CaptureFrameEventArgs(bitmapData, time));
 				//System.Diagnostics.Debug.WriteLine(bitmapData.LongLength);
-				var test = new MemoryStream(bitmapData);
+				//var test = new MemoryStream(bitmapData);
 				//await MainPage.MeetingServiceAbstract.CameraCaptureService.SendOwnCameraCaptureAsync(test);
 			}
         }

@@ -25,7 +25,7 @@ namespace Meeting.Xamarin.Droid.Renderers.Camera
 			_context = context;
 		}
 
-
+		private CameraView _cameraView;
 
 		protected override void OnElementChanged(ElementChangedEventArgs<CameraView> e)
 		{
@@ -33,9 +33,12 @@ namespace Meeting.Xamarin.Droid.Renderers.Camera
 
 			var permissions = CameraPermissions();
 			_camera = new CameraDroid(Context);
-           
-            CameraOptions CameraOption = e.NewElement?.Camera??CameraOptions.Rear;
-            if (Control == null)
+			_cameraView = e.NewElement;
+
+			CameraOptions CameraOption = e.NewElement?.Camera??CameraOptions.Rear;
+
+
+			if (Control == null)
 			{
 				if (permissions)
 				{
@@ -57,7 +60,13 @@ namespace Meeting.Xamarin.Droid.Renderers.Camera
 			if (e.NewElement != null && _camera != null)
 			{
 				_camera.Photo += OnPhoto;
+                _camera.CaptureFrameChanged += OnCaptureFrameChanged;
 			}
+		}
+
+        private void OnCaptureFrameChanged(object sender, CaptureFrameEventArgs e)
+        {
+			_cameraView.RaiseCaptureFrameChanged(e);
 		}
 
 		private async void OnPhoto(object sender, ImageSource imgSource)
@@ -72,6 +81,7 @@ namespace Meeting.Xamarin.Droid.Renderers.Camera
 
 		protected override void Dispose(bool disposing)
 		{
+			_camera.CaptureFrameChanged -= OnCaptureFrameChanged;
 			_camera.Photo -= OnPhoto;
 
 			base.Dispose(disposing);
