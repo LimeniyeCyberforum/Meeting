@@ -4,36 +4,31 @@
              xmlns:parts="clr-namespace:Meeting.Xamarin.Parts">
 
     <Grid>
+        
+        <!-- Own camera -->
         <Frame HeightRequest="500" VerticalOptions="Start" Margin="50" IsClippedToBounds="True" CornerRadius="50" Padding="0">
             <controls:CameraView Camera="Rear"/>
         </Frame>
 
+        <!-- Chat -->
         <Grid Padding="0">
             <Grid.RowDefinitions>
-                <RowDefinition />
+                <RowDefinition Height="2*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0">
-
-            </Grid>
-
             <controls:GridSplitter Grid.Row="1" VerticalOptions="Center" />
-
-            <Grid Grid.Row="2">
-                <parts:ChatView/>
-            </Grid>
-
-            <Grid Grid.RowSpan="3">
-                <Grid.Triggers>
-                    <DataTrigger TargetType="Grid" Binding="{Binding IsConnected}" Value="True">
-                        <Setter Property="IsVisible" Value="False"/>
-                    </DataTrigger>
-                </Grid.Triggers>
-                <parts:ConnectView/>
-            </Grid>
+            <parts:ChatView Grid.Row="2"/>
         </Grid>
+
+        <!-- Connection-->
+        <parts:ConnectView>
+            <Grid.Triggers>
+                <DataTrigger TargetType="Grid" Binding="{Binding IsConnected}" Value="True">
+                    <Setter Property="IsVisible" Value="False"/>
+                </DataTrigger>
+            </Grid.Triggers>
+        </parts:ConnectView>
     </Grid>
     
 </ContentPage>
