@@ -14,8 +14,6 @@ using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
 using CaptureFramesClient = MeetingGrpc.Protos.CaptureFrames.CaptureFramesClient;
 using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
 using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
-using System.IO;
 using Xamarin.Essentials;
 using Grpc.Net.Client.Web;
 

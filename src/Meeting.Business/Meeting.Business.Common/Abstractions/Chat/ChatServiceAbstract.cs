@@ -11,6 +11,6 @@ namespace Meeting.Business.Common.Abstractions.Chat
 
         public abstract Task ChatSubscribeAsync();
 
-        public abstract Task ChatUnsubscribeAsync();
+        public abstract Task ChatUnsubscribe();
     }
 }

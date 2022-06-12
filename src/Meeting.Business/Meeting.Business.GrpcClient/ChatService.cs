@@ -59,7 +59,7 @@ namespace Meeting.Business.GrpcClient
                 }, chatCancelationToken.Token);
         }
 
-        public override Task ChatUnsubscribeAsync()
+        public override Task ChatUnsubscribe()
         {
             throw new NotImplementedException();
         }
