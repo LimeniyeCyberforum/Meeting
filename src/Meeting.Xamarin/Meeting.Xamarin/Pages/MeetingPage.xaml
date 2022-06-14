@@ -11,7 +11,7 @@
         <Grid Padding="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="30" />
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
@@ -40,11 +40,12 @@
                 </Frame>
             </StackLayout>
 
-            <controls:GridSplitter Grid.Row="1" VerticalOptions="Center" />
-            
-            
+            <Frame Grid.Row="1" Grid.RowSpan="2" BackgroundColor="#22202a" Margin="0,0,0,0" CornerRadius="10"/>
+
+            <controls:GridSplitter Grid.Row="1" VerticalOptions="Center" BackgroundColor="Transparent"/>
+           
             <!-- Chat -->
-            <parts:ChatView Grid.Row="2" Background="#322e3a"/>
+            <parts:ChatView Grid.Row="2"/>
         </Grid>
 
         <!-- Connection-->

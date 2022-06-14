@@ -28,8 +28,12 @@ namespace Meeting.Xamarin.Droid.Renderers.GridSplitter
 
                 case MotionEventActions.Move:
                     {
-                        Element.UpdateGrid(Context.FromPixels(e.RawX - _lastPoint.X), Context.FromPixels(e.RawY - _lastPoint.Y));
-                        _lastPoint = new Point(e.RawX, e.RawY);
+                        var rawY = e.RawY;
+                        if (e.RawY > 2000)
+                            rawY = 2000;
+
+                        Element.UpdateGrid(Context.FromPixels(e.RawX - _lastPoint.X), Context.FromPixels(rawY - _lastPoint.Y));
+                        _lastPoint = new Point(e.RawX, rawY);
                         break;
                     }
             }
