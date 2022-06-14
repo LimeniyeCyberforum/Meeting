@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <converters:BytesToImageSourceConverter x:Key="BytesToImageSourceConverter"/>
             <converters:StringToFirstLetterConverter x:Key="StringToFirstLetterConverter"/>
+            <xct:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter"/>
         </ResourceDictionary>
     </Grid.Resources>
 
@@ -20,18 +21,18 @@
             <DataTemplate>
                 <Frame IsClippedToBounds="True" CornerRadius="30" Padding="0">
                     <Frame.Triggers>
-                        <DataTrigger TargetType="Frame" Binding="{Binding Value.Data}" Value="{x:Null}">
-                            <Setter TargetName="default" Property="IsVisible" Value="True"/>
-                            <Setter TargetName="captureFrame" Property="IsVisible" Value="False"/>
+                        <DataTrigger TargetType="Frame" Binding="{Binding Value.Data, Converter={StaticResource IsNotNullOrEmptyConverter}}" Value="True">
+                            <Setter TargetName="default" Property="IsVisible" Value="False"/>
+                            <Setter TargetName="captureFrame" Property="IsVisible" Value="True"/>
                         </DataTrigger>
                     </Frame.Triggers>
 
                     <Grid HeightRequest="200" Background="#2c2c2c">
                         <Image x:Name="captureFrame" Source="{Binding Value.Data, Converter={StaticResource BytesToImageSourceConverter}}"
-                               Aspect="AspectFit" IsVisible="True"/>
+                               Aspect="AspectFit" IsVisible="False"/>
 
                         <!-- Default -->
-                        <Grid x:Name="default" IsVisible="False" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <Grid x:Name="default" IsVisible="True" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                             <Frame Background="#427d83" Margin="10" CornerRadius="20" />
                             <Label Text="{Binding Value.OwnerName, Converter={StaticResource StringToFirstLetterConverter}}" 
                                    TextColor="#16b1a5" FontSize="25"
