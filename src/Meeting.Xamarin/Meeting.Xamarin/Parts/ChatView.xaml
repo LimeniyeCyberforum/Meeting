@@ -1,16 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Grid x:Class="Meeting.Xamarin.Parts.ChatView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+<Grid x:Class="Meeting.Xamarin.Parts.ChatView" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:local="clr-namespace:Meeting.Xamarin.Parts"
+      xmlns:dtoTyps="clr-namespace:Meeting.Business.Common.DataTypes;assembly=Meeting.Business.Common">
 
-    <Grid.RowDefinitions>
-        <RowDefinition Height="*"/>
-        <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
-
-    <CollectionView Grid.Row="0" ItemsSource="{Binding ChatVM.Messages}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
+    <Grid.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:DataType="dtoTyps:MessageDto" x:Key="AnotherMessage">
                 <Grid>
-                    <Grid HorizontalOptions="EndAndExpand" Margin="30,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <Grid HorizontalOptions="StartAndExpand" Margin="5,0,0,0">
                         <Rectangle Fill="#2b5278" RadiusX="20" RadiusY="20" Margin="10"/>
 
                         <Grid Padding="25">
@@ -24,8 +27,41 @@
                     </Grid>
                 </Grid>
             </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+
+            <DataTemplate x:DataType="dtoTyps:OwnerMessageDto" x:Key="OwnerMessage">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="10*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="1" HorizontalOptions="EndAndExpand" Margin="0,0,5,0">
+                        <Rectangle Fill="#2b5278" RadiusX="20" RadiusY="20" Margin="10"/>
+
+                        <Grid Padding="25">
+                            <StackLayout>
+                                <Label Text="{Binding Message, Mode=OneWay}" TextColor="White" Background="#00FFFFF"
+                                        HorizontalOptions="StartAndExpand" Margin="0,0,10,0"/>
+                                <Label Text="{Binding DateTime, StringFormat='{}{0:hh:mm:ss tt}'}" TextColor="#6ebddd"
+                                       FontSize="10" HorizontalOptions="End"/>
+                            </StackLayout>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+
+            <local:MessageItemDataTemplateSelector x:Key="MessageItemDataTemplateSelector"
+                                                   AnotherMessage="{StaticResource AnotherMessage}"
+                                                   OwnerMessage="{StaticResource OwnerMessage}"/>
+        </ResourceDictionary>
+    </Grid.Resources>
+    
+    <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <CollectionView Grid.Row="0" ItemsSource="{Binding ChatVM.Messages}" ItemTemplate="{StaticResource MessageItemDataTemplateSelector}"/>
 
     <Frame Grid.Row="1" BackgroundColor="#b4b3b4" CornerRadius="15" Padding="10">
         <StackLayout Orientation="Horizontal">
