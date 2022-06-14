@@ -5,9 +5,6 @@
              xmlns:behaviors="clr-namespace:Toolkit.Xamarin.Behaviors;assembly=Toolkit.Xamarin">
 
     <Grid>
-
-        <parts:CaptureFramesView/>
-
         <Grid Padding="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
@@ -15,13 +12,17 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+            <!-- Capture frames -->
+            <parts:CaptureFramesView Grid.Row="0"/>
+
             <!-- Own test camera -->
-            <Frame HeightRequest="200" WidthRequest="150" IsClippedToBounds="True" CornerRadius="50" Padding="0"
+            <Frame Grid.Row="0" HeightRequest="200" WidthRequest="150" IsClippedToBounds="True" CornerRadius="50" Padding="0"
                    VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" IsVisible="{Binding CaptureFramesVM.IsCameraOn}">
                 <controls:CameraView Camera="Rear"/>
             </Frame>
 
-            <StackLayout Orientation="Horizontal" HeightRequest="70" Spacing="20"
+            <!-- Options -->
+            <StackLayout Grid.Row="0" Orientation="Horizontal" HeightRequest="70" Spacing="20"
                          VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand">
 
                 <Frame IsClippedToBounds="True" CornerRadius="40" Padding="0"
@@ -40,8 +41,8 @@
                 </Frame>
             </StackLayout>
 
+            <!-- Splitter -->
             <Frame Grid.Row="1" Grid.RowSpan="2" BackgroundColor="#22202a" Margin="0,0,0,0" CornerRadius="10"/>
-
             <controls:GridSplitter Grid.Row="1" VerticalOptions="Center" BackgroundColor="Transparent"/>
            
             <!-- Chat -->
