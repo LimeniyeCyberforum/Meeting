@@ -27,12 +27,13 @@
         </CollectionView.ItemTemplate>
     </CollectionView>
 
-    <Frame Grid.Row="1" BackgroundColor="#b4b3b4" CornerRadius="30" Margin="10" Padding="10">
+    <Frame Grid.Row="1" BackgroundColor="#b4b3b4" CornerRadius="15" Padding="10">
         <StackLayout Orientation="Horizontal">
             <Editor x:Name="entry" Text="{Binding ChatVM.Message}" Margin="10,0,0,0" AutoSize="TextChanges"
                     HorizontalOptions="FillAndExpand"/>
 
-            <Frame WidthRequest="40" HeightRequest="40" IsClippedToBounds="True" CornerRadius="20" Padding="5">
+            <Frame WidthRequest="40" HeightRequest="40" IsClippedToBounds="True" CornerRadius="20" Padding="5"
+                   HorizontalOptions="End" VerticalOptions="CenterAndExpand">
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ChatVM.SendMessageCommand}"/>
                 </Frame.GestureRecognizers>

@@ -8,19 +8,18 @@
 
         <parts:CaptureFramesView/>
 
-        <!-- Own test camera -->
-        <Frame HeightRequest="400" WidthRequest="200" Margin="0" IsClippedToBounds="True" CornerRadius="50" Padding="0"
-               VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" IsVisible="{Binding CaptureFramesVM.IsCameraOn}">
-            <controls:CameraView Camera="Rear"/>
-        </Frame>
-
-        <!-- Chat -->
         <Grid Padding="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition/>
             </Grid.RowDefinitions>
+
+            <!-- Own test camera -->
+            <Frame HeightRequest="200" WidthRequest="150" IsClippedToBounds="True" CornerRadius="50" Padding="0"
+                   VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" IsVisible="{Binding CaptureFramesVM.IsCameraOn}">
+                <controls:CameraView Camera="Rear"/>
+            </Frame>
 
             <StackLayout Orientation="Horizontal" HeightRequest="70" Spacing="20"
                          VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand">
@@ -41,10 +40,11 @@
                 </Frame>
             </StackLayout>
 
-
             <controls:GridSplitter Grid.Row="1" VerticalOptions="Center" />
             
-            <parts:ChatView Grid.Row="2"/>
+            
+            <!-- Chat -->
+            <parts:ChatView Grid.Row="2" Background="#322e3a"/>
         </Grid>
 
         <!-- Connection-->
