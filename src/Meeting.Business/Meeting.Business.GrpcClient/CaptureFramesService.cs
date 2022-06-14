@@ -38,6 +38,10 @@ namespace Meeting.Business.GrpcClient
 
         public override Task CaptureFrameAreasSubscribeAsync()
         {
+            if (_captureFramesSubscriptionCancelationToken is not null && !_captureFramesSubscriptionCancelationToken.IsCancellationRequested)
+                return Task.CompletedTask;
+
+
             var call = _client.CaptureFrameAreasSubscribe(new Empty());
             _captureFramesSubscriptionCancelationToken = new CancellationTokenSource();
 
@@ -96,6 +100,9 @@ namespace Meeting.Business.GrpcClient
 
         public override Task CaptureFramesSubscribeAsync()
         {
+            if (_captureFramesSubscribeCancelationToken is not null && !_captureFramesSubscribeCancelationToken.IsCancellationRequested)
+                return Task.CompletedTask;
+
             var call = _client.CaptureFramesSubscribe(new Empty());
             _captureFramesSubscribeCancelationToken = new CancellationTokenSource();
 

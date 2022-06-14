@@ -33,6 +33,9 @@ namespace Meeting.Business.GrpcClient
 
         public override Task ChatSubscribeAsync()
         {
+            if (_chatSubscribeCancellationToken is not null && !_chatSubscribeCancellationToken.IsCancellationRequested)
+                return Task.CompletedTask;
+
             var call = _client.MessagesSubscribe(new Empty());
             _chatSubscribeCancellationToken = new CancellationTokenSource();
 

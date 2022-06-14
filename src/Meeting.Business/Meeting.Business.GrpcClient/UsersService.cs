@@ -23,6 +23,9 @@ namespace Meeting.Business.GrpcClient
 
         public override Task UsersSubscribeAsync()
         {
+            if (_usersSubscribeCancellationToken is not null && !_usersSubscribeCancellationToken.IsCancellationRequested)
+                return Task.CompletedTask;
+
             var call = _usersClient.UsersSubscribe(new Empty());
             _usersSubscribeCancellationToken = new CancellationTokenSource();
 
