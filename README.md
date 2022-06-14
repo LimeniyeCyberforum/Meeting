@@ -12,5 +12,5 @@ Server part repository: https://github.com/LimeniyeCyberforum/meeting-backend
 
 
 
-https://user-images.githubusercontent.com/69314237/173239842-27b84753-8c6b-494d-b279-1ccbea2fd00e.mp4
+https://user-images.githubusercontent.com/69314237/173517147-fdca5fc2-ee4f-4d33-babc-a33b3a94314a.mp4
 
