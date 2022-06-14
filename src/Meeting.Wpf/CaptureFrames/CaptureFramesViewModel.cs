@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Threading;
 using WebcamWithOpenCV;
 
@@ -13,6 +14,7 @@ namespace Meeting.Wpf.CaptureFrames
 {
     public class CaptureFramesViewModel : BaseInpc
     {
+        private readonly object lockCaptureFrameAreasObject = new object();
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly CaptureFramesServiceAbstract _captureFramesService;
@@ -29,6 +31,8 @@ namespace Meeting.Wpf.CaptureFrames
 
         public CaptureFramesViewModel(CaptureFramesServiceAbstract captureFramesService, IMeetingUsers users, IMeetingAuthorization authorizationService)
         {
+            BindingOperations.EnableCollectionSynchronization(CaptureFrameAreas, lockCaptureFrameAreasObject);
+
             _cam = CamInitializeTest();
             _authorizationService = authorizationService;
             _captureFramesService = captureFramesService;
@@ -116,36 +120,46 @@ namespace Meeting.Wpf.CaptureFrames
         private void OnUsersChanged(object? sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, Business.Common.DataTypes.UserDto> e)
         {
             var item = e.NewValue;
-            var captureFrameArea = CaptureFrameAreas.Values.FirstOrDefault(x => x.OwnerGuid == item.Guid || x.AreaGuid == item.Guid);
 
-            dispatcher.BeginInvoke(() =>
+            lock (lockCaptureFrameAreasObject)
             {
+                var captureFrameArea = CaptureFrameAreas.Values.FirstOrDefault(x => x.OwnerGuid == item.Guid || x.AreaGuid == item.Guid);
+
                 if (captureFrameArea == null)
                 {
                     CaptureFrameAreas.Add(item.Guid, new CaptureFrameViewModel(item.Guid, item.Guid, item.UserName, null));
                 }
-            });
+            };
         }
 
         private void OnCaptureFrameStateChanged(object? sender, Business.Common.EventArgs.CaptureFrameStateEventArgs e)
         {
-            dispatcher.BeginInvoke(() =>
+            lock(lockCaptureFrameAreasObject)
             {
+                UserDto? user = null;
                 switch (e.Action)
                 {
                     case Business.Common.EventArgs.CaptureFrameState.Disabled:
-                        var captureFrame = CaptureFrameAreas[e.CaptureAreadGuid];
-                        captureFrame.Data = null;
+                        if (CaptureFrameAreas.ContainsKey(e.CaptureAreadGuid))
+                        {
+                            var captureFrame = CaptureFrameAreas[e.CaptureAreadGuid];
+                            captureFrame.Data = null;
+                        }
+                        else
+                        {
+                            user = _meetingUsers.Users.Users[e.OwnerGuid];
+                            CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
+                        }
                         break;
                     case Business.Common.EventArgs.CaptureFrameState.Created:
-                        var user = _meetingUsers.Users.Users[e.OwnerGuid];
+                        user = _meetingUsers.Users.Users[e.OwnerGuid];
                         CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
                         break;
                     case Business.Common.EventArgs.CaptureFrameState.Removed:
                         CaptureFrameAreas.Remove(e.CaptureAreadGuid);
                         break;
                 }
-            });
+            };
         }
 
         private void OnCaptureFrameChanged(object? sender, Business.Common.EventArgs.CaptureFrameEventArgs e)
