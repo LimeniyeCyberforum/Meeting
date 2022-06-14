@@ -15,14 +15,13 @@ namespace Toolkit.Xamarin.Behaviors
             };
         }
 
-        [Obsolete]
-        public static readonly BindableProperty IsToggledProperty = BindableProperty.Create<ToggleBehavior, bool>(tb => tb.IsToggled, false);
-
         public bool IsToggled
         {
             set { SetValue(IsToggledProperty, value); }
             get { return (bool)GetValue(IsToggledProperty); }
         }
+
+        public static readonly BindableProperty IsToggledProperty = BindableProperty.Create<ToggleBehavior, bool>(tb => tb.IsToggled, false);
 
         protected override void OnAttachedTo(View bindable)
         {
@@ -40,17 +39,17 @@ namespace Toolkit.Xamarin.Behaviors
         {
             base.OnAttachedTo(bindable);
             this.BindingContext = bindable.BindingContext;
-            bindable.BindingContextChanged += Bindable_BindingContextChanged;
+            bindable.BindingContextChanged += OnBindableBindingContextChanged;
         }
 
         protected override void OnDetachingFrom(BindableObject bindable)
         {
             base.OnDetachingFrom(bindable);
             this.BindingContext = null;
-            bindable.BindingContextChanged -= Bindable_BindingContextChanged;
+            bindable.BindingContextChanged -= OnBindableBindingContextChanged;
         }
 
-        void Bindable_BindingContextChanged(object sender, EventArgs e)
+        void OnBindableBindingContextChanged(object sender, EventArgs e)
         {
             var bobject = sender as BindableObject;
 
