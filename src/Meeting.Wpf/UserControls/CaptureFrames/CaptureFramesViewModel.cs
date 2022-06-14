@@ -10,7 +10,7 @@ using System.Windows.Data;
 using System.Windows.Threading;
 using WebcamWithOpenCV;
 
-namespace Meeting.Wpf.CaptureFrames
+namespace Meeting.Wpf.UserControls.CaptureFrames
 {
     public class CaptureFramesViewModel : BaseInpc
     {

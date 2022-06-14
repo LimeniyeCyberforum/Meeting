@@ -10,7 +10,7 @@ using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Meeting.Wpf.Chat
+namespace Meeting.Wpf.UserControls.Chat
 {
     public class ChatViewModel : BaseInpc
     {

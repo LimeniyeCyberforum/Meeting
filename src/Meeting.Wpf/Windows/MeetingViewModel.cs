@@ -1,8 +1,8 @@
 ﻿using Meeting.Business.Common.Abstractions;
-using Meeting.Wpf.Chat;
-using Meeting.Wpf.Connect;
+using Meeting.Wpf.UserControls.Chat;
+using Meeting.Wpf.UserControls.Connect;
 using MvvmCommon.WindowsDesktop;
-using Meeting.Wpf.CaptureFrames;
+using Meeting.Wpf.UserControls.CaptureFrames;
 using System.Reactive.Disposables;
 using System;
 

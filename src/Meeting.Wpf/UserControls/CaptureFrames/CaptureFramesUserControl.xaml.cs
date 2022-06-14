@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Meeting.Wpf.CaptureFrames
+namespace Meeting.Wpf.UserControls.CaptureFrames
 {
     public partial class CaptureFramesUserControl : UserControl
     {

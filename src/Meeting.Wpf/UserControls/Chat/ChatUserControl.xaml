@@ -1,6 +1,6 @@
-﻿<UserControl x:Class="Meeting.Wpf.Chat.ChatUserControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+﻿<UserControl x:Class="Meeting.Wpf.UserControls.Chat.ChatUserControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
-             xmlns:local="clr-namespace:Meeting.Wpf.Chat"
+             xmlns:local="clr-namespace:Meeting.Wpf.UserControls.Chat"
              xmlns:meetingTypes="clr-namespace:Meeting.Business.Common.DataTypes;assembly=Meeting.Business.Common"
              xmlns:attachedProperties="clr-namespace:Toolkit.WindowsDesktop.AttachedProperties;assembly=Toolkit.WindowsDesktop"
              d:DesignHeight="800" d:DesignWidth="400"
