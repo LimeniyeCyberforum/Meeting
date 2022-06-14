@@ -10,7 +10,7 @@
         </ResourceDictionary>
     </Grid.Resources>
 
-    <CollectionView ItemsSource="{Binding CaptureFramesVM.CaptureFrameAreas}" HeightRequest="500" VerticalOptions="Start">
+    <CollectionView ItemsSource="{Binding CaptureFramesVM.CaptureFrameAreas}" HeightRequest="500" VerticalOptions="Start" Margin="10">
         <CollectionView.ItemsLayout>
             <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10" Span="2"
                              SnapPointsType="MandatorySingle" SnapPointsAlignment="End"/>
@@ -26,9 +26,9 @@
                         </DataTrigger>
                     </Frame.Triggers>
 
-                    <Grid WidthRequest="100" HeightRequest="100" Background="#2c2c2c">
+                    <Grid HeightRequest="200" Background="#2c2c2c">
                         <Image x:Name="captureFrame" Source="{Binding Value.Data, Converter={StaticResource BytesToImageSourceConverter}}"
-                               Aspect="AspectFit" IsVisible="False"/>
+                               Aspect="AspectFit" IsVisible="True"/>
 
                         <!-- Default -->
                         <Grid x:Name="default" IsVisible="False" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
