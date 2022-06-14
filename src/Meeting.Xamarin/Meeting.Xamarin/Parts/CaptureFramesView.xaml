@@ -26,7 +26,7 @@
                         </DataTrigger>
                     </Frame.Triggers>
 
-                    <Grid WidthRequest="100" HeightRequest="100" Background="Green">
+                    <Grid WidthRequest="100" HeightRequest="100" Background="#2c2c2c">
                         <Image x:Name="captureFrame" Source="{Binding Value.Data, Converter={StaticResource BytesToImageSourceConverter}}"
                                Aspect="AspectFit" IsVisible="False"/>
 

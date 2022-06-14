@@ -138,7 +138,7 @@ namespace Meeting.Xamarin.Parts
                         break;
                     case Business.Common.EventArgs.CaptureFrameState.Created:
                         var user = _meetingUsers.Users.Users[e.OwnerGuid];
-                        CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName + "switch", null));
+                        CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
                         break;
                     case Business.Common.EventArgs.CaptureFrameState.Removed:
                         CaptureFrameAreas.Remove(e.CaptureAreadGuid);
