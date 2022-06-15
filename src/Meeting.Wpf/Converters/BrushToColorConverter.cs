@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -18,7 +19,7 @@ namespace Meeting.Wpf.Converters
                 return FromString(hexColor);
             }
 
-            return null;
+            return DependencyProperty.UnsetValue;
         }
 
         private Color FromSolidColorBrush(SolidColorBrush solidColorBrush)
