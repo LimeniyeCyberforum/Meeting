@@ -9,7 +9,6 @@
 
     <FrameworkElement.Resources>
         <ResourceDictionary>
-            <converters:BytesToBitmapImageConverter x:Key="BytesToBitmapImageConverter"/>
             <converters:StringToFirstLetterConverter x:Key="StringToFirstLetterConverter"/>
         </ResourceDictionary>
     </FrameworkElement.Resources>
@@ -25,7 +24,7 @@
                 <DataTemplate DataType="{x:Type local:CaptureFrameViewModel}">
                     <Grid Margin="1">
                         <Border Background="#2b2731" CornerRadius="20,20,20,10"/>
-                        <Image x:Name="captureFrame" Source="{Binding Value.Data, Converter={StaticResource BytesToBitmapImageConverter}}"
+                        <Image x:Name="captureFrame" Source="{Binding Value.Data}"
                                Stretch="Uniform" Visibility="Visible"/>
 
                         <!-- Default -->
