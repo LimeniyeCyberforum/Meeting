@@ -4,18 +4,17 @@ using Meeting.Business.Common.Abstractions.Chat;
 using Meeting.Business.Common.DataTypes;
 using MvvmCommon.WindowsDesktop;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
-using System.Windows;
-using System.Windows.Threading;
+using System.Windows.Data;
 
 namespace Meeting.Wpf.UserControls.Chat
 {
     public class ChatViewModel : BaseInpc
     {
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
-        private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly ChatServiceAbstract _messageService;
         private readonly IMeetingAuthorization _meetingAuthorization;
 
@@ -40,7 +39,10 @@ namespace Meeting.Wpf.UserControls.Chat
             var messageGuid = Guid.NewGuid();
             var newMessage = new OwnerMessageDto(messageGuid, _meetingAuthorization.CurrentUser.Guid, message, _meetingAuthorization.CurrentUser.UserName, null, MessageStatus.Sending);
 
-            _ = dispatcher.BeginInvoke(() => Messages.Add(newMessage));
+            lock (((ICollection)Messages).SyncRoot)
+            {
+                Messages.Add(newMessage);
+            }
 
             await _messageService.SendMessageAsync(messageGuid, message);
         }
@@ -53,6 +55,8 @@ namespace Meeting.Wpf.UserControls.Chat
 
         public ChatViewModel(ChatServiceAbstract messageService, IMeetingAuthorization meetingAuthorization)
         {
+            BindingOperations.EnableCollectionSynchronization(Messages, ((ICollection)Messages).SyncRoot);
+
             _meetingAuthorization = meetingAuthorization;
             _messageService = messageService;
 
@@ -89,7 +93,7 @@ namespace Meeting.Wpf.UserControls.Chat
             var newValue = e.NewValue;
             var oldValue = e.OldValue;
 
-            _ = dispatcher.BeginInvoke(() =>
+            lock (((ICollection)Messages).SyncRoot)
             {
                 switch (e.Action)
                 {
@@ -118,7 +122,7 @@ namespace Meeting.Wpf.UserControls.Chat
                     default:
                         throw new NotImplementedException();
                 }
-            });
+            };
         }
     }
 }
