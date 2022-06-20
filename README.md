@@ -1,14 +1,24 @@
-The project is still very crude and actively developed.
+# Meeting
 
-| Public Cloud Server | Platfroms | Server part | Load balancing | Server location |
-| ------------- | ------------- | ------------- | ------------- | ------------- |
-| Amazon Web Services | Xamarin  | gRPC | No | Frankfurt |
-| Amazon Web Services | WPF  | gRPC | No | Frankfurt |
+Meeting is a demonstration project of my skills and knowledge in the field of Xaml platforms.
+At the moment, it allows you to arrange group video meetings.
 
-Server part repository: https://github.com/LimeniyeCyberforum/meeting-backend
+### Technology stack
 
-![FirstResult](https://user-images.githubusercontent.com/69314237/173238871-c4aa1190-1f58-48d2-b5dc-baef62598a59.png)
+- WPF
+- Xamarin
+- Grpc
 
+### Server part
+
+You can read more about the server part in its repository: 
+https://github.com/LimeniyeCyberforum/meeting-backend 
+
+### Preview
+
+
+
+https://user-images.githubusercontent.com/69314237/174568307-6edc5b5b-9a48-4a73-aafb-ad35f26715ba.mp4
 
 
 
