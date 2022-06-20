@@ -18,7 +18,7 @@ At the moment, it allows you to arrange group video meetings and chating.
 As default UI platforms use [Amazon Web Services]([url](https://aws.amazon.com/)) to maintain a free instance and works in 3.72.127.66.
 
 
-If you want to use the server as a local change connection method:
+If you want to use the server as a local -- change connection method:
 ```C#
 private string GetServerAddress()
 {
