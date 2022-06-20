@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows.Data;
+using Toolkit.WindowsDesktop;
 
 namespace Meeting.Wpf.UserControls.Chat
 {
@@ -39,10 +40,7 @@ namespace Meeting.Wpf.UserControls.Chat
             var messageGuid = Guid.NewGuid();
             var newMessage = new OwnerMessageDto(messageGuid, _meetingAuthorization.CurrentUser.Guid, message, _meetingAuthorization.CurrentUser.UserName, null, MessageStatus.Sending);
 
-            lock (((ICollection)Messages).SyncRoot)
-            {
-                Messages.Add(newMessage);
-            }
+            Messages.Add(newMessage);
 
             await _messageService.SendMessageAsync(messageGuid, message);
         }
@@ -55,7 +53,7 @@ namespace Meeting.Wpf.UserControls.Chat
 
         public ChatViewModel(ChatServiceAbstract messageService, IMeetingAuthorization meetingAuthorization)
         {
-            BindingOperations.EnableCollectionSynchronization(Messages, ((ICollection)Messages).SyncRoot);
+            Messages.EnableCollectionSynchronization();
 
             _meetingAuthorization = meetingAuthorization;
             _messageService = messageService;
@@ -93,36 +91,33 @@ namespace Meeting.Wpf.UserControls.Chat
             var newValue = e.NewValue;
             var oldValue = e.OldValue;
 
-            lock (((ICollection)Messages).SyncRoot)
+            switch (e.Action)
             {
-                switch (e.Action)
-                {
-                    case NotifyDictionaryChangedAction.Added:
-                        if (newValue.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
+                case NotifyDictionaryChangedAction.Added:
+                    if (newValue.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
+                    {
+                        var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Guid == newValue.Guid));
+                        if (index > -1)
                         {
-                            var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Guid == newValue.Guid));
-                            if (index > -1)
-                            {
-                                Messages[index] = new OwnerMessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime, MessageStatus.Readed);
-                            }
-                            else
-                            {
-                                Messages.Add(new OwnerMessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime, MessageStatus.Readed));
-                            }
+                            Messages[index] = new OwnerMessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime, MessageStatus.Readed);
                         }
                         else
                         {
-                            Messages.Add(new MessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime));
+                            Messages.Add(new OwnerMessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime, MessageStatus.Readed));
                         }
-                        break;
-                    case NotifyDictionaryChangedAction.Removed:
-                        if (Messages.Contains(newValue))
-                            Messages.Remove(newValue);
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-            };
+                    }
+                    else
+                    {
+                        Messages.Add(new MessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime));
+                    }
+                    break;
+                case NotifyDictionaryChangedAction.Removed:
+                    if (Messages.Contains(newValue))
+                        Messages.Remove(newValue);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }
