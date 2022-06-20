@@ -1,7 +1,11 @@
 # Meeting
 
 Meeting is a demonstration project of my skills and knowledge in the field of Xaml platforms.
-At the moment, it allows you to arrange group video meetings.
+At the moment, it allows you to arrange group video meetings and chating.
+
+### Future plans:
+- Add voice transmission
+- Add the ability to broadcast the desktop
 
 ### Technology stack
 
