@@ -3,6 +3,7 @@ using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
 using MvvmCommon.WindowsDesktop;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows;
@@ -14,7 +15,6 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
 {
     public class CaptureFramesViewModel : BaseInpc
     {
-        private readonly object lockCaptureFrameAreasObject = new object();
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
         private readonly CaptureFramesServiceAbstract _captureFramesService;
@@ -31,7 +31,7 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
 
         public CaptureFramesViewModel(CaptureFramesServiceAbstract captureFramesService, IMeetingUsers users, IMeetingAuthorization authorizationService)
         {
-            BindingOperations.EnableCollectionSynchronization(CaptureFrameAreas, lockCaptureFrameAreasObject);
+            BindingOperations.EnableCollectionSynchronization(CaptureFrameAreas, ((ICollection)CaptureFrameAreas).SyncRoot);
 
             _cam = CamInitializeTest();
             _authorizationService = authorizationService;
@@ -121,7 +121,7 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
         {
             var item = e.NewValue;
 
-            lock (lockCaptureFrameAreasObject)
+            lock (((ICollection)CaptureFrameAreas).SyncRoot)
             {
                 var captureFrameArea = CaptureFrameAreas.Values.FirstOrDefault(x => x.OwnerGuid == item.Guid || x.AreaGuid == item.Guid);
 
@@ -134,7 +134,7 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
 
         private void OnCaptureFrameStateChanged(object? sender, Business.Common.EventArgs.CaptureFrameStateEventArgs e)
         {
-            lock(lockCaptureFrameAreasObject)
+            lock(((ICollection)CaptureFrameAreas).SyncRoot)
             {
                 UserDto? user = null;
                 switch (e.Action)
