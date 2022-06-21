@@ -1,11 +1,7 @@
-﻿using Framework;
-using Framework.Delegates;
+﻿using Framework.Delegates;
 using System;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Windows;
-using System.Windows.Automation;
-using System.Windows.Automation.Peers;
 using System.Windows.Input;
 
 namespace Meeting.Wpf.Controls
