@@ -158,11 +158,8 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
 
         private void OnCaptureFrameChanged(object? sender, Business.Common.EventArgs.CaptureFrameEventArgs e)
         {
-            dispatcher.BeginInvoke(() =>
-            {
-                var area = CaptureFrameAreas[e.CaptureAreadGuid];
-                area.Data = e.Bytes;
-            });
+            var area = CaptureFrameAreas[e.CaptureAreadGuid];
+            area.Data = e.Bytes;
         }
 
         private void OnProtectedPropertyChanged(string propertyName, object oldValue, object newValue)
