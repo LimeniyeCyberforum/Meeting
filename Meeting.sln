@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolkit.Xamarin", "src\Tool
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meeting.Wpf.Controls", "src\Meeting.Wpf.Controls\Meeting.Wpf.Controls.csproj", "{0958CCA7-C58F-4421-AD20-CF97409C5BAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meeting.Wpf.ViewModels", "Meeting.Wpf.ViewModels\Meeting.Wpf.ViewModels.csproj", "{1AC9D653-9B27-4199-B93B-B3B60238C5F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meeting.Wpf.ViewModels", "src\Meeting.Wpf.ViewModels\Meeting.Wpf.ViewModels.csproj", "{C179F3C5-A0C9-42E6-AF89-8DE5DC09362F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,10 +89,10 @@ Global
 		{0958CCA7-C58F-4421-AD20-CF97409C5BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0958CCA7-C58F-4421-AD20-CF97409C5BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0958CCA7-C58F-4421-AD20-CF97409C5BAC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1AC9D653-9B27-4199-B93B-B3B60238C5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1AC9D653-9B27-4199-B93B-B3B60238C5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1AC9D653-9B27-4199-B93B-B3B60238C5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1AC9D653-9B27-4199-B93B-B3B60238C5F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C179F3C5-A0C9-42E6-AF89-8DE5DC09362F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C179F3C5-A0C9-42E6-AF89-8DE5DC09362F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C179F3C5-A0C9-42E6-AF89-8DE5DC09362F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C179F3C5-A0C9-42E6-AF89-8DE5DC09362F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,7 +110,7 @@ Global
 		{E7067FCA-537B-440A-93CE-A0889C349D22} = {32C97FFA-C585-412F-99CD-063FCE8D282D}
 		{6FD4F4E4-98B4-4636-ACD3-83FC6ED984A8} = {DDD378E2-A8AD-4BA3-BE26-0F4DEC63F37D}
 		{0958CCA7-C58F-4421-AD20-CF97409C5BAC} = {52F30133-875F-476F-8FD9-8591EFA497D3}
-		{1AC9D653-9B27-4199-B93B-B3B60238C5F7} = {52F30133-875F-476F-8FD9-8591EFA497D3}
+		{C179F3C5-A0C9-42E6-AF89-8DE5DC09362F} = {52F30133-875F-476F-8FD9-8591EFA497D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C8047A6-01EE-4859-B4C5-3BBFBA57F8F0}

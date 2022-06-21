@@ -59,8 +59,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Meeting.Business\Meeting.Business.Common\Meeting.Business.Common.csproj" />
-    <ProjectReference Include="..\src\Toolkit.WindowsDesktop\Toolkit.WindowsDesktop.csproj" />
+    <ProjectReference Include="..\Meeting.Business\Meeting.Business.Common\Meeting.Business.Common.csproj" />
+    <ProjectReference Include="..\Toolkit.WindowsDesktop\Toolkit.WindowsDesktop.csproj" />
   </ItemGroup>
 
 </Project>
