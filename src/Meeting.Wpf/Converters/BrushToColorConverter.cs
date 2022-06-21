@@ -16,7 +16,8 @@ namespace Meeting.Wpf.Converters
             }
             else if (value is string hexColor)
             {
-                return FromString(hexColor);
+                Color? color = FromString(hexColor);
+                return color is null ? DependencyProperty.UnsetValue : color;
             }
 
             return DependencyProperty.UnsetValue;
@@ -27,9 +28,14 @@ namespace Meeting.Wpf.Converters
             return solidColorBrush.Color;
         }
 
-        private Color FromString(string hexColor)
+        private Color? FromString(string hexColor)
         {
-            return ((SolidColorBrush)new BrushConverter().ConvertFromString(hexColor)).Color;
+            object? solidColorBrush = new BrushConverter().ConvertFromString(hexColor);
+
+            if (solidColorBrush is not null)
+                return ((SolidColorBrush)solidColorBrush).Color;
+
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

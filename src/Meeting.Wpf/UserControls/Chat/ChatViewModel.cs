@@ -4,11 +4,9 @@ using Meeting.Business.Common.Abstractions.Chat;
 using Meeting.Business.Common.DataTypes;
 using MvvmCommon.WindowsDesktop;
 using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
-using System.Windows.Data;
 using Toolkit.WindowsDesktop;
 
 namespace Meeting.Wpf.UserControls.Chat
@@ -19,9 +17,9 @@ namespace Meeting.Wpf.UserControls.Chat
         private readonly ChatServiceAbstract _messageService;
         private readonly IMeetingAuthorization _meetingAuthorization;
 
-        private string _message;
+        private string? _message;
 
-        public string Message { get => _message; set => Set(ref _message, value); }
+        public string? Message { get => _message; set => Set(ref _message, value); }
 
         public ObservableCollection<MessageDto> Messages { get; } = new ObservableCollection<MessageDto>()
         {
@@ -29,7 +27,7 @@ namespace Meeting.Wpf.UserControls.Chat
         };
 
         #region SendMessageCommand
-        private RelayCommand _sendMessageCommand;
+        private RelayCommand? _sendMessageCommand;
         public RelayCommand SendMessageCommand => _sendMessageCommand ?? (
             _sendMessageCommand = new RelayCommand(OnSendMessageExecute, CanSendMessageExecute));
 
@@ -96,7 +94,8 @@ namespace Meeting.Wpf.UserControls.Chat
                 case NotifyDictionaryChangedAction.Added:
                     if (newValue.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
                     {
-                        var index = Messages.IndexOf(Messages.FirstOrDefault(x => x.Guid == newValue.Guid));
+                        MessageDto? message = Messages.FirstOrDefault(x => x.Guid == newValue.Guid);
+                        int index = message is null ? -1 : Messages.IndexOf(message);
                         if (index > -1)
                         {
                             Messages[index] = new OwnerMessageDto(newValue.Guid, newValue.UserGuid, newValue.Message, newValue.UserName, newValue.DateTime, MessageStatus.Readed);

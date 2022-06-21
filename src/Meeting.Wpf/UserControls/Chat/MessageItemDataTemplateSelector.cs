@@ -6,8 +6,8 @@ namespace Meeting.Wpf.UserControls.Chat
 {
     public class MessageItemDataTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate OwnerMessage { get; set; }
-        public DataTemplate AnotherMessage { get; set; }
+        public DataTemplate? OwnerMessage { get; set; }
+        public DataTemplate? AnotherMessage { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -17,7 +17,7 @@ namespace Meeting.Wpf.UserControls.Chat
             return SelectTemplateCore(item);
         }
 
-        private DataTemplate SelectTemplateCore(object item)
+        private DataTemplate? SelectTemplateCore(object item)
         {
             if (item is OwnerMessageDto)
             {

@@ -7,14 +7,14 @@ namespace Meeting.Wpf.UserControls.Connect
     {
         private readonly IMeetingAuthorization _meetingAuthorization;
 
-        private string _name;
+        private string? _name;
         private bool? _isValidName = null;
 
-        public string Name { get => _name; set => Set(ref _name, value); }
+        public string? Name { get => _name; set => Set(ref _name, value); }
         public bool? IsValidName { get => _isValidName; set => Set(ref _isValidName, value); }
 
         #region JoinCommand
-        private RelayCommandAsync _joinCommand;
+        private RelayCommandAsync? _joinCommand;
         public RelayCommandAsync JoinCommand => _joinCommand ?? (
             _joinCommand = new RelayCommandAsync(OnJoinExecute, CanJoinExecute));
 
@@ -35,7 +35,7 @@ namespace Meeting.Wpf.UserControls.Connect
             ProtectedPropertyChanged += OnProtectedPropertyChanged;
         }
 
-        private void OnProtectedPropertyChanged(string propertyName, object oldValue, object newValue)
+        private void OnProtectedPropertyChanged(string? propertyName, object? oldValue, object? newValue)
         {
             if (string.Equals(propertyName, nameof(Name)))
             {
