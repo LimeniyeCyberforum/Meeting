@@ -4,6 +4,7 @@ using Meeting.Business.Common.DataTypes;
 using Meeting.Wpf.Camera;
 using MvvmCommon.WindowsDesktop;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
@@ -45,15 +46,18 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
 
         private void Initizalize()
         {
-            foreach (var item in _captureFramesService.ActiveCaptureFrames)
-                CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Key, item.Value.OwnerGuid, String.Empty, null));
-
-            foreach (var item in _meetingUsers.Users.Users)
+            lock (((ICollection)CaptureFrameAreas).SyncRoot)
             {
-                var captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.OwnerGuid == item.Key || x.AreaGuid == item.Key);
+                foreach (var item in _captureFramesService.ActiveCaptureFrames)
+                    CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Key, item.Value.OwnerGuid, String.Empty, null));
 
-                if (captureFrameArea == null)
-                    CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Key, item.Value.Guid, item.Value.UserName, null));
+                foreach (var item in _meetingUsers.Users.Users)
+                {
+                    var captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.OwnerGuid == item.Key || x.AreaGuid == item.Key);
+
+                    if (captureFrameArea == null)
+                        CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Key, item.Value.Guid, item.Value.UserName, null));
+                }
             }
         }
 
@@ -121,43 +125,49 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
 
         private void OnUsersChanged(object? sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, Business.Common.DataTypes.UserDto> e)
         {
-            var item = e.NewValue;
-            var captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.OwnerGuid == item.Guid || x.AreaGuid == item.Guid);
-
-            if (captureFrameArea == null)
+            lock (((ICollection)CaptureFrameAreas).SyncRoot)
             {
-                CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Guid, item.Guid, item.UserName, null));
+                var item = e.NewValue;
+                var captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.OwnerGuid == item.Guid || x.AreaGuid == item.Guid);
+
+                if (captureFrameArea == null)
+                {
+                    CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Guid, item.Guid, item.UserName, null));
+                }
             }
         }
 
         private void OnCaptureFrameStateChanged(object? sender, Business.Common.EventArgs.CaptureFrameStateEventArgs e)
         {
-            UserDto? user = null;
-            switch (e.Action)
+            lock (((ICollection)CaptureFrameAreas).SyncRoot)
             {
-                case Business.Common.EventArgs.CaptureFrameState.Disabled:
-                    CaptureFrameViewModel? captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
-                    int index = captureFrameArea is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameArea);
-                    if (index > -1)
-                    {
-                        CaptureFrameAreas[index].Data = null;
-                    }
-                    else
-                    {
+                UserDto? user = null;
+                switch (e.Action)
+                {
+                    case Business.Common.EventArgs.CaptureFrameState.Disabled:
+                        CaptureFrameViewModel? captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
+                        int index = captureFrameArea is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameArea);
+                        if (index > -1)
+                        {
+                            CaptureFrameAreas[index].Data = null;
+                        }
+                        else
+                        {
+                            user = _meetingUsers.Users.Users[e.OwnerGuid];
+                            CaptureFrameAreas.Add(new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
+                        }
+                        break;
+                    case Business.Common.EventArgs.CaptureFrameState.Created:
                         user = _meetingUsers.Users.Users[e.OwnerGuid];
                         CaptureFrameAreas.Add(new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
-                    }
-                    break;
-                case Business.Common.EventArgs.CaptureFrameState.Created:
-                    user = _meetingUsers.Users.Users[e.OwnerGuid];
-                    CaptureFrameAreas.Add(new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
-                    break;
-                case Business.Common.EventArgs.CaptureFrameState.Removed:
-                    CaptureFrameViewModel? captureFrameAreaForRemove = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
-                    int removeInxex = captureFrameAreaForRemove is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameAreaForRemove);
-                    if (removeInxex > -1)
-                        CaptureFrameAreas.RemoveAt(removeInxex);
-                    break;
+                        break;
+                    case Business.Common.EventArgs.CaptureFrameState.Removed:
+                        CaptureFrameViewModel? captureFrameAreaForRemove = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
+                        int removeInxex = captureFrameAreaForRemove is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameAreaForRemove);
+                        if (removeInxex > -1)
+                            CaptureFrameAreas.RemoveAt(removeInxex);
+                        break;
+                }
             }
         }
 
