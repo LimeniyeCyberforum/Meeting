@@ -24,13 +24,13 @@
                 <DataTemplate DataType="{x:Type local:CaptureFrameViewModel}">
                     <Grid Margin="1">
                         <Border Background="#2b2731" CornerRadius="20,20,20,10"/>
-                        <Image x:Name="captureFrame" Source="{Binding Value.Data}"
+                        <Image x:Name="captureFrame" Source="{Binding Data}"
                                Stretch="Uniform" Visibility="Visible"/>
 
                         <!-- Default -->
                         <Grid x:Name="default" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Border Background="#427d83" Margin="10" CornerRadius="20" />
-                            <TextBlock Text="{Binding Value.OwnerName, Converter={StaticResource StringToFirstLetterConverter}}" 
+                            <TextBlock Text="{Binding OwnerName, Converter={StaticResource StringToFirstLetterConverter}}" 
                                        Foreground="#16b1a5" FontSize="25"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
@@ -38,14 +38,14 @@
                         <!-- Username -->
                         <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="7,0,0,3">
                             <Border Background="#3e5b96" CornerRadius="5,5,5,2" Opacity="0.5"/>
-                            <TextBlock Text="{Binding Value.OwnerName}" FontSize="18"
+                            <TextBlock Text="{Binding OwnerName}" FontSize="18"
                                        Foreground="#f0f0f0" Margin="10,2,10,2"/>
                         </Grid>
 
                     </Grid>
 
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Value.Data}" Value="{x:Null}">
+                        <DataTrigger Binding="{Binding Data}" Value="{x:Null}">
                             <Setter TargetName="default" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="captureFrame" Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>

@@ -2,10 +2,13 @@
 using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
 using Meeting.Wpf.Camera;
+using Meeting.Wpf.Converters;
 using MvvmCommon.WindowsDesktop;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Toolkit.WindowsDesktop;
@@ -27,7 +30,7 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
         private bool _isCameraOn;
         public bool IsCameraOn { get => _isCameraOn; set => Set(ref _isCameraOn, value); }
 
-        public ObservableDictionary<Guid, CaptureFrameViewModel> CaptureFrameAreas { get; } = new ObservableDictionary<Guid, CaptureFrameViewModel>();
+        public ObservableCollection<CaptureFrameViewModel> CaptureFrameAreas { get; } = new ObservableCollection<CaptureFrameViewModel>();
 
         public CaptureFramesViewModel(CaptureFramesServiceAbstract captureFramesService, IMeetingUsers users, IMeetingAuthorization authorizationService)
         {
@@ -45,14 +48,14 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
         private void Initizalize()
         {
             foreach (var item in _captureFramesService.ActiveCaptureFrames)
-                CaptureFrameAreas.Add(item.Key, new CaptureFrameViewModel(item.Key, item.Value.OwnerGuid, String.Empty, null));
+                CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Key, item.Value.OwnerGuid, String.Empty, null));
 
             foreach (var item in _meetingUsers.Users.Users)
             {
-                var captureFrameArea = CaptureFrameAreas.Values.FirstOrDefault(x => x.OwnerGuid == item.Key || x.AreaGuid == item.Key);
+                var captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.OwnerGuid == item.Key || x.AreaGuid == item.Key);
 
                 if (captureFrameArea == null)
-                    CaptureFrameAreas.Add(item.Key, new CaptureFrameViewModel(item.Key, item.Value.Guid, item.Value.UserName, null));
+                    CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Key, item.Value.Guid, item.Value.UserName, null));
             }
         }
 
@@ -121,11 +124,11 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
         private void OnUsersChanged(object? sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, Business.Common.DataTypes.UserDto> e)
         {
             var item = e.NewValue;
-            var captureFrameArea = CaptureFrameAreas.Values.FirstOrDefault(x => x.OwnerGuid == item.Guid || x.AreaGuid == item.Guid);
+            var captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.OwnerGuid == item.Guid || x.AreaGuid == item.Guid);
 
             if (captureFrameArea == null)
             {
-                CaptureFrameAreas.Add(item.Guid, new CaptureFrameViewModel(item.Guid, item.Guid, item.UserName, null));
+                CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Guid, item.Guid, item.UserName, null));
             }
         }
 
@@ -135,31 +138,46 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
             switch (e.Action)
             {
                 case Business.Common.EventArgs.CaptureFrameState.Disabled:
-                    if (CaptureFrameAreas.ContainsKey(e.CaptureAreadGuid))
+                    CaptureFrameViewModel? captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
+                    int index = captureFrameArea is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameArea);
+                    if (index > -1)
                     {
-                        var captureFrame = CaptureFrameAreas[e.CaptureAreadGuid];
-                        captureFrame.Data = null;
+                        CaptureFrameAreas[index].Data = null;
                     }
                     else
                     {
                         user = _meetingUsers.Users.Users[e.OwnerGuid];
-                        CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
+                        CaptureFrameAreas.Add(new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
                     }
                     break;
                 case Business.Common.EventArgs.CaptureFrameState.Created:
                     user = _meetingUsers.Users.Users[e.OwnerGuid];
-                    CaptureFrameAreas.Add(e.CaptureAreadGuid, new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
+                    CaptureFrameAreas.Add(new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
                     break;
                 case Business.Common.EventArgs.CaptureFrameState.Removed:
-                    CaptureFrameAreas.Remove(e.CaptureAreadGuid);
+                    CaptureFrameViewModel? captureFrameAreaForRemove = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
+                    int removeInxex = captureFrameAreaForRemove is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameAreaForRemove);
+                    if (removeInxex > -1)
+                        CaptureFrameAreas.RemoveAt(removeInxex);
                     break;
             }
         }
 
         private void OnCaptureFrameChanged(object? sender, Business.Common.EventArgs.CaptureFrameEventArgs e)
         {
-            var area = CaptureFrameAreas[e.CaptureAreadGuid];
-            area.Data = e.Bytes;
+            CaptureFrameViewModel? captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
+            int index = captureFrameArea is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameArea);
+            if (index > -1)
+            {
+                if (e.Bytes is not null)
+                    CaptureFrameAreas[index].Data = e.Bytes;
+                else
+                    System.Diagnostics.Debug.WriteLine($"null");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"FrameArea not exitst {e}");
+            }
         }
 
         private void OnProtectedPropertyChanged(string? propertyName, object? oldValue, object? newValue)
