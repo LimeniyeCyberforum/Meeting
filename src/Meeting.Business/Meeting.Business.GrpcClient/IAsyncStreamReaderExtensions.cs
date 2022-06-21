@@ -34,7 +34,7 @@ namespace Meeting.Business.GrpcClient
                 _asyncStreamReader = asyncStreamReader;
             }
 
-            private sealed class ToAsyncEnumeratorEnumerator<T> : IAsyncEnumerator<T>
+            private sealed class ToAsyncEnumeratorEnumerator<T2> : IAsyncEnumerator<T>
             {
                 public T Current => _asyncStreamReader.Current;
 

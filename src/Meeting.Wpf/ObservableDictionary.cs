@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Meeting.Wpf
 {
     public partial class ObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
+        where TKey : notnull
     {
         public ObservableDictionary() : base() { }
         public ObservableDictionary(int capacity) : base(capacity) { }
@@ -16,8 +15,8 @@ namespace Meeting.Wpf
         public ObservableDictionary(int capacity, IEqualityComparer<TKey> comparer) : base(capacity, comparer) { }
         public ObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer) : base(dictionary, comparer) { }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public new TValue this[TKey key]
         {
@@ -27,9 +26,9 @@ namespace Meeting.Wpf
             }
             set
             {
-                TValue oldValue;
+                TValue? oldValue;
                 bool exist = base.TryGetValue(key, out oldValue);
-                var oldItem = new KeyValuePair<TKey, TValue>(key, oldValue);
+                var oldItem = new KeyValuePair<TKey, TValue?>(key, oldValue);
                 base[key] = value;
                 var newItem = new KeyValuePair<TKey, TValue>(key, value);
                 if (exist)
@@ -57,7 +56,7 @@ namespace Meeting.Wpf
 
         public new bool Remove(TKey key)
         {
-            TValue value;
+            TValue? value;
             if (base.TryGetValue(key, out value))
             {
                 var item = new KeyValuePair<TKey, TValue>(key, base[key]);
