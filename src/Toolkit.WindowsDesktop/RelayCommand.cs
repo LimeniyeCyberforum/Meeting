@@ -12,8 +12,8 @@ namespace MvvmCommon.WindowsDesktop
     public delegate void ExecuteHandler();
     public delegate bool CanExecuteHandler();
 
-    public delegate void ExecuteHandler<T>(T parameter);
-    public delegate bool CanExecuteHandler<T>(T parameter);
+    public delegate void ExecuteHandler<T>(T? parameter);
+    public delegate bool CanExecuteHandler<T>(T? parameter);
 
     public delegate bool ConverterFromObjectHandler<T>(in object value, out T result);
     #endregion
@@ -23,8 +23,8 @@ namespace MvvmCommon.WindowsDesktop
     /// and added a constructor for methods without a parameter.</summary>
     public class RelayCommand : ICommand
     {
-        protected readonly CanExecuteHandler<object> canExecute;
-        protected readonly ExecuteHandler<object> execute;
+        protected readonly CanExecuteHandler<object>? canExecute;
+        protected readonly ExecuteHandler<object>? execute;
         private readonly EventHandler requerySuggested;
 
         /// <inheritdoc cref="ICommand.CanExecuteChanged"/>
@@ -33,7 +33,7 @@ namespace MvvmCommon.WindowsDesktop
         /// <summary> Command constructor. </summary>
         /// <param name = "execute"> Command method to execute. </param>
         /// <param name = "canExecute"> Method that returns the state of the command. </param>
-        public RelayCommand(ExecuteHandler<object> execute, CanExecuteHandler<object> canExecute = null)
+        public RelayCommand(ExecuteHandler<object> execute, CanExecuteHandler<object>? canExecute = null)
            : this()
         {
             this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
@@ -73,13 +73,13 @@ namespace MvvmCommon.WindowsDesktop
         }
 
         /// <inheritdoc cref="ICommand.CanExecute(object)"/>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return canExecute?.Invoke(parameter) ?? true;
         }
 
         /// <inheritdoc cref="ICommand.Execute(object)"/>
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             execute?.Invoke(parameter);
         }
@@ -96,7 +96,7 @@ namespace MvvmCommon.WindowsDesktop
         /// <see href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/is">
         /// is not compatible</see> with a <typeparamref name="T"/> type.
         /// </param>
-        public RelayCommand(ExecuteHandler<T> execute, CanExecuteHandler<T> canExecute, ConverterFromObjectHandler<T>? converter = null)
+        public RelayCommand(ExecuteHandler<T> execute, CanExecuteHandler<T>? canExecute, ConverterFromObjectHandler<T>? converter = null)
             : base
             (
                   p =>
@@ -115,7 +115,7 @@ namespace MvvmCommon.WindowsDesktop
         /// <summary> Command constructor. </summary>
         /// <param name = "execute"> Command method to execute. </param>
         /// <param name="converter">Optional converter to convert <see cref="object"/> to <typeparamref name="T"/>.</param>
-        public RelayCommand(ExecuteHandler<T> execute, ConverterFromObjectHandler<T> converter = null)
+        public RelayCommand(ExecuteHandler<T> execute, ConverterFromObjectHandler<T>? converter = null)
            : this(execute, null, converter)
         { }
     }
@@ -123,11 +123,11 @@ namespace MvvmCommon.WindowsDesktop
     public class RelayCommandAsync : RelayCommand, ICommand, INotifyPropertyChanged, INotifyDataErrorInfo
     {
         /// <inheritdoc cref="INotifyPropertyChanged.PropertyChanged"/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
 
         /// <inheritdoc cref="INotifyDataErrorInfo.ErrorsChanged"/>
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         /// <summary>The command is in the execution state of the <see cref="RelayCommand.Execute(object)"/> method.</summary>
         public bool IsBusy { get; private set; }
@@ -136,7 +136,7 @@ namespace MvvmCommon.WindowsDesktop
         public bool HasErrors { get; private set; }
 
         /// <summary>Exception from the last execution of the <see cref="RelayCommand.Execute(object)"/> method.</summary>
-        public Exception ExecuteException { get; private set; }
+        public Exception? ExecuteException { get; private set; }
 
         // A flag indicating a "call to execute busy a command" error.
         private bool isBusyExecuteError;
@@ -207,7 +207,7 @@ namespace MvvmCommon.WindowsDesktop
         }
 
         /// <inheritdoc cref="INotifyDataErrorInfo.GetErrors(string)"/>
-        public IEnumerable GetErrors(string propertyName)
+        public IEnumerable GetErrors(string? propertyName)
         {
             if (string.IsNullOrEmpty(propertyName))
             {
@@ -221,7 +221,7 @@ namespace MvvmCommon.WindowsDesktop
                     yield return ExecuteException;
                 }
             }
-            IEnumerable errors = GetErrorsOverride(propertyName);
+            IEnumerable? errors = GetErrorsOverride(propertyName);
             if (errors != null)
             {
                 foreach (var error in errors)
@@ -235,7 +235,7 @@ namespace MvvmCommon.WindowsDesktop
         /// <param name="propertyName">The name of the property to retrieve validation
         /// errors for; or null or Empty, to retrieve entity-level errors.</param>
         /// <returns>The validation errors for the property or entity.</returns>
-        protected virtual IEnumerable GetErrorsOverride(string propertyName)
+        protected virtual IEnumerable? GetErrorsOverride(string? propertyName)
             => null;
 
         /// <summary>A class with persistent elements to avoid re-creating them frequently.</summary>
@@ -255,8 +255,8 @@ namespace MvvmCommon.WindowsDesktop
         /// in the constructor.</summary>
         protected class AsyncData
         {
-            public RelayCommandAsync commandAsync;
-            public async void ExecuteAsync(object parameter)
+            public RelayCommandAsync? commandAsync;
+            public async void ExecuteAsync(object? parameter)
             {
                 if (commandAsync.IsBusy)
                 {
@@ -288,14 +288,14 @@ namespace MvvmCommon.WindowsDesktop
             }
 
             public CanExecuteHandler<object> CanExecuteAsync { get; }
-            private bool canExecuteNullAsync(object parameter) => !commandAsync.IsBusy;
-            private bool canExecuteAsync(object parameter) => !commandAsync.IsBusy && canExecute(parameter);
+            private bool canExecuteNullAsync(object? parameter) => !commandAsync.IsBusy;
+            private bool canExecuteAsync(object? parameter) => !commandAsync.IsBusy && canExecute(parameter);
 
-            private readonly ExecuteHandler<object> execute;
-            private readonly CanExecuteHandler<object> canExecute;
+            private readonly ExecuteHandler<object>? execute;
+            private readonly CanExecuteHandler<object>? canExecute;
 
             /// <inheritdoc cref="AsyncData(ExecuteHandler, CanExecuteHandler)"/>
-            public AsyncData(ExecuteHandler<object> execute, CanExecuteHandler<object> canExecute)
+            public AsyncData(ExecuteHandler<object> execute, CanExecuteHandler<object>? canExecute)
             {
                 this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
 
@@ -314,7 +314,7 @@ namespace MvvmCommon.WindowsDesktop
             /// <summary>Creates an instance.</summary>
             /// <param name="execute">Synchronous Execute method.</param>
             /// <param name="canExecute">Synchronous CanExecute method.</param>
-            public AsyncData(ExecuteHandler execute, CanExecuteHandler canExecute)
+            public AsyncData(ExecuteHandler execute, CanExecuteHandler? canExecute)
             {
                 if (execute == null)
                 {
@@ -343,7 +343,7 @@ namespace MvvmCommon.WindowsDesktop
     public class RelayCommandAsync<T> : RelayCommandAsync
     {
         /// <inheritdoc cref="RelayCommand{T}(ExecuteHandler{T}, CanExecuteHandler{T}, ConverterFromObjectHandler{T})"/>
-        public RelayCommandAsync(ExecuteHandler<T> execute, CanExecuteHandler<T> canExecute, ConverterFromObjectHandler<T> converter = null)
+        public RelayCommandAsync(ExecuteHandler<T> execute, CanExecuteHandler<T>? canExecute, ConverterFromObjectHandler<T>? converter = null)
             : base
             (
                   p =>
@@ -361,7 +361,7 @@ namespace MvvmCommon.WindowsDesktop
 
 
         /// <inheritdoc cref="RelayCommand{T}(ExecuteHandler{T}, ConverterFromObjectHandler{T})"/>
-        public RelayCommandAsync(ExecuteHandler<T> execute, ConverterFromObjectHandler<T> converter = null)
+        public RelayCommandAsync(ExecuteHandler<T> execute, ConverterFromObjectHandler<T>? converter = null)
            : this(execute, null, converter)
         { }
     }

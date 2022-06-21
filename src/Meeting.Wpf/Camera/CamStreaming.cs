@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Meeting.Wpf
+namespace Meeting.Wpf.Camera
 {
     public class CamStreaming
     {

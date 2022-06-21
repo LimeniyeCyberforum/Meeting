@@ -10,12 +10,12 @@ namespace MvvmCommon.WindowsDesktop
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        protected void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected bool Set<T>(ref T propertyField, T newValue, Equality<T> equality = null, [CallerMemberName] string propertyName = null)
+        protected bool Set<T>(ref T propertyField, T newValue, Equality<T>? equality = null, [CallerMemberName] string? propertyName = null)
         {
             bool isEquals = propertyField == null || newValue == null
                 ? propertyField == null && newValue == null
@@ -39,19 +39,19 @@ namespace MvvmCommon.WindowsDesktop
             return !isEquals;
         }
 
-        protected static event PropertyChangedHandler ProtectedPropertyChanged;
+        protected static event PropertyChangedHandler? ProtectedPropertyChanged;
     }
 
     public abstract partial class BaseInpc : INotifyPropertyChanged
     {
-        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+        public static event EventHandler<PropertyChangedEventArgs>? StaticPropertyChanged;
 
-        protected static void RaiseStaticPropertyChanged([CallerMemberName] string propertyName = null)
+        protected static void RaiseStaticPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected static bool StaticSet<T>(ref T propertyField, T newValue, Equality<T> equality = null, [CallerMemberName] string propertyName = null)
+        protected static bool StaticSet<T>(ref T propertyField, T newValue, Equality<T>? equality = null, [CallerMemberName] string? propertyName = null)
         {
             bool isEquals = propertyField == null || newValue == null
                 ? propertyField == null && newValue == null
@@ -76,8 +76,8 @@ namespace MvvmCommon.WindowsDesktop
             return !isEquals;
         }
 
-        protected static event PropertyChangedHandler ProtectedStaticPropertyChanged;
+        protected static event PropertyChangedHandler? ProtectedStaticPropertyChanged;
 
-        protected delegate void PropertyChangedHandler(string propertyName, object oldValue, object newValue);
+        protected delegate void PropertyChangedHandler(string? propertyName, object? oldValue, object? newValue);
     }
 }

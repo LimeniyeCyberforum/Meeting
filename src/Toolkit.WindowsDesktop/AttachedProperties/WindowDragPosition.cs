@@ -43,7 +43,7 @@ namespace Toolkit.WindowsDesktop.AttachedProperties
                         }
                     }
                     var window = parent as Window;
-                    window.DragMove();
+                    window?.DragMove();
                 }
             }
         }

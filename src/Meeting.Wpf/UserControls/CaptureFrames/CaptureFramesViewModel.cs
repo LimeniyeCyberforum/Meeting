@@ -1,13 +1,12 @@
 ﻿using Meeting.Business.Common.Abstractions;
 using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
+using Meeting.Wpf.Camera;
 using MvvmCommon.WindowsDesktop;
 using System;
-using System.Collections;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Threading;
 using Toolkit.WindowsDesktop;
 using WebcamWithOpenCV;

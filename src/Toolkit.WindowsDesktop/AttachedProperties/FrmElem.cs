@@ -57,10 +57,10 @@ namespace Toolkit.WindowsDesktop.AttachedProperties
             public SizeChangedElement(FrameworkElement element)
             {
                 Element = element ?? throw new ArgumentNullException(nameof(element));
-                element.LayoutUpdated += Element_LayoutUpdated;
+                element.LayoutUpdated += OnLayoutUpdated;
             }
 
-            private void Element_LayoutUpdated(object sender = null, EventArgs e = null)
+            private void OnLayoutUpdated(object? sender, EventArgs? e)
             {
                 if (WidthToHeight <= 0)
                     return;
@@ -84,7 +84,7 @@ namespace Toolkit.WindowsDesktop.AttachedProperties
             public void SetWidthToHeight(double widthToHeight)
             {
                 WidthToHeight = widthToHeight;
-                Element_LayoutUpdated();
+                OnLayoutUpdated(default, default);
             }
 
         }
