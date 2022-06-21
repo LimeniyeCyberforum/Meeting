@@ -1,47 +1,23 @@
-﻿using ImageProcessor;
-using ImageProcessor.Imaging;
-using OpenCvSharp;
-using OpenCvSharp.Extensions;
+﻿using OpenCvSharp;
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using WebcamWithOpenCV;
 
 namespace Meeting.Wpf
 {
     public class CamStreaming
     {
-        private System.Drawing.Bitmap _lastFrame;
-        private Task _previewTask;
+        private Task? _previewTask;
 
-        private CancellationTokenSource _cancellationTokenSource;
-        //private readonly Image _imageControlForRendering;
-        private readonly int _frameWidth;
-        private readonly int _frameHeight;
-
+        private CancellationTokenSource? _cancellationTokenSource;
         public int CameraDeviceId { get; private set; }
-        public byte[] LastPngFrame { get; private set; }
         public bool FlipHorizontally { get; set; }
 
-        public event EventHandler OnQRCodeRead;
-        public event EventHandler<byte[]> CaptureFrameChanged;
-        private readonly OpenCVQRCodeReader _qrCodeReader;
+        public event EventHandler<byte[]>? CaptureFrameChanged;
 
-        private int _currentBarcodeReadFrameCount = 0;
-        private const int _readBarcodeEveryNFrame = 10;
-
-        public CamStreaming(
-            int frameWidth,
-            int frameHeight,
-            int cameraDeviceId)
+        public CamStreaming(int cameraDeviceId)
         {
-            //_imageControlForRendering = imageControlForRendering;
-            _frameWidth = frameWidth;
-            _frameHeight = frameHeight;
             CameraDeviceId = cameraDeviceId;
-            _qrCodeReader = new OpenCVQRCodeReader();
         }
 
         public async Task Start()
@@ -73,45 +49,7 @@ namespace Meeting.Wpf
                             videoCapture.Read(frame);
 
                             if (!frame.Empty())
-                            {
-                                //var messageService = IocService.ServiceProvider.GetService<BaseMessageServiceAbstract>();
-                                //await messageService.SendCameraCaptureAsync(frame.ToMemoryStream());
                                 CaptureFrameChanged?.Invoke(this, frame.ToBytes());
-
-                                //if (OnQRCodeRead != null)
-                                //{
-                                //    // Try read the barcode every n frames to reduce latency
-                                //    if (_currentBarcodeReadFrameCount % _readBarcodeEveryNFrame == 0)
-                                //    {
-                                //        try
-                                //        {
-                                //            string qrCodeData = _qrCodeReader.DetectBarcode(frame);
-                                //            OnQRCodeRead.Invoke(
-                                //                this,
-                                //                new QRCodeReadEventArgs(qrCodeData));
-                                //        }
-                                //        catch (Exception ex)
-                                //        {
-                                //            Debug.WriteLine(ex);
-                                //        }
-                                //    }
-
-                                //    _currentBarcodeReadFrameCount += 1 % _readBarcodeEveryNFrame;
-                                //}
-
-                                //// Releases the lock on first not empty frame
-                                //if (initializationSemaphore != null)
-                                //    initializationSemaphore.Release();
-
-                                //_lastFrame = FlipHorizontally
-                                //    ? BitmapConverter.ToBitmap(frame.Flip(FlipMode.Y))
-                                //    : BitmapConverter.ToBitmap(frame);
-
-                                //var lastFrameBitmapImage = _lastFrame.ToBitmapSource();
-                                //lastFrameBitmapImage.Freeze();
-                                //_imageControlForRendering.Dispatcher.Invoke(
-                                //    () => _imageControlForRendering.Source = lastFrameBitmapImage);
-                            }
 
                             // 30 FPS
                             await Task.Delay(33);
@@ -154,34 +92,11 @@ namespace Meeting.Wpf
                 // Wait for it, to avoid conflicts with read/write of _lastFrame
                 await _previewTask;
             }
-
-            if (_lastFrame != null)
-            {
-                using (var imageFactory = new ImageFactory())
-                using (var stream = new MemoryStream())
-                {
-                    imageFactory
-                        .Load(_lastFrame)
-                        .Resize(new ResizeLayer(
-                            size: new System.Drawing.Size(_frameWidth, _frameHeight),
-                            resizeMode: ImageProcessor.Imaging.ResizeMode.Crop,
-                            anchorPosition: AnchorPosition.Center))
-                        .Save(stream);
-
-                    LastPngFrame = stream.ToArray();
-                }
-            }
-            else
-            {
-                LastPngFrame = null;
-            }
         }
 
         public void Dispose()
         {
             _cancellationTokenSource?.Cancel();
-            _lastFrame?.Dispose();
         }
-
     }
 }

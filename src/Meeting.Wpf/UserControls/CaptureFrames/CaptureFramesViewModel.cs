@@ -107,7 +107,7 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
             if (_cam == null || _cam.CameraDeviceId != selectedCameraDeviceId)
             {
                 _cam?.Dispose();
-                result = new CamStreaming(frameWidth: 300, frameHeight: 300, selectedCameraDeviceId);
+                result = new CamStreaming(selectedCameraDeviceId);
             }
 
             return result;
