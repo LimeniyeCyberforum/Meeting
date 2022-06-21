@@ -1,10 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace MvvmCommon.WindowsDesktop
 {
@@ -16,9 +12,7 @@ namespace MvvmCommon.WindowsDesktop
 
         protected void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
         {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            DispatchAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)));
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected bool Set<T>(ref T propertyField, T newValue, Equality<T>? equality = null, [CallerMemberName] string? propertyName = null)
@@ -43,18 +37,6 @@ namespace MvvmCommon.WindowsDesktop
             }
 
             return !isEquals;
-        }
-
-        private async Task DispatchAsync(Action callback)
-        {
-            if (SynchronizationContext.Current is DispatcherSynchronizationContext context)
-            {
-                callback.Invoke();
-            }
-            else
-            {
-                await Application.Current.Dispatcher.InvokeAsync(callback, DispatcherPriority.Normal);
-            }
         }
 
         protected static event PropertyChangedHandler? ProtectedPropertyChanged;
