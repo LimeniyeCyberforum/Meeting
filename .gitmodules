@@ -1,0 +1,3 @@
+[submodule "meeting-backend"]
+	path = src/Meeting.Business/meeting-backend
+	url = https://github.com/LimeniyeCyberforum/meeting-backend
