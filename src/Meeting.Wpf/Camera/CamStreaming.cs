@@ -82,12 +82,12 @@ namespace Meeting.Wpf.Camera
         public async Task Stop()
         {
             // If "Dispose" gets called before Stop
-            if (_cancellationTokenSource.IsCancellationRequested)
+            if (_cancellationTokenSource is not null && _cancellationTokenSource.IsCancellationRequested)
                 return;
 
-            if (!_previewTask.IsCompleted)
+            if (_previewTask is not null && !_previewTask.IsCompleted)
             {
-                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource?.Cancel();
 
                 // Wait for it, to avoid conflicts with read/write of _lastFrame
                 await _previewTask;

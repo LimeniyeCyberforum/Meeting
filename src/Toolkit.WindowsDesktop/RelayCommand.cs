@@ -15,7 +15,7 @@ namespace MvvmCommon.WindowsDesktop
     public delegate void ExecuteHandler<T>(T? parameter);
     public delegate bool CanExecuteHandler<T>(T? parameter);
 
-    public delegate bool ConverterFromObjectHandler<T>(in object value, out T result);
+    public delegate bool ConverterFromObjectHandler<T>(in object? value, out T result);
     #endregion
 
     /// <summary> A class that implements <see cref = "ICommand" />. <br/>
@@ -174,7 +174,7 @@ namespace MvvmCommon.WindowsDesktop
 
         /// <summary>Sets a value to the <see cref="ExecuteException"/> property and notifies of its change.</summary>
         /// <param name="exception">The value for the property.</param>
-        protected void SetExecuteException(Exception exception)
+        protected void SetExecuteException(Exception? exception)
         {
             if (ExecuteException != exception)
             {
@@ -255,9 +255,12 @@ namespace MvvmCommon.WindowsDesktop
         /// in the constructor.</summary>
         protected class AsyncData
         {
-            public RelayCommandAsync? commandAsync;
+            public RelayCommandAsync? commandAsync = null;
             public async void ExecuteAsync(object? parameter)
             {
+                if (commandAsync is null)
+                    throw new NullReferenceException(nameof(commandAsync));
+
                 if (commandAsync.IsBusy)
                 {
                     commandAsync.isBusyExecuteError = true;
@@ -269,7 +272,8 @@ namespace MvvmCommon.WindowsDesktop
 
                     try
                     {
-                        await Task.Run(() => execute(parameter));
+                        if (execute is not null)
+                            await Task.Run(() => execute(parameter));
 
                         commandAsync.isBusyExecuteError = false;
                         commandAsync.SetExecuteException(null);
@@ -288,8 +292,8 @@ namespace MvvmCommon.WindowsDesktop
             }
 
             public CanExecuteHandler<object> CanExecuteAsync { get; }
-            private bool canExecuteNullAsync(object? parameter) => !commandAsync.IsBusy;
-            private bool canExecuteAsync(object? parameter) => !commandAsync.IsBusy && canExecute(parameter);
+            private bool canExecuteNullAsync(object? parameter) => commandAsync is not null && !commandAsync.IsBusy;
+            private bool canExecuteAsync(object? parameter) => commandAsync is not null &&  !commandAsync.IsBusy && (canExecute is not null && canExecute(parameter));
 
             private readonly ExecuteHandler<object>? execute;
             private readonly CanExecuteHandler<object>? canExecute;

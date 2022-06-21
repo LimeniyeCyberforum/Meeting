@@ -114,7 +114,8 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
 
         private void OnOwnCaptureFrameChanged(object? sender, byte[] e)
         {
-            _captureFramesService.SendFrameAsync(e, _currentUser.Guid, DateTime.UtcNow);
+            if (_currentUser is not null)
+                _captureFramesService.SendFrameAsync(e, _currentUser.Guid, DateTime.UtcNow);
         }
 
         private void OnUsersChanged(object? sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, Business.Common.DataTypes.UserDto> e)
@@ -161,21 +162,23 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
             area.Data = e.Bytes;
         }
 
-        private void OnProtectedPropertyChanged(string propertyName, object oldValue, object newValue)
+        private void OnProtectedPropertyChanged(string? propertyName, object? oldValue, object? newValue)
         {
             if (string.Equals(nameof(IsCameraOn), propertyName))
             {
                 if (IsCameraOn && _cam != null)
                 {
                     _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
-                    _cam.Start();
-                    _captureFramesService.TurnOnCaptureArea(_currentUser.Guid);
+                    _cam?.Start();
+                    if (_currentUser is not null)
+                        _captureFramesService.TurnOnCaptureArea(_currentUser.Guid);
                 }
                 else if (_cam != null)
                 {
                     _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
-                    _cam.Stop();
-                    _captureFramesService.TurnOffCaptureArea(_currentUser.Guid);
+                    _cam?.Stop();
+                    if (_currentUser is not null)
+                        _captureFramesService.TurnOffCaptureArea(_currentUser.Guid);
                 }
             }
         }
