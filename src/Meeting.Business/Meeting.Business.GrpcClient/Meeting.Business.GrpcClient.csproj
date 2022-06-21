@@ -1,7 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	  <TargetFramework>netstandard2.0</TargetFramework>
-	  <LangVersion>latest</LangVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <UseLocalConnect>false</UseLocalConnect>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(UseLocalConnect)'=='true'">
+    <DefineConstants>UseLocalConnect</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

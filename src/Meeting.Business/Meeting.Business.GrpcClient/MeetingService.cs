@@ -81,10 +81,10 @@ namespace Meeting.Business.GrpcClient
         private string GetServerAddress()
         {
             var address = "https://3.72.127.66:5010";
-            if (false) // Hot switcher
-            {
-                address = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:5010" : "https://localhost:5010";
-            }
+
+#if UseLocalConnect
+            address = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:5010" : "https://localhost:5010";
+#endif
             return address;
         }
 
