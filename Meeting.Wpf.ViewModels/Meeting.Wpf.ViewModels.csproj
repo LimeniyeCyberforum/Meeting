@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0-windows</TargetFramework>
+	<UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\limeniye\.nuget\packages\opencvsharp4.runtime.win\4.5.3.20210817\build\netcoreapp\..\..\runtimes\win-x64\native\OpenCvSharpExtern.dll" />
+    <Content Remove="C:\Users\limeniye\.nuget\packages\opencvsharp4.runtime.win\4.5.3.20210817\build\netcoreapp\..\..\runtimes\win-x64\native\opencv_videoio_ffmpeg453_64.dll" />
+    <Content Remove="C:\Users\limeniye\.nuget\packages\opencvsharp4.runtime.win\4.5.3.20210817\build\netcoreapp\..\..\runtimes\win-x86\native\OpenCvSharpExtern.dll" />
+    <Content Remove="C:\Users\limeniye\.nuget\packages\opencvsharp4.runtime.win\4.5.3.20210817\build\netcoreapp\..\..\runtimes\win-x86\native\opencv_videoio_ffmpeg453.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="DirectShowLib">
+		  <Version>1.0.0</Version>
+	  </PackageReference>
+	  <PackageReference Include="Grpc.Net.Client" Version="2.46.0" />
+	  <PackageReference Include="ImageProcessor">
+		  <Version>2.9.1</Version>
+	  </PackageReference>
+	  <PackageReference Include="OpenCvSharp4">
+		  <Version>4.5.3.20210817</Version>
+	  </PackageReference>
+	  <PackageReference Include="OpenCvSharp4.runtime.win">
+		  <Version>4.5.3.20210817</Version>
+	  </PackageReference>
+	  <PackageReference Include="OpenCvSharp4.Windows">
+		  <Version>4.5.3.20210817</Version>
+	  </PackageReference>
+	  <PackageReference Include="OpenCvSharp4.WpfExtensions">
+		  <Version>4.5.3.20210817</Version>
+	  </PackageReference>
+	  <PackageReference Include="System.Buffers">
+		  <Version>4.5.1</Version>
+	  </PackageReference>
+	  <PackageReference Include="System.Drawing.Common">
+		  <Version>5.0.2</Version>
+	  </PackageReference>
+	  <PackageReference Include="System.Memory">
+		  <Version>4.5.4</Version>
+	  </PackageReference>
+	  <PackageReference Include="System.Numerics.Vectors">
+		  <Version>4.5.0</Version>
+	  </PackageReference>
+	  <PackageReference Include="System.Reactive" Version="5.0.0" />
+	  <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
+		  <Version>5.0.0</Version>
+	  </PackageReference>
+	  <PackageReference Include="System.ValueTuple">
+		  <Version>4.5.0</Version>
+	  </PackageReference>
+	  <PackageReference Include="ZXing.Net">
+		  <Version>0.16.6</Version>
+	  </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\Meeting.Business\Meeting.Business.Common\Meeting.Business.Common.csproj" />
+    <ProjectReference Include="..\src\Toolkit.WindowsDesktop\Toolkit.WindowsDesktop.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -3,13 +3,11 @@ using Meeting.Business.Common.Abstractions;
 using Meeting.Business.Common.Abstractions.Chat;
 using Meeting.Business.Common.DataTypes;
 using MvvmCommon.WindowsDesktop;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive.Disposables;
 using Toolkit.WindowsDesktop;
 
-namespace Meeting.Wpf.UserControls.Chat
+namespace Meeting.Wpf.ViewModels
 {
     public class ChatViewModel : BaseInpc
     {

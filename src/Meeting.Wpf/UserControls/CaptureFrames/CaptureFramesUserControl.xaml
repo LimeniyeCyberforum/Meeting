@@ -1,11 +1,12 @@
 ﻿<UserControl x:Class="Meeting.Wpf.UserControls.CaptureFrames.CaptureFramesUserControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Meeting.Wpf.ViewModels;assembly=Meeting.Wpf.ViewModels"
              xmlns:local="clr-namespace:Meeting.Wpf.UserControls.CaptureFrames"
              xmlns:converters="clr-namespace:Meeting.Wpf.Converters"
-             mc:Ignorable="d" 
+             mc:Ignorable="d vm"
              d:DesignHeight="450" d:DesignWidth="800"
-             d:DataContext="{d:DesignInstance Type=local:CaptureFramesViewModel}">
+             d:DataContext="{d:DesignInstance Type=vm:CaptureFramesViewModel,IsDesignTimeCreatable=True}">
 
     <FrameworkElement.Resources>
         <ResourceDictionary>
@@ -21,7 +22,7 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:CaptureFrameViewModel}">
+                <DataTemplate DataType="{x:Type vm:CaptureFrameViewModel}">
                     <Grid Margin="1">
                         <Border Background="#2b2731" CornerRadius="20,20,20,10"/>
                         <Image x:Name="captureFrame" Source="{Binding Data}"

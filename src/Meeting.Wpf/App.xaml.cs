@@ -1,7 +1,6 @@
 ﻿using Meeting.Business.Common.Abstractions;
 using Meeting.Business.GrpcClient;
-using Meeting.Wpf.Windows;
-using System;
+using Meeting.Wpf.ViewModels;
 using System.Windows;
 
 namespace Meeting.Wpf

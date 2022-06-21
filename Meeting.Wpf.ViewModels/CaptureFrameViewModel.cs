@@ -1,7 +1,6 @@
 ﻿using MvvmCommon.WindowsDesktop;
-using System;
 
-namespace Meeting.Wpf.UserControls.CaptureFrames
+namespace Meeting.Wpf.ViewModels
 {
     public class CaptureFrameViewModel : BaseInpc
     {

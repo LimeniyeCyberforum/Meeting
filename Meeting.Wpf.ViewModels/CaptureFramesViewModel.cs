@@ -3,17 +3,15 @@ using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
 using Meeting.Wpf.Camera;
 using MvvmCommon.WindowsDesktop;
-using System;
 using System.Collections;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Threading;
 using Toolkit.WindowsDesktop;
 using WebcamWithOpenCV;
 
-namespace Meeting.Wpf.UserControls.CaptureFrames
+namespace Meeting.Wpf.ViewModels
 {
     public class CaptureFramesViewModel : BaseInpc
     {

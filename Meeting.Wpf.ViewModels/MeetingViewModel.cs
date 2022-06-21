@@ -1,12 +1,8 @@
 ﻿using Meeting.Business.Common.Abstractions;
-using Meeting.Wpf.UserControls.Chat;
-using Meeting.Wpf.UserControls.Connect;
 using MvvmCommon.WindowsDesktop;
-using Meeting.Wpf.UserControls.CaptureFrames;
 using System.Reactive.Disposables;
-using System;
 
-namespace Meeting.Wpf.Windows
+namespace Meeting.Wpf.ViewModels
 {
     public class MeetingViewModel : BaseInpc
     {

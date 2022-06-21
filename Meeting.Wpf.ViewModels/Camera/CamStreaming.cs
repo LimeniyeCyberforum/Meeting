@@ -1,7 +1,4 @@
 ﻿using OpenCvSharp;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Meeting.Wpf.Camera
 {
