@@ -18,17 +18,9 @@ At the moment, it allows you to arrange group video meetings and chating.
 As default UI platforms use [Amazon Web Services]([url](https://aws.amazon.com/)) to maintain a free instance and works in 3.72.127.66.
 
 
-If you want to use the server as a local -- change connection method:
-```C#
-private string GetServerAddress()
-{
-    var address = "https://3.72.127.66:5010";
-    if (true) // Hot switcher
-    {
-        address = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:5010" : "https://localhost:5010";
-    }
-    return address;
-}
+If you want to use the server as a local -- set UseLocalConnect as "true"
+```
+    <UseLocalConnect>true</UseLocalConnect>
 ```
 and set startup project sequences as in the following example:
 
