@@ -6,10 +6,12 @@ using Meeting.Wpf.Converters;
 using MvvmCommon.WindowsDesktop;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Toolkit.WindowsDesktop;
 using WebcamWithOpenCV;
@@ -166,13 +168,10 @@ namespace Meeting.Wpf.UserControls.CaptureFrames
         private void OnCaptureFrameChanged(object? sender, Business.Common.EventArgs.CaptureFrameEventArgs e)
         {
             CaptureFrameViewModel? captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
-            int index = captureFrameArea is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameArea);
-            if (index > -1)
+            if (captureFrameArea is not null)
             {
                 if (e.Bytes is not null)
-                    CaptureFrameAreas[index].Data = e.Bytes;
-                else
-                    System.Diagnostics.Debug.WriteLine($"null");
+                    dispatcher.Invoke(() => captureFrameArea.Data = e.Bytes);
             }
             else
             {
