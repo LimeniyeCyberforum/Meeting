@@ -25,13 +25,10 @@ namespace Meeting.Wpf
             MainWindow.Show();
         }
 
-        protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
+        protected override void OnExit(ExitEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Start");
-
             _meetingService?.Dispose();
-            System.Diagnostics.Debug.WriteLine("End");
-            base.OnSessionEnding(e);
+            base.OnExit(e);
         }
     }
 }

@@ -115,7 +115,7 @@
                                         attachedProperties:WindowDragPosition.EnableDrag="True"/>
 
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Width="60" Padding="0,8,5,8" Background="#e64444"
+                                    <Button x:Name="ExitButton" Width="60" Padding="0,8,5,8" Background="#e64444"
                                             Style="{StaticResource TitleButtomnStyle}"
                                             HorizontalContentAlignment="Right" VerticalContentAlignment="Stretch"/>
 
