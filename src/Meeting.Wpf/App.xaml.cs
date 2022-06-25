@@ -8,6 +8,7 @@ namespace Meeting.Wpf
     public partial class App : Application
     {
         private IMeetingService? _meetingService;
+        private MeetingViewModel? _meetingViewModel;
 
         private void OnApplicationLaunched(object sender, StartupEventArgs e)
         {
@@ -17,9 +18,11 @@ namespace Meeting.Wpf
             _meetingService.CaptureFrames.CaptureFrameAreasSubscribeAsync();
             _meetingService.CaptureFrames.CaptureFramesSubscribeAsync();
 
+            _meetingViewModel = new MeetingViewModel(_meetingService);
+
             MainWindow = new MeetingWindow()
             {
-                DataContext = new MeetingViewModel(_meetingService)
+                DataContext = _meetingViewModel
             };
 
             MainWindow.Show();
@@ -28,6 +31,7 @@ namespace Meeting.Wpf
         protected override void OnExit(ExitEventArgs e)
         {
             _meetingService?.Dispose();
+            _meetingViewModel?.Dispose();
             base.OnExit(e);
         }
     }
