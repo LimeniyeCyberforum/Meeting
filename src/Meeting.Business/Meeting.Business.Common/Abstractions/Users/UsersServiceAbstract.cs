@@ -4,13 +4,14 @@ using Meeting.Business.Common.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Meeting.Business.Common.Abstractions.Users
 {
-    public abstract class UsersServiceAbstract
+    public abstract class UsersServiceAbstract : IDisposable
     {
+        private bool disposed = false;
+
         protected readonly Dictionary<Guid, UserDto> users = new Dictionary<Guid, UserDto>();
 
         private int messagesChangedSyncNumber = 0;
@@ -58,6 +59,29 @@ namespace Meeting.Business.Common.Abstractions.Users
         protected void SmartRaiseUsersChangedEvent(IDictionary<Guid, UserDto> newElements)
         {
             users.NewElementsHandler(this, newElements, UsersChanged, ref messagesChangedSyncNumber);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                UsersUnsubscribe();
+            }
+            disposed = true;
+        }
+
+        ~UsersServiceAbstract()
+        {
+            Dispose(disposing: false);
         }
     }
 }

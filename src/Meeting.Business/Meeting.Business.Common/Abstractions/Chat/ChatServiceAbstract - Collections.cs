@@ -5,8 +5,10 @@ using System.Collections.ObjectModel;
 
 namespace Meeting.Business.Common.Abstractions.Chat
 {
-    public abstract partial class ChatServiceAbstract
+    public abstract partial class ChatServiceAbstract : IDisposable
     {
+        private bool disposed = false;
+
         protected readonly Dictionary<Guid, MessageDto> messages = new Dictionary<Guid, MessageDto>();
 
         public IReadOnlyDictionary<Guid, MessageDto> Messages { get; }
@@ -14,6 +16,29 @@ namespace Meeting.Business.Common.Abstractions.Chat
         public ChatServiceAbstract()
         {
             Messages = new ReadOnlyDictionary<Guid, MessageDto>(messages);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                ChatUnsubscribe();
+            }
+            disposed = true;
+        }
+
+        ~ChatServiceAbstract()
+        {
+            Dispose(disposing: false);
         }
     }
 }

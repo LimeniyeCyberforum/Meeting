@@ -16,8 +16,10 @@ using Grpc.Net.Client.Web;
 
 namespace Meeting.Business.GrpcClient
 {
-    public partial class MeetingService : IMeetingService
+    public sealed partial class MeetingService : IMeetingService
     {
+        private bool disposed = false;
+
         private AuthorizationClient _authorizationClient;
 
         public UserDto CurrentUser { get; private set; }
@@ -73,7 +75,7 @@ namespace Meeting.Business.GrpcClient
             ((CaptureFramesService)CaptureFrames).UpdateMetadata(metadata);
         }
 
-        protected void RaiseAuthorizationStateChangedEvent(UserConnectionState newState)
+        private void RaiseAuthorizationStateChangedEvent(UserConnectionState newState)
         {
             AuthorizationStateChanged?.Invoke(this, newState);
         }
@@ -120,6 +122,32 @@ namespace Meeting.Business.GrpcClient
                 HttpClient = httpClient,
                 Credentials = ChannelCredentials.SecureSsl
             });
+        }
+
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                Chat.Dispose();
+                CaptureFrames.Dispose();
+                Users.Dispose();
+            }
+            disposed = true;
+        }
+
+        ~MeetingService()
+        {
+            Dispose(disposing: false);
         }
     }
 }

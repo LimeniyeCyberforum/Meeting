@@ -46,7 +46,7 @@ namespace Meeting.Business.Common.Abstractions
     }
 
 
-    public interface IMeetingService : IMeetingAuthorization, IMeetingUsers, IMeetingChat, IMeetingCaptureFrames
+    public interface IMeetingService : IMeetingAuthorization, IMeetingUsers, IMeetingChat, IMeetingCaptureFrames, IDisposable
     {
     }
 }

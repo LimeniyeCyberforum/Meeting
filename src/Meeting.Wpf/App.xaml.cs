@@ -21,18 +21,16 @@ namespace Meeting.Wpf
             {
                 DataContext = new MeetingViewModel(_meetingService)
             };
+
             MainWindow.Show();
         }
 
         protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
         {
-            if (_meetingService is not null)
-            {
-                _meetingService.Chat.ChatUnsubscribe();
-                _meetingService.Users.UsersUnsubscribe();
-                _meetingService.CaptureFrames.CaptureFrameAreasUnsubscribe();
-                _meetingService.CaptureFrames.CaptureFramesUnsubscribe();
-            }
+            System.Diagnostics.Debug.WriteLine("Start");
+
+            _meetingService?.Dispose();
+            System.Diagnostics.Debug.WriteLine("End");
             base.OnSessionEnding(e);
         }
     }
