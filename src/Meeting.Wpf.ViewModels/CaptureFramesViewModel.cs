@@ -42,11 +42,6 @@ namespace Meeting.Wpf.ViewModels
             Subscriptions();
         }
 
-        ~CaptureFramesViewModel()
-        {
-            eventSubscriptions?.Dispose();
-        }
-
         private void Initizalize()
         {
             lock (((ICollection)CaptureFrameAreas).SyncRoot)
