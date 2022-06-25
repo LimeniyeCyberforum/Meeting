@@ -4,7 +4,7 @@ using System.Reactive.Disposables;
 
 namespace Meeting.Wpf.ViewModels
 {
-    public class MeetingViewModel : BaseInpc
+    public class MeetingViewModel : BaseInpc, IDisposable
     {
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
 
@@ -25,10 +25,10 @@ namespace Meeting.Wpf.ViewModels
             ConnectVM = new ConnectViewModel(_meetingService);
             CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames, _meetingService, _meetingService);
 
-            Subscriptions();
+            Subscribe();
         }
 
-        private void Subscriptions()
+        private void Subscribe()
         {
             eventSubscriptions.Disposable = null;
             CompositeDisposable disposable = new CompositeDisposable();
@@ -43,6 +43,13 @@ namespace Meeting.Wpf.ViewModels
         private void OnConnectionStateChanged(object? sender, UserConnectionState action)
         {
             IsConnected = action == UserConnectionState.Connected;
+        }
+
+        public void Dispose()
+        {
+            ChatVM.Dispose();
+            CaptureFramesVM.Dispose();
+            eventSubscriptions?.Dispose();
         }
     }
 }

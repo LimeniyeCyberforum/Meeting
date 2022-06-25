@@ -13,7 +13,7 @@ using WebcamWithOpenCV;
 
 namespace Meeting.Wpf.ViewModels
 {
-    public class CaptureFramesViewModel : BaseInpc
+    public class CaptureFramesViewModel : BaseInpc, IDisposable
     {
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
@@ -39,7 +39,7 @@ namespace Meeting.Wpf.ViewModels
             _meetingUsers = users;
 
             Initizalize();
-            Subscriptions();
+            Subscribe();
         }
 
         private void Initizalize()
@@ -59,7 +59,7 @@ namespace Meeting.Wpf.ViewModels
             }
         }
 
-        private void Subscriptions()
+        private void Subscribe()
         {
             eventSubscriptions.Disposable = null;
             CompositeDisposable disposable = new CompositeDisposable();
@@ -202,6 +202,11 @@ namespace Meeting.Wpf.ViewModels
                         _captureFramesService.TurnOffCaptureArea(_currentUser.Guid);
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            eventSubscriptions?.Dispose();
         }
     }
 }

@@ -9,7 +9,7 @@ using Toolkit.WindowsDesktop;
 
 namespace Meeting.Wpf.ViewModels
 {
-    public class ChatViewModel : BaseInpc
+    public class ChatViewModel : BaseInpc, IDisposable
     {
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
         private readonly ChatServiceAbstract _messageService;
@@ -66,10 +66,10 @@ namespace Meeting.Wpf.ViewModels
                 }
             }
 
-            Subscriptions();
+            Subscribe();
         }
 
-        private void Subscriptions()
+        private void Subscribe()
         {
             eventSubscriptions.Disposable = null;
             CompositeDisposable disposable = new CompositeDisposable();
@@ -115,6 +115,11 @@ namespace Meeting.Wpf.ViewModels
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public void Dispose()
+        {
+            eventSubscriptions?.Dispose();
         }
     }
 }
