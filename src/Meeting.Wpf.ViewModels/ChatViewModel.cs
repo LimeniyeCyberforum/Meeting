@@ -69,6 +69,11 @@ namespace Meeting.Wpf.ViewModels
             Subscriptions();
         }
 
+        ~ChatViewModel()
+        {
+            eventSubscriptions?.Dispose();
+        }
+
         private void Subscriptions()
         {
             eventSubscriptions.Disposable = null;

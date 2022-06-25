@@ -28,6 +28,11 @@ namespace Meeting.Wpf.ViewModels
             Subscriptions();
         }
 
+        ~MeetingViewModel()
+        {
+            eventSubscriptions?.Dispose();
+        }
+
         private void Subscriptions()
         {
             eventSubscriptions.Disposable = null;
