@@ -1,17 +1,14 @@
-﻿using MvvmCommon.WindowsDesktop;
+﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Meeting.Wpf.ViewModels
 {
-    public class CaptureFrameViewModel : BaseInpc
+    public class CaptureFrameViewModel : ReactiveObject
     {
-        private Guid _areaGuid, _ownerGuid;
-        private string? _ownerName;
-        private byte[]? _data;
-
-        public Guid AreaGuid { get => _areaGuid; set => Set(ref _areaGuid, value); }
-        public Guid OwnerGuid { get => _ownerGuid; set => Set(ref _ownerGuid, value); }
-        public string? OwnerName { get => _ownerName; set => Set(ref _ownerName, value); }
-        public byte[]? Data { get => _data; set => Set(ref _data, value); }
+        [Reactive] public Guid AreaGuid { get; set;}
+        [Reactive] public Guid OwnerGuid { get; set; }
+        [Reactive] public string? OwnerName { get; set; }
+        [Reactive] public byte[]? Data { get; set; }
 
         public CaptureFrameViewModel(Guid areaGuid, Guid ownerGuid, string ownerName, byte[]? data)
         {
