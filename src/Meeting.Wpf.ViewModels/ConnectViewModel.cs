@@ -10,8 +10,8 @@ namespace Meeting.Wpf.ViewModels
     {
         private readonly IMeetingAuthorization _meetingAuthorization;
 
-        private string? _name;
-        public string? Name { get => _name; set => this.RaiseAndSetIfChanged(ref _name, value); }
+        [Reactive]
+        public string? Name { get; set; }
 
         [ObservableAsProperty]
         public bool? IsValidName { get; set; }
