@@ -12,6 +12,7 @@ At the moment, it allows you to arrange group video meetings and chating.
 - WPF
 - Xamarin
 - Grpc
+- ReactiveUI
 
 ### Server part
 
