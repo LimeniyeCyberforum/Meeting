@@ -1,17 +1,18 @@
 ﻿using Meeting.Business.Common.Abstractions;
-using MvvmCommon.WindowsDesktop;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using System.Reactive.Disposables;
 
 namespace Meeting.Wpf.ViewModels
 {
-    public class MeetingViewModel : BaseInpc, IDisposable
+    public class MeetingViewModel : ReactiveObject, IDisposable
     {
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
 
         private readonly IMeetingService _meetingService;
 
-        private bool _isConnected = false;
-        public bool IsConnected { get => _isConnected; private set => Set(ref _isConnected, value); }
+        [Reactive]
+        public bool IsConnected { get; set; }
 
         public ChatViewModel ChatVM { get; }
         public ConnectViewModel ConnectVM { get; }
