@@ -3,6 +3,8 @@ using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
 using Meeting.Wpf.Camera;
 using MvvmCommon.WindowsDesktop;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
@@ -13,7 +15,7 @@ using WebcamWithOpenCV;
 
 namespace Meeting.Wpf.ViewModels
 {
-    public class CaptureFramesViewModel : BaseInpc, IDisposable
+    public class CaptureFramesViewModel : ReactiveObject, IDisposable
     {
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
@@ -24,8 +26,8 @@ namespace Meeting.Wpf.ViewModels
         private readonly IMeetingAuthorization _authorizationService;
         private readonly IMeetingUsers _meetingUsers;
 
-        private bool _isCameraOn;
-        public bool IsCameraOn { get => _isCameraOn; set => Set(ref _isCameraOn, value); }
+        [Reactive]
+        public bool IsCameraOn { get; set; }
 
         public ObservableCollection<CaptureFrameViewModel> CaptureFrameAreas { get; } = new ObservableCollection<CaptureFrameViewModel>();
 
@@ -37,6 +39,8 @@ namespace Meeting.Wpf.ViewModels
             _authorizationService = authorizationService;
             _captureFramesService = captureFramesService;
             _meetingUsers = users;
+
+            this.WhenAnyValue(x => x.IsCameraOn).Subscribe(x => IsCameraOnChanged());
 
             Initizalize();
             Subscribe();
@@ -71,7 +75,6 @@ namespace Meeting.Wpf.ViewModels
             _authorizationService.AuthorizationStateChanged += OnConnectionStateChanged;
             _captureFramesService.CaptureFrameStateChanged += OnCaptureFrameStateChanged;
             _captureFramesService.CaptureFrameChanged += OnCaptureFrameChanged;
-            ProtectedPropertyChanged += OnProtectedPropertyChanged;
 
             disposable.Add(Disposable.Create(delegate
             {
@@ -82,7 +85,6 @@ namespace Meeting.Wpf.ViewModels
                 _authorizationService.AuthorizationStateChanged -= OnConnectionStateChanged;
                 _captureFramesService.CaptureFrameStateChanged -= OnCaptureFrameStateChanged;
                 _captureFramesService.CaptureFrameChanged -= OnCaptureFrameChanged;
-                ProtectedPropertyChanged -= OnProtectedPropertyChanged;
             }));
             eventSubscriptions.Disposable = disposable;
         }
@@ -183,24 +185,21 @@ namespace Meeting.Wpf.ViewModels
             }
         }
 
-        private void OnProtectedPropertyChanged(string? propertyName, object? oldValue, object? newValue)
+        private void IsCameraOnChanged()
         {
-            if (string.Equals(nameof(IsCameraOn), propertyName))
+            if (IsCameraOn && _cam != null)
             {
-                if (IsCameraOn && _cam != null)
-                {
-                    _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
-                    _cam?.Start();
-                    if (_currentUser is not null)
-                        _captureFramesService.TurnOnCaptureArea(_currentUser.Guid);
-                }
-                else if (_cam != null)
-                {
-                    _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
-                    _cam?.Stop();
-                    if (_currentUser is not null)
-                        _captureFramesService.TurnOffCaptureArea(_currentUser.Guid);
-                }
+                _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
+                _cam?.Start();
+                if (_currentUser is not null)
+                    _captureFramesService.TurnOnCaptureArea(_currentUser.Guid);
+            }
+            else if (_cam != null)
+            {
+                _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
+                _cam?.Stop();
+                if (_currentUser is not null)
+                    _captureFramesService.TurnOffCaptureArea(_currentUser.Guid);
             }
         }
 
