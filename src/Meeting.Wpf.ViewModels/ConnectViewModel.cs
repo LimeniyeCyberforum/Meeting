@@ -1,52 +1,40 @@
 ﻿using Meeting.Business.Common.Abstractions;
-using MvvmCommon.WindowsDesktop;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
+using System.Reactive;
+using System.Reactive.Linq;
 
 namespace Meeting.Wpf.ViewModels
 {
-    public class ConnectViewModel : BaseInpc
+    public class ConnectViewModel : ReactiveObject
     {
         private readonly IMeetingAuthorization _meetingAuthorization;
 
         private string? _name;
-        private bool? _isValidName = null;
+        public string? Name { get => _name; set => this.RaiseAndSetIfChanged(ref _name, value); }
 
-        public string? Name { get => _name; set => Set(ref _name, value); }
-        public bool? IsValidName { get => _isValidName; set => Set(ref _isValidName, value); }
+        [ObservableAsProperty]
+        public bool? IsValidName { get; set; }
 
         #region JoinCommand
-        private RelayCommandAsync? _joinCommand;
-        public RelayCommandAsync JoinCommand => _joinCommand ?? (
-            _joinCommand = new RelayCommandAsync(OnJoinExecute, CanJoinExecute));
 
-        private async void OnJoinExecute()
-        {
+        public ReactiveCommand<Unit, Unit> JoinCommand => 
+            ReactiveCommand.CreateFromTask(OnJoinExecute, 
+                this.WhenAnyValue(x => x.Name)
+                .Select(x => !string.IsNullOrWhiteSpace(Name) && IsValidName == true));
+
+        private async Task OnJoinExecute() =>
             await _meetingAuthorization.JoinToLobbyAsync(Name);
-        }
 
-        private bool CanJoinExecute()
-        {
-            return !(JoinCommand.IsBusy || string.IsNullOrWhiteSpace(Name));
-        }
         #endregion
 
         public ConnectViewModel(IMeetingAuthorization meetingAuthorization)
         {
             _meetingAuthorization = meetingAuthorization;
-            ProtectedPropertyChanged += OnProtectedPropertyChanged;
-        }
 
-        private void OnProtectedPropertyChanged(string? propertyName, object? oldValue, object? newValue)
-        {
-            if (string.Equals(propertyName, nameof(Name)))
-            {
-                if (string.IsNullOrWhiteSpace(Name))
-                {
-                    IsValidName = null;
-                    return;
-                }
-
-                IsValidName = !_meetingAuthorization.IsNameExists(Name);
-            }
+            this.WhenAnyValue(x => x.Name)
+                .Select(x => string.IsNullOrWhiteSpace(Name) ? null : (bool?)!_meetingAuthorization.IsNameExists(Name))
+                .ToPropertyEx(this, x => x.IsValidName);
         }
     }
 }
