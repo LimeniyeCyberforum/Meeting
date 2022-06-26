@@ -2,7 +2,6 @@
 using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.DataTypes;
 using Meeting.Wpf.Camera;
-using MvvmCommon.WindowsDesktop;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Collections;
