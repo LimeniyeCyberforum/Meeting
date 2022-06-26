@@ -2,22 +2,25 @@
 using Meeting.Business.Common.Abstractions;
 using Meeting.Business.Common.Abstractions.Chat;
 using Meeting.Business.Common.DataTypes;
-using MvvmCommon.WindowsDesktop;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using Toolkit.WindowsDesktop;
 
 namespace Meeting.Wpf.ViewModels
 {
-    public class ChatViewModel : BaseInpc, IDisposable
+    public class ChatViewModel : ReactiveObject, IDisposable
     {
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
         private readonly ChatServiceAbstract _messageService;
         private readonly IMeetingAuthorization _meetingAuthorization;
 
-        private string? _message;
-
-        public string? Message { get => _message; set => Set(ref _message, value); }
+        [Reactive]
+        public string? Message { get; set; }
 
         public ObservableCollection<MessageDto> Messages { get; } = new ObservableCollection<MessageDto>()
         {
@@ -25,9 +28,11 @@ namespace Meeting.Wpf.ViewModels
         };
 
         #region SendMessageCommand
-        private RelayCommand? _sendMessageCommand;
-        public RelayCommand SendMessageCommand => _sendMessageCommand ?? (
-            _sendMessageCommand = new RelayCommand(OnSendMessageExecute, CanSendMessageExecute));
+
+        public ReactiveCommand<Unit, Unit> SendMessageCommand =>
+            ReactiveCommand.Create(OnSendMessageExecute,
+                this.WhenAnyValue(x => x.Message)
+                .Select(x => !string.IsNullOrWhiteSpace(Message)), Scheduler.CurrentThread);
 
         private async void OnSendMessageExecute()
         {
@@ -41,10 +46,6 @@ namespace Meeting.Wpf.ViewModels
             await _messageService.SendMessageAsync(messageGuid, message);
         }
 
-        private bool CanSendMessageExecute()
-        {
-            return string.IsNullOrEmpty(Message) || Message == "" ? false : true;
-        }
         #endregion
 
         public ChatViewModel(ChatServiceAbstract messageService, IMeetingAuthorization meetingAuthorization)
