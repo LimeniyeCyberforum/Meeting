@@ -21,9 +21,3 @@ jobs:
           filters: |
             buildprops:
               - 'Directory.Build.props'
-      - name: Publish
-        uses: alirezanet/publish-nuget@v3.0.4
-        with:
-          PROJECT_FILE_PATH: src/Meeting.Wpf/Meeting.Wpf.csproj
-          VERSION_FILE_PATH: src/Directory.Build.props
-          TAG_COMMIT: false
