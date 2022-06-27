@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <Version>2.0.1</Version>
+    <LangVersion>10.0</LangVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>limeniye</Authors>
+    <Company>ligric</Company>
+    <Copyright>Copyright (C) 2022-2023 Nikita Vtorenko and WPF UI Contributors</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageVersion>$(Version)</PackageVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
+    <PackageLicense>https://raw.githubusercontent.com/LimeniyeCyberforum/Meeting/main/LICENSE</PackageLicense>
+    <PackageProjectUrl>https://github.com/LimeniyeCyberforum/Meeting</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LimeniyeCyberforum/Meeting</RepositoryUrl>
+    <RepositoryBranch>main</RepositoryBranch>
+    <RepositoryType>git</RepositoryType>
+    <Description>Meeting is a demonstration project of my skills and knowledge in the field of Xaml platforms.</Description>
+    <PackageTags>wpf ui windows controls custom metro xaml toolkit limeniye net6 net5 net</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+</Project>
