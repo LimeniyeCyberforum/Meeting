@@ -14,7 +14,7 @@ namespace Meeting.Wpf.ViewModels
         public string? Name { get; set; }
 
         [ObservableAsProperty]
-        public bool? IsValidName { get; set; }
+        public bool? IsValidName { get; private set; }
 
         #region JoinCommand
 
