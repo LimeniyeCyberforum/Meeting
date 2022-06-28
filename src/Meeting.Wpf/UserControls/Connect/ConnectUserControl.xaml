@@ -16,7 +16,7 @@
             <Grid>
                 <controls:StateTextBox Placeholder="Name" MinWidth="200" MaxWidth="250"
                                        Text="{Binding ConnectVM.Name, UpdateSourceTrigger=PropertyChanged}" 
-                                       IsValid="{Binding ConnectVM.IsValidName}"
+                                       Status="{Binding ConnectVM.IsValidName}"
                                        Command="{Binding ConnectVM.JoinCommand}"/>
             </Grid>
         </Border>

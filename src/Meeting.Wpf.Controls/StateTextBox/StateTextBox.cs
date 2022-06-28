@@ -1,11 +1,83 @@
 ﻿using Framework.Delegates;
 using System;
+using System.ComponentModel;
+using System.Globalization;
 using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Meeting.Wpf.Controls
 {
+    /// <summary>
+    /// This converter are extension of EnumConverter for StatusEnum. Is handling <see cref="bool"/> and <see cref="Nullable{T}">Nullable&lt;bool&gt;</see> values.
+    /// </summary>
+    /// <remarks> <see langword="null"/> - <see cref="StatusEnum.Empty"/>; <br/>
+    /// <see langword="true"/> - <see cref="StatusEnum.Success"/>; <br/> 
+    /// <see langword="false"/> - <see cref="StatusEnum.Fail"/>;</remarks>
+    public class StatusEnumConverter : EnumConverter
+    {
+        public StatusEnumConverter() 
+            : base(typeof(StatusEnum))
+        {
+        }
+
+        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
+        {
+            if (sourceType == typeof(bool) || sourceType == typeof(bool?))
+                return true;
+
+            return base.CanConvertFrom(context, sourceType);
+        }
+
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
+        {
+            if (destinationType == typeof(bool) || destinationType == typeof(bool?))
+                return true;
+
+            return base.CanConvertTo(context, destinationType);
+        }
+
+        public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
+        {
+            Type? type = value?.GetType();
+
+            if (type == typeof(bool) || type == null || type ==  typeof(bool?))
+            {
+                return value is null ? StatusEnum.Empty : (bool)value ? StatusEnum.Success : StatusEnum.Fail;
+            }
+
+            return base.ConvertFrom(context, culture, value);
+        }
+
+        public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
+        {
+            StatusEnum valueStatusEnum = (StatusEnum)(value ?? throw new ArgumentNullException(nameof(value)));
+
+            if (destinationType == typeof(bool) || destinationType == typeof(bool?))
+            {
+                return valueStatusEnum switch 
+                {
+                    StatusEnum.Success => true,
+                    StatusEnum.Fail => false,
+                    _ => null
+                };
+            }
+
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+
+        public override bool IsValid(ITypeDescriptorContext? context, object? value)
+        {
+            if (value is bool? || value is bool || value is null)
+            {
+                return true;
+            }
+
+            return base.IsValid(context, value);
+        }
+    }
+
+    [TypeConverter(typeof(StatusEnumConverter))]
     public enum StatusEnum
     {
         Empty,
@@ -65,28 +137,7 @@ namespace Meeting.Wpf.Controls
 
         public static readonly DependencyProperty StatusProperty =
             DependencyProperty.Register(nameof(Status), typeof(StatusEnum),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(StatusEnum.Empty, delegate (DependencyObject s, DependencyPropertyChangedEventArgs e)
-                {
-                    (s as StateTextBox)?.OnStatusPropertyChanged(e);
-                }));
-
-        #endregion
-
-        #region DependencyProperty : IsValid
-
-        public bool? IsValid
-        {
-            get => (bool?)GetValue(IsValidProperty);
-            set => SetValue(IsValidProperty, value);
-        }
-
-        public static readonly DependencyProperty IsValidProperty =
-            DependencyProperty.Register(nameof(IsValid), typeof(bool?),
-                typeof(StateTextBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                    delegate(DependencyObject s, DependencyPropertyChangedEventArgs e)
-                    {
-                        (s as StateTextBox)?.OnIsValidPropertyChanged(e);
-                    }));
+                typeof(StateTextBox), new FrameworkPropertyMetadata(StatusEnum.Empty));
 
         #endregion
 
@@ -137,50 +188,6 @@ namespace Meeting.Wpf.Controls
         public event TypedEventHandler<StateTextBox, StateSuccessedEventArgs>? Successed;
 
         public event TypedEventHandler<StateTextBox, StateFailedEventArgs>? Failed;
-
-        protected virtual void OnStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = (StatusEnum)e.NewValue;
-            var oldValue = (StatusEnum)e.OldValue;
-
-            if (newValue != oldValue)
-            {
-                if (newValue == StatusEnum.Success)
-                {
-                    IsValid = true;
-                }
-                else if (newValue == StatusEnum.Fail)
-                {
-                    IsValid = false;
-                }
-                else
-                {
-                    IsValid = null;
-                }
-            }
-        }
-
-        protected virtual void OnIsValidPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            var newValue = (bool?)e.NewValue;
-            var oldValue = (bool?)e.OldValue;
-
-            if (newValue != oldValue)
-            {
-                if (newValue == true)
-                {
-                    Status = StatusEnum.Success;
-                }
-                else if (newValue == false)
-                {
-                    Status = StatusEnum.Fail;
-                }
-                else
-                {
-                    Status = StatusEnum.Empty;
-                }
-            }
-        }
 
         protected void RaiseStatusEmptiedEvent(StateTextBox container)
         {
