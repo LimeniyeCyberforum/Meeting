@@ -53,9 +53,17 @@ namespace Meeting.Wpf.Controls
         {
             StatusEnum valueStatusEnum = (StatusEnum)(value ?? throw new ArgumentNullException(nameof(value)));
 
-            if (destinationType == typeof(bool) || destinationType == typeof(bool?))
+            if (destinationType == typeof(bool))
             {
-                return valueStatusEnum switch 
+                return valueStatusEnum switch
+                {
+                    StatusEnum.Success => true,
+                    _ => false
+                };
+            }
+            if (destinationType == typeof(bool?))
+            {
+                return valueStatusEnum switch
                 {
                     StatusEnum.Success => true,
                     StatusEnum.Fail => false,
