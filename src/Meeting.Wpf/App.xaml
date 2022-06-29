@@ -6,7 +6,6 @@
                 <ResourceDictionary Source="/Styles/WindowStyle.xaml"/>
                 <ResourceDictionary Source="/Styles/ToggleButtonStyles.xaml"/>
                 <ResourceDictionary Source="/Styles/ScrollViewerStyle.xaml"/>
-                <ResourceDictionary Source="/Meeting.Wpf.Controls;component/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
