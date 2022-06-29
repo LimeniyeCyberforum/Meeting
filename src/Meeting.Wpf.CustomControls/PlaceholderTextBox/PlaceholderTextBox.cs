@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Meeting.Wpf.Controls.PlaceholderTextBox
+namespace Meeting.Wpf.CustomControls
 {
     public class PlaceholderTextBox : TextBox
     {

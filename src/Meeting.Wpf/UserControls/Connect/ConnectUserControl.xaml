@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="Meeting.Wpf.UserControls.Connect.ConnectUserControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:Meeting.Wpf.ViewModels;assembly=Meeting.Wpf.ViewModels"
-             xmlns:controls="clr-namespace:Meeting.Wpf.Controls;assembly=Meeting.Wpf.Controls"
+             xmlns:controls="clr-namespace:Meeting.Wpf.CustomControls;assembly=Meeting.Wpf.CustomControls" 
              mc:Ignorable="d vm"
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=vm:ConnectViewModel,IsDesignTimeCreatable=True}">

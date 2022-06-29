@@ -6,7 +6,7 @@ using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Meeting.Wpf.Controls
+namespace Meeting.Wpf.CustomControls
 {
     /// <summary>
     /// This converter are extension of EnumConverter for StatusEnum. Is handling <see cref="bool"/> and <see cref="Nullable{T}">Nullable&lt;bool&gt;</see> values.
@@ -16,7 +16,7 @@ namespace Meeting.Wpf.Controls
     /// <see langword="false"/> - <see cref="StatusEnum.Fail"/>;</remarks>
     public class StatusEnumConverter : EnumConverter
     {
-        public StatusEnumConverter() 
+        public StatusEnumConverter()
             : base(typeof(StatusEnum))
         {
         }
@@ -41,7 +41,7 @@ namespace Meeting.Wpf.Controls
         {
             Type? type = value?.GetType();
 
-            if (type == typeof(bool) || type == null || type ==  typeof(bool?))
+            if (type == typeof(bool) || type == null || type == typeof(bool?))
             {
                 return value is null ? StatusEnum.Empty : (bool)value ? StatusEnum.Success : StatusEnum.Fail;
             }
@@ -97,7 +97,7 @@ namespace Meeting.Wpf.Controls
     public class StateSuccessedEventArgs : EventArgs { }
     public class StateFailedEventArgs : EventArgs { }
 
-    public class StateTextBox : PlaceholderTextBox.PlaceholderTextBox
+    public class StateTextBox : PlaceholderTextBox
     {
         private SerialDisposable _eventSubscriptions = new SerialDisposable();
 
@@ -118,7 +118,7 @@ namespace Meeting.Wpf.Controls
             if (statusElement != null)
             {
                 statusElement.MouseUp += OnStatusElementMouseUp;
-                disposable.Add(Disposable.Create(delegate 
+                disposable.Add(Disposable.Create(delegate
                 {
                     statusElement.MouseUp -= OnStatusElementMouseUp;
                 }));
