@@ -1,6 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
-using Meeting.Business.Common.Abstractions.Users;
-using Meeting.Business.Common.DataTypes;
+using Meeting.Core.Common.Abstractions.Users;
+using Meeting.Core.Common.DataTypes;
 using System;
 using System.Linq;
 using System.Threading;

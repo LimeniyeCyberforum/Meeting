@@ -104,14 +104,6 @@
     <AndroidResource Include="Resources\drawable\chevron_right.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Meeting.Business\Meeting.Business.Common\Meeting.Business.Common.csproj">
-      <Project>{9A3E92E6-C8A7-4730-8C1B-36EBFFC9DD27}</Project>
-      <Name>Meeting.Business.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Meeting.Business\Meeting.Business.GrpcClient\Meeting.Business.GrpcClient.csproj">
-      <Project>{6CC8F9D3-E5FA-4824-B7BF-ED0D0ED33608}</Project>
-      <Name>Meeting.Business.GrpcClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Meeting.Xamarin\Meeting.Xamarin.csproj">
       <Project>{0417BB11-4E6C-4500-B212-92D45443CDFC}</Project>
       <Name>Meeting.Xamarin</Name>

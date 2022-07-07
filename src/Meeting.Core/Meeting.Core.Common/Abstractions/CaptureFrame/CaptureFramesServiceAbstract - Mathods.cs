@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Meeting.Business.Common.Abstractions.FrameCapture
+namespace Meeting.Core.Common.Abstractions.FrameCapture
 {
     public abstract partial class CaptureFramesServiceAbstract
     {

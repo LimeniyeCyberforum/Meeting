@@ -1,7 +1,7 @@
-﻿using Meeting.Business.Common.EventArgs;
+﻿using Meeting.Core.Common.EventArgs;
 using System;
 
-namespace Meeting.Business.Common.Abstractions.FrameCapture
+namespace Meeting.Core.Common.Abstractions.FrameCapture
 {
     public abstract partial class CaptureFramesServiceAbstract
     {

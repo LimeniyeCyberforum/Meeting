@@ -5,11 +5,12 @@ using Google.Protobuf;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
-using Meeting.Business.Common.Abstractions.FrameCapture;
-using Meeting.Business.Common.Abstractions.Users;
-using Meeting.Business.Common.DataTypes;
+using Meeting.Core.Common.Abstractions.FrameCapture;
+using Meeting.Core.Common.Abstractions.Users;
+using Meeting.Core.Common.DataTypes;
 using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
 using MeetingProtobuf.Protos;
+using Meeting.Core.Common.EventArgs;
 
 namespace Meeting.Business.GrpcClient
 {
@@ -65,19 +66,19 @@ namespace Meeting.Business.GrpcClient
                 case CaptureStateAction.Disabled:
                     var disabledCaptureFrame = new CaptureFrameAreaDto(areaGuid, ownerGuid, false);
                     activeCaptureFrames[areaGuid] = disabledCaptureFrame;
-                    RaiseCaptureFrameStateChangedAction(ownerGuid, areaGuid, Common.EventArgs.CaptureFrameState.Disabled, dateTime);
+                    RaiseCaptureFrameStateChangedAction(ownerGuid, areaGuid, CaptureFrameState.Disabled, dateTime);
                     break;
                 case CaptureStateAction.Enabled:
                     var enabledCaptureFrame = new CaptureFrameAreaDto(areaGuid, ownerGuid, true);
                     activeCaptureFrames[areaGuid] = enabledCaptureFrame;
-                    RaiseCaptureFrameStateChangedAction(ownerGuid, areaGuid, Common.EventArgs.CaptureFrameState.Enabled, dateTime);
+                    RaiseCaptureFrameStateChangedAction(ownerGuid, areaGuid, CaptureFrameState.Enabled, dateTime);
                     break;
                 case CaptureStateAction.Created:
                     var createdCaptureFrame = new CaptureFrameAreaDto(areaGuid, ownerGuid, true);
                     if (!_usersService.Users.ContainsKey(ownerGuid))
                     {
                         activeCaptureFrames.Add(areaGuid, createdCaptureFrame);
-                        RaiseCaptureFrameStateChangedAction(ownerGuid, areaGuid, Common.EventArgs.CaptureFrameState.Created, dateTime);
+                        RaiseCaptureFrameStateChangedAction(ownerGuid, areaGuid, CaptureFrameState.Created, dateTime);
                     }
                     break;
                 case CaptureStateAction.Removed:
@@ -85,7 +86,7 @@ namespace Meeting.Business.GrpcClient
                     if (!_usersService.Users.ContainsKey(ownerGuid))
                     {
                         activeCaptureFrames.Remove(areaGuid);
-                        RaiseCaptureFrameStateChangedAction(ownerGuid, areaGuid, Common.EventArgs.CaptureFrameState.Removed, dateTime);
+                        RaiseCaptureFrameStateChangedAction(ownerGuid, areaGuid, CaptureFrameState.Removed, dateTime);
                         return;
                     }
                     break;

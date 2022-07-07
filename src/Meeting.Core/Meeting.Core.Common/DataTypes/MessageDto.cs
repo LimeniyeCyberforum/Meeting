@@ -1,7 +1,7 @@
 ﻿using Framework.DtoTypes;
 using System;
 
-namespace Meeting.Business.Common.DataTypes
+namespace Meeting.Core.Common.DataTypes
 {
     public class MessageDto : GuidDto
     {

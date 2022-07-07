@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Meeting.Business.Common.Abstractions.Chat
+namespace Meeting.Core.Common.Abstractions.Chat
 {
     public abstract partial class ChatServiceAbstract
     {

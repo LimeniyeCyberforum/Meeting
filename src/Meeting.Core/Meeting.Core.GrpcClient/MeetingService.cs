@@ -2,12 +2,12 @@
 using Grpc.Core;
 using Grpc.Net.Client;
 using System.Threading.Tasks;
-using Meeting.Business.Common.DataTypes;
+using Meeting.Core.Common.DataTypes;
 
-using Meeting.Business.Common.Abstractions;
-using Meeting.Business.Common.Abstractions.Chat;
-using Meeting.Business.Common.Abstractions.Users;
-using Meeting.Business.Common.Abstractions.FrameCapture;
+using Meeting.Core.Common.Abstractions;
+using Meeting.Core.Common.Abstractions.Chat;
+using Meeting.Core.Common.Abstractions.Users;
+using Meeting.Core.Common.Abstractions.FrameCapture;
 
 using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationClient;
 using System.Net.Http;

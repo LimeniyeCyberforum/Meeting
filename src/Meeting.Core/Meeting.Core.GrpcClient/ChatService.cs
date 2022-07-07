@@ -1,8 +1,8 @@
 ﻿using Framework.EventArgs;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using Meeting.Business.Common.Abstractions.Chat;
-using Meeting.Business.Common.DataTypes;
+using Meeting.Core.Common.Abstractions.Chat;
+using Meeting.Core.Common.DataTypes;
 using MeetingProtobuf.Protos;
 using System;
 using System.Linq;

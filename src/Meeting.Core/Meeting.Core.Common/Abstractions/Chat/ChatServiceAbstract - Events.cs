@@ -1,10 +1,10 @@
 ﻿using Framework.EventArgs;
 using Framework.Extensions;
-using Meeting.Business.Common.DataTypes;
+using Meeting.Core.Common.DataTypes;
 using System;
 using System.Collections.Generic;
 
-namespace Meeting.Business.Common.Abstractions.Chat
+namespace Meeting.Core.Common.Abstractions.Chat
 {
     public abstract partial class ChatServiceAbstract
     {

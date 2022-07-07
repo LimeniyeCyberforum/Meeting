@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Meeting.Business.Common.DataTypes;
+using Meeting.Core.Common.DataTypes;
 
-namespace Meeting.Business.Common.Abstractions.FrameCapture
+namespace Meeting.Core.Common.Abstractions.FrameCapture
 {
     public abstract partial class CaptureFramesServiceAbstract : IDisposable
     {

@@ -1,7 +1,7 @@
 ﻿using Framework.EventArgs;
-using Meeting.Business.Common.Abstractions;
-using Meeting.Business.Common.Abstractions.Chat;
-using Meeting.Business.Common.DataTypes;
+using Meeting.Core.Common.Abstractions;
+using Meeting.Core.Common.Abstractions.Chat;
+using Meeting.Core.Common.DataTypes;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Collections.ObjectModel;

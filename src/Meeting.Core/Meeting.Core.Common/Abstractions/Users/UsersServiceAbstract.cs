@@ -1,12 +1,12 @@
 ﻿using Framework.EventArgs;
 using Framework.Extensions;
-using Meeting.Business.Common.DataTypes;
+using Meeting.Core.Common.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace Meeting.Business.Common.Abstractions.Users
+namespace Meeting.Core.Common.Abstractions.Users
 {
     public abstract class UsersServiceAbstract : IDisposable
     {

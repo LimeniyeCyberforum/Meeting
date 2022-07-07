@@ -1,4 +1,4 @@
-﻿using Meeting.Business.Common.DataTypes;
+﻿using Meeting.Core.Common.DataTypes;
 using System.Windows;
 using System.Windows.Controls;
 

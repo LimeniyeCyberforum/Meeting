@@ -1,4 +1,4 @@
-﻿using Meeting.Business.Common.DataTypes;
+﻿using Meeting.Core.Common.DataTypes;
 using MeetingProtobuf.Protos;
 using System;
 

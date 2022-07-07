@@ -1,9 +1,9 @@
-﻿using Meeting.Business.Common.DataTypes;
+﻿using Meeting.Core.Common.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Meeting.Business.Common.Abstractions.Chat
+namespace Meeting.Core.Common.Abstractions.Chat
 {
     public abstract partial class ChatServiceAbstract : IDisposable
     {

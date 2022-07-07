@@ -1,6 +1,6 @@
-﻿using Meeting.Business.Common.Abstractions;
-using Meeting.Business.Common.Abstractions.FrameCapture;
-using Meeting.Business.Common.DataTypes;
+﻿using Meeting.Core.Common.Abstractions;
+using Meeting.Core.Common.Abstractions.FrameCapture;
+using Meeting.Core.Common.DataTypes;
 using Meeting.Wpf.Camera;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -122,7 +122,7 @@ namespace Meeting.Wpf.ViewModels
                 _captureFramesService.SendFrameAsync(e, _currentUser.Guid, DateTime.UtcNow);
         }
 
-        private void OnUsersChanged(object? sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, Business.Common.DataTypes.UserDto> e)
+        private void OnUsersChanged(object? sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, UserDto> e)
         {
             lock (((ICollection)CaptureFrameAreas).SyncRoot)
             {
@@ -136,14 +136,14 @@ namespace Meeting.Wpf.ViewModels
             }
         }
 
-        private void OnCaptureFrameStateChanged(object? sender, Business.Common.EventArgs.CaptureFrameStateEventArgs e)
+        private void OnCaptureFrameStateChanged(object? sender, Core.Common.EventArgs.CaptureFrameStateEventArgs e)
         {
             lock (((ICollection)CaptureFrameAreas).SyncRoot)
             {
                 UserDto? user = null;
                 switch (e.Action)
                 {
-                    case Business.Common.EventArgs.CaptureFrameState.Disabled:
+                    case Core.Common.EventArgs.CaptureFrameState.Disabled:
                         CaptureFrameViewModel? captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
                         int index = captureFrameArea is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameArea);
                         if (index > -1)
@@ -156,11 +156,11 @@ namespace Meeting.Wpf.ViewModels
                             CaptureFrameAreas.Add(new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
                         }
                         break;
-                    case Business.Common.EventArgs.CaptureFrameState.Created:
+                    case Core.Common.EventArgs.CaptureFrameState.Created:
                         user = _meetingUsers.Users.Users[e.OwnerGuid];
                         CaptureFrameAreas.Add(new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
                         break;
-                    case Business.Common.EventArgs.CaptureFrameState.Removed:
+                    case Core.Common.EventArgs.CaptureFrameState.Removed:
                         CaptureFrameViewModel? captureFrameAreaForRemove = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
                         int removeInxex = captureFrameAreaForRemove is null ? -1 : CaptureFrameAreas.IndexOf(captureFrameAreaForRemove);
                         if (removeInxex > -1)
@@ -170,7 +170,7 @@ namespace Meeting.Wpf.ViewModels
             }
         }
 
-        private void OnCaptureFrameChanged(object? sender, Business.Common.EventArgs.CaptureFrameEventArgs e)
+        private void OnCaptureFrameChanged(object? sender, Core.Common.EventArgs.CaptureFrameEventArgs e)
         {
             CaptureFrameViewModel? captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.AreaGuid == e.CaptureAreadGuid);
             if (captureFrameArea is not null)

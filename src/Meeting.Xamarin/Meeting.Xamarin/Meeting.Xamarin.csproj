@@ -28,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Meeting.Business\Meeting.Business.Common\Meeting.Business.Common.csproj" />
-    <ProjectReference Include="..\..\Meeting.Business\Meeting.Business.GrpcClient\Meeting.Business.GrpcClient.csproj" />
     <ProjectReference Include="..\..\Toolkit.Xamarin\Toolkit.Xamarin.csproj" />
   </ItemGroup>
 

@@ -1,11 +1,11 @@
-﻿using Meeting.Business.Common.Abstractions.Chat;
-using Meeting.Business.Common.Abstractions.FrameCapture;
-using Meeting.Business.Common.Abstractions.Users;
-using Meeting.Business.Common.DataTypes;
+﻿using Meeting.Core.Common.Abstractions.Chat;
+using Meeting.Core.Common.Abstractions.FrameCapture;
+using Meeting.Core.Common.Abstractions.Users;
+using Meeting.Core.Common.DataTypes;
 using System;
 using System.Threading.Tasks;
 
-namespace Meeting.Business.Common.Abstractions
+namespace Meeting.Core.Common.Abstractions
 {
     public enum UserConnectionState
     {

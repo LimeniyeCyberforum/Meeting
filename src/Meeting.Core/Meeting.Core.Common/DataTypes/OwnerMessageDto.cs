@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Meeting.Business.Common.DataTypes
+namespace Meeting.Core.Common.DataTypes
 {
     public enum MessageStatus
     {

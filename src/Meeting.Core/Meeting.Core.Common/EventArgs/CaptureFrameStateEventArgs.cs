@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Meeting.Business.Common.EventArgs
+namespace Meeting.Core.Common.EventArgs
 {
     public enum CaptureFrameState
     {
