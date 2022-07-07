@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <UseLocalConnect>false</UseLocalConnect>
+    <UseLocalConnect>true</UseLocalConnect>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(UseLocalConnect)'=='true'">
@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\sub\meeting-protobuf\MeetingProtobuf.Protos\MeetingProtobuf.Protos.csproj" />
     <ProjectReference Include="..\..\Framework\Framework.csproj" />
     <ProjectReference Include="..\meeting-backend\src\MeetingServer.Grpc\MeetingGrpc.Protos\MeetingGrpc.Protos.csproj" />
     <ProjectReference Include="..\Meeting.Business.Common\Meeting.Business.Common.csproj" />

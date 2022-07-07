@@ -2,14 +2,14 @@
 using Grpc.Core;
 using System.Linq;
 using Google.Protobuf;
-using MeetingGrpc.Protos;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Meeting.Business.Common.Abstractions.FrameCapture;
 using Meeting.Business.Common.Abstractions.Users;
 using Meeting.Business.Common.DataTypes;
-using CaptureFramesClient = MeetingGrpc.Protos.CaptureFrames.CaptureFramesClient;
+using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
+using MeetingProtobuf.Protos;
 
 namespace Meeting.Business.GrpcClient
 {

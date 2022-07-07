@@ -9,7 +9,7 @@ using Meeting.Business.Common.Abstractions.Chat;
 using Meeting.Business.Common.Abstractions.Users;
 using Meeting.Business.Common.Abstractions.FrameCapture;
 
-using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
+using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationClient;
 using System.Net.Http;
 using Xamarin.Essentials;
 using Grpc.Net.Client.Web;
@@ -36,7 +36,7 @@ namespace Meeting.Business.GrpcClient
 
         public void JoinToLobby(string username)
         {
-            var authReply = _authorizationClient.Connect(new MeetingGrpc.Protos.ConnectRequest { Username = username });
+            var authReply = _authorizationClient.Connect(new MeetingProtobuf.Protos.ConnectRequest { Username = username });
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
             UpdateMetadata(metadata);
@@ -48,7 +48,7 @@ namespace Meeting.Business.GrpcClient
 
         public async Task JoinToLobbyAsync(string username)
         {
-            var authReply = await _authorizationClient.ConnectAsync(new MeetingGrpc.Protos.ConnectRequest { Username = username });
+            var authReply = await _authorizationClient.ConnectAsync(new MeetingProtobuf.Protos.ConnectRequest { Username = username });
             var metadata = new Metadata();
             metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
             UpdateMetadata(metadata);
@@ -60,12 +60,12 @@ namespace Meeting.Business.GrpcClient
 
         public bool IsNameExists(string username)
         {
-            return _authorizationClient.IsNameExists(new MeetingGrpc.Protos.CheckNameRequest { Username = username }).IsExists;
+            return _authorizationClient.IsNameExists(new MeetingProtobuf.Protos.CheckNameRequest { Username = username }).IsExists;
         }
 
         public async Task<bool> IsNameExistsAsync(string username)
         {
-            var response = await _authorizationClient.IsNameExistsAsync(new MeetingGrpc.Protos.CheckNameRequest { Username = username });
+            var response = await _authorizationClient.IsNameExistsAsync(new MeetingProtobuf.Protos.CheckNameRequest { Username = username });
             return response.IsExists;
         }
 

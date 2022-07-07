@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
+using UsersClient = MeetingProtobuf.Protos.Users.UsersClient;
 
 namespace Meeting.Business.GrpcClient
 {
@@ -38,13 +38,13 @@ namespace Meeting.Business.GrpcClient
 
                     switch (x.Action)
                     {
-                        case MeetingGrpc.Protos.Action.Added:
+                        case MeetingProtobuf.Protos.Action.Added:
                             SmartRaiseUsersChangedEvent(Framework.EventArgs.NotifyDictionaryChangedAction.Added, user);
                             break;
-                        case MeetingGrpc.Protos.Action.Removed:
+                        case MeetingProtobuf.Protos.Action.Removed:
                             SmartRaiseUsersChangedEvent(Framework.EventArgs.NotifyDictionaryChangedAction.Removed, user);
                             break;
-                        case MeetingGrpc.Protos.Action.Changed:
+                        case MeetingProtobuf.Protos.Action.Changed:
                             SmartRaiseUsersChangedEvent(Framework.EventArgs.NotifyDictionaryChangedAction.Changed, user);
                             break;
                         default:

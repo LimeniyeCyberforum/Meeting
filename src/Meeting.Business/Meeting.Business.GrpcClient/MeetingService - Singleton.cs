@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 
-using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
-using UsersClient = MeetingGrpc.Protos.Users.UsersClient;
-using CaptureFramesClient = MeetingGrpc.Protos.CaptureFrames.CaptureFramesClient;
-using AuthorizationClient = MeetingGrpc.Protos.Authorization.AuthorizationClient;
+using ChatClient = MeetingProtobuf.Protos.Chat.ChatClient;
+using UsersClient = MeetingProtobuf.Protos.Users.UsersClient;
+using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
+using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationClient;
 
 
 namespace Meeting.Business.GrpcClient

@@ -3,12 +3,12 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Meeting.Business.Common.Abstractions.Chat;
 using Meeting.Business.Common.DataTypes;
-using MeetingGrpc.Protos;
+using MeetingProtobuf.Protos;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ChatClient = MeetingGrpc.Protos.Chat.ChatClient;
+using ChatClient = MeetingProtobuf.Protos.Chat.ChatClient;
 
 namespace Meeting.Business.GrpcClient
 {
@@ -47,13 +47,13 @@ namespace Meeting.Business.GrpcClient
                     MessageDto message = new(Guid.Parse(x.LobbyMessage.MessageGuid), Guid.Parse(x.LobbyMessage.UserGuid), x.LobbyMessage.Message, x.LobbyMessage.Username, x.LobbyMessage.Time.ToDateTime());
                     switch (x.Action)
                     {
-                        case MeetingGrpc.Protos.Action.Added:
+                        case MeetingProtobuf.Protos.Action.Added:
                             SmartRaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Added, message);
                             break;
-                        case MeetingGrpc.Protos.Action.Removed:
+                        case MeetingProtobuf.Protos.Action.Removed:
                             SmartRaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Removed, message);
                             break;
-                        case MeetingGrpc.Protos.Action.Changed:
+                        case MeetingProtobuf.Protos.Action.Changed:
                             SmartRaiseMessagesChangedEvent(NotifyDictionaryChangedAction.Changed, message);
                             break;
                         default:

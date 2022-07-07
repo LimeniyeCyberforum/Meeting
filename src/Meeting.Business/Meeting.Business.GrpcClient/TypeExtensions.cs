@@ -1,5 +1,5 @@
 ﻿using Meeting.Business.Common.DataTypes;
-using MeetingGrpc.Protos;
+using MeetingProtobuf.Protos;
 using System;
 
 namespace Meeting.Business.GrpcClient
