@@ -16,7 +16,7 @@ using ChatClient = MeetingProtobuf.Protos.Chat.ChatClient;
 
 namespace Meeting.Core.GrpcClient
 {
-    public partial class ChatService : IChatService
+    internal partial class ChatService : IChatService
     {
         protected readonly Dictionary<Guid, MessageDto> messages = new Dictionary<Guid, MessageDto>();
 

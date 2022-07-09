@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Google.Protobuf;
 using System.Linq;
-using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
 using Meeting.Core.GrpcClient.Util;
+using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
 
 namespace Meeting.Core.GrpcClient
 {
-    public sealed partial class CaptureFramesService : ICaptureFramesService
+    internal sealed partial class CaptureFramesService : ICaptureFramesService
     {
         private Dictionary<Guid, CaptureFrameAreaDto> activeCaptureFrames = new Dictionary<Guid, CaptureFrameAreaDto>();
         private bool disposed = false;

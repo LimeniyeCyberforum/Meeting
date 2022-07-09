@@ -14,7 +14,7 @@ using UsersClient = MeetingProtobuf.Protos.Users.UsersClient;
 
 namespace Meeting.Core.GrpcClient
 {
-    public sealed partial class UsersService : IUsersService
+    internal sealed partial class UsersService : IUsersService
     {
         private readonly Dictionary<Guid, UserDto> users = new Dictionary<Guid, UserDto>();
 
