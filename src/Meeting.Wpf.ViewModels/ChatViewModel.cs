@@ -1,6 +1,5 @@
 ﻿using Framework.EventArgs;
 using Meeting.Core.Common;
-using Meeting.Core.Common.Abstractions.Chat;
 using Meeting.Core.Common.DataTypes;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -16,7 +15,7 @@ namespace Meeting.Wpf.ViewModels
     public class ChatViewModel : ReactiveObject, IDisposable
     {
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
-        private readonly ChatServiceAbstract _messageService;
+        private readonly IChatService _messageService;
         private readonly IMeetingAuthorization _meetingAuthorization;
 
         [Reactive]
@@ -48,7 +47,7 @@ namespace Meeting.Wpf.ViewModels
 
         #endregion
 
-        public ChatViewModel(ChatServiceAbstract messageService, IMeetingAuthorization meetingAuthorization)
+        public ChatViewModel(IChatService messageService, IMeetingAuthorization meetingAuthorization)
         {
             Messages.EnableCollectionSynchronization();
 

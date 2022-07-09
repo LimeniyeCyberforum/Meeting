@@ -1,5 +1,4 @@
 ﻿using Meeting.Core.Common;
-using Meeting.Core.Common.Abstractions.FrameCapture;
 using Meeting.Core.Common.DataTypes;
 using Meeting.Wpf.Camera;
 using ReactiveUI;
@@ -18,7 +17,7 @@ namespace Meeting.Wpf.ViewModels
     {
         private readonly SerialDisposable eventSubscriptions = new SerialDisposable();
         private readonly Dispatcher dispatcher = Application.Current.Dispatcher;
-        private readonly CaptureFramesServiceAbstract _captureFramesService;
+        private readonly ICaptureFramesService _captureFramesService;
         private readonly CamStreaming? _cam;
         private UserDto? _currentUser;
 
@@ -30,7 +29,7 @@ namespace Meeting.Wpf.ViewModels
 
         public ObservableCollection<CaptureFrameViewModel> CaptureFrameAreas { get; } = new ObservableCollection<CaptureFrameViewModel>();
 
-        public CaptureFramesViewModel(CaptureFramesServiceAbstract captureFramesService, IMeetingUsers users, IMeetingAuthorization authorizationService)
+        public CaptureFramesViewModel(ICaptureFramesService captureFramesService, IMeetingUsers users, IMeetingAuthorization authorizationService)
         {
             CaptureFrameAreas.EnableCollectionSynchronization();
 
