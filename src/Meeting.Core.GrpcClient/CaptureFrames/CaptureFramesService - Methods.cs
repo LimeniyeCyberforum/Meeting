@@ -8,7 +8,7 @@ using Meeting.Core.Common.DataTypes;
 using MeetingProtobuf.Protos;
 using Meeting.Core.Common.EventArgs;
 
-namespace Meeting.Core.GrpcClient.CaptureFrames
+namespace Meeting.Core.GrpcClient
 {
     public partial class CaptureFramesService
     {

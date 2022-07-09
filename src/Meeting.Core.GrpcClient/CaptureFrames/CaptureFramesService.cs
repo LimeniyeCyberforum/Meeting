@@ -8,7 +8,7 @@ using Meeting.Core.Common.EventArgs;
 using System.Collections.ObjectModel;
 using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
 
-namespace Meeting.Core.GrpcClient.CaptureFrames
+namespace Meeting.Core.GrpcClient
 {
     public sealed partial class CaptureFramesService : ICaptureFramesService
     {

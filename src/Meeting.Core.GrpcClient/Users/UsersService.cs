@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UsersClient = MeetingProtobuf.Protos.Users.UsersClient;
 
-namespace Meeting.Core.GrpcClient.Users
+namespace Meeting.Core.GrpcClient
 {
     public sealed partial class UsersService : IUsersService
     {
