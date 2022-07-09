@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-using ChatClient = MeetingProtobuf.Protos.Chat.ChatClient;
+﻿using ChatClient = MeetingProtobuf.Protos.Chat.ChatClient;
 using UsersClient = MeetingProtobuf.Protos.Users.UsersClient;
 using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
 using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationClient;

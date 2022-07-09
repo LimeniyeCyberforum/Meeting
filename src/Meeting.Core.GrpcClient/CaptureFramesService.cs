@@ -1,17 +1,53 @@
 ﻿using System;
-using System.Linq;
-using Google.Protobuf;
+using Grpc.Core;
 using System.Threading;
+using Meeting.Core.Common;
+using System.Collections.Generic;
+using Meeting.Core.Common.DataTypes;
+using Meeting.Core.Common.EventArgs;
+using System.Collections.ObjectModel;
+using MeetingProtobuf.Protos;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
-using Meeting.Core.Common.DataTypes;
-using MeetingProtobuf.Protos;
-using Meeting.Core.Common.EventArgs;
+using Google.Protobuf;
+using System.Linq;
+using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
+using Meeting.Core.GrpcClient.Util;
 
 namespace Meeting.Core.GrpcClient
 {
-    public partial class CaptureFramesService
+    public sealed partial class CaptureFramesService : ICaptureFramesService
     {
+        private Dictionary<Guid, CaptureFrameAreaDto> activeCaptureFrames = new Dictionary<Guid, CaptureFrameAreaDto>();
+        private bool disposed = false;
+
+        private CancellationTokenSource _captureFramesSubscriptionCancelationToken;
+        private CancellationTokenSource _captureFramesSubscribeCancelationToken;
+
+        private readonly CaptureFramesClient _client;
+        private readonly IUsersService _usersService;
+        private Metadata _metadata;
+
+        public event EventHandler<CaptureFrameEventArgs> CaptureFrameChanged;
+        public event EventHandler<CaptureFrameStateEventArgs> CaptureFrameStateChanged;
+
+        public IReadOnlyDictionary<Guid, CaptureFrameAreaDto> ActiveCaptureFrames { get; }
+
+        public CaptureFramesService(CaptureFramesClient client, IUsersService usersService)
+            : base()
+        {
+            _client = client;
+            _usersService = usersService;
+            ActiveCaptureFrames = new ReadOnlyDictionary<Guid, CaptureFrameAreaDto>(activeCaptureFrames);
+        }
+
+        #region Methods
+
+        public void UpdateMetadata(Metadata metadata)
+        {
+            _metadata = metadata;
+        }
+
         public Guid CreateCaptureArea()
         {
             return Guid.Parse(_client.CreateCaptureArea(DateTime.UtcNow.ToTimestamp(), _metadata).AreaGuid);
@@ -191,6 +227,32 @@ namespace Meeting.Core.GrpcClient
         {
             _captureFramesSubscribeCancelationToken.Cancel();
             _captureFramesSubscribeCancelationToken.Dispose();
+        }
+
+        #endregion
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                CaptureFrameAreasUnsubscribe();
+                CaptureFramesUnsubscribe();
+            }
+            disposed = true;
+        }
+
+        ~CaptureFramesService()
+        {
+            Dispose(disposing: false);
         }
     }
 }

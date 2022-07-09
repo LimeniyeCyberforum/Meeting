@@ -4,6 +4,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Meeting.Core.Common;
 using Meeting.Core.Common.DataTypes;
+using Meeting.Core.GrpcClient.Util;
 using MeetingProtobuf.Protos;
 using System;
 using System.Collections.Generic;

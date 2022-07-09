@@ -3,17 +3,12 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using System.Threading.Tasks;
 using Meeting.Core.Common.DataTypes;
-using Meeting.Core.Common.Abstractions.Chat;
-using Meeting.Core.Common.Abstractions.Users;
-using Meeting.Core.Common.Abstractions.FrameCapture;
 
-using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationClient;
 using System.Net.Http;
 using Xamarin.Essentials;
 using Grpc.Net.Client.Web;
 using Meeting.Core.Common;
-using Meeting.Core.GrpcClient.CaptureFrames;
-using Meeting.Core.GrpcClient.Chat;
+using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationClient;
 
 namespace Meeting.Core.GrpcClient
 {
@@ -27,11 +22,11 @@ namespace Meeting.Core.GrpcClient
 
         public UserConnectionState CurrentConnectionState { get; private set; }
 
-        public ChatServiceAbstract Chat { get; private set; }
+        public IChatService Chat { get; private set; }
 
-        public CaptureFramesServiceAbstract CaptureFrames { get; private set; }
+        public ICaptureFramesService CaptureFrames { get; private set; }
 
-        public UsersServiceAbstract Users { get; private set; }
+        public IUsersService Users { get; private set; }
 
         public event EventHandler<UserConnectionState> AuthorizationStateChanged;
 
@@ -70,7 +65,7 @@ namespace Meeting.Core.GrpcClient
             return response.IsExists;
         }
 
-        protected void UpdateMetadata(Metadata metadata)
+        private void UpdateMetadata(Metadata metadata)
         {
             ((ChatService)Chat).UpdateMetadata(metadata);
             ((CaptureFramesService)CaptureFrames).UpdateMetadata(metadata);

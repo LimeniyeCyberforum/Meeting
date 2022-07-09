@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Meeting.Core.GrpcClient
+namespace Meeting.Core.GrpcClient.Util
 {
     public static class IAsyncStreamReaderExtensions
     {

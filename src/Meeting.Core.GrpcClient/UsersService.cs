@@ -3,6 +3,7 @@ using Framework.Extensions;
 using Google.Protobuf.WellKnownTypes;
 using Meeting.Core.Common;
 using Meeting.Core.Common.DataTypes;
+using Meeting.Core.GrpcClient.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
