@@ -8,9 +8,9 @@ namespace Meeting.Core.Common
 {
     public interface IUsersService : IDisposable
     {
-        public IReadOnlyDictionary<Guid, UserDto> Users { get; }
+        IReadOnlyDictionary<Guid, UserDto> Users { get; }
 
-        public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, UserDto>> UsersChanged;
+        event EventHandler<NotifyDictionaryChangedEventArgs<Guid, UserDto>> UsersChanged;
 
         Task UsersSubscribeAsync();
 
