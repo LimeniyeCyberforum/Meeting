@@ -12,6 +12,7 @@ using System.Net.Http;
 using Xamarin.Essentials;
 using Grpc.Net.Client.Web;
 using Meeting.Core.Common;
+using Meeting.Core.GrpcClient.CaptureFrames;
 
 namespace Meeting.Core.GrpcClient
 {

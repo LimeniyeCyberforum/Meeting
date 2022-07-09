@@ -1,5 +1,4 @@
 ﻿using Meeting.Core.Common.Abstractions.Chat;
-using Meeting.Core.Common.Abstractions.FrameCapture;
 using Meeting.Core.Common.DataTypes;
 using System;
 using System.Threading.Tasks;
@@ -41,7 +40,7 @@ namespace Meeting.Core.Common
 
     public interface IMeetingCaptureFrames
     {
-        CaptureFramesServiceAbstract CaptureFrames { get; }
+        ICaptureFramesService CaptureFrames { get; }
     }
 
 
