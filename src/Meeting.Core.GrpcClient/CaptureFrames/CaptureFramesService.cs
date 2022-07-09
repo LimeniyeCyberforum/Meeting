@@ -1,12 +1,12 @@
-﻿using Grpc.Core;
+﻿using System;
+using Grpc.Core;
 using System.Threading;
-using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
 using Meeting.Core.Common;
-using Meeting.Core.Common.EventArgs;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Meeting.Core.Common.DataTypes;
+using Meeting.Core.Common.EventArgs;
+using System.Collections.ObjectModel;
+using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesClient;
 
 namespace Meeting.Core.GrpcClient.CaptureFrames
 {
