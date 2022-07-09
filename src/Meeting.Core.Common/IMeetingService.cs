@@ -1,5 +1,4 @@
-﻿using Meeting.Core.Common.Abstractions.Chat;
-using Meeting.Core.Common.DataTypes;
+﻿using Meeting.Core.Common.DataTypes;
 using System;
 using System.Threading.Tasks;
 
@@ -35,7 +34,7 @@ namespace Meeting.Core.Common
 
     public interface IMeetingChat
     {
-        ChatServiceAbstract Chat { get; }
+        IChatService Chat { get; }
     }
 
     public interface IMeetingCaptureFrames
