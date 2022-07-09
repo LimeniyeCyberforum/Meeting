@@ -1,4 +1,4 @@
-﻿namespace Meeting.Core.Common.Abstractions.HibernateSessions
+﻿namespace Meeting.Core.Common.Util
 {
     public static class HibernateSessionAndroid
     {
