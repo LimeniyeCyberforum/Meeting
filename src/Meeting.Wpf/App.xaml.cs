@@ -1,4 +1,4 @@
-﻿using Meeting.Core.Common.Abstractions;
+﻿using Meeting.Core.Common;
 using Meeting.Core.GrpcClient;
 using Meeting.Wpf.ViewModels;
 using System.Windows;

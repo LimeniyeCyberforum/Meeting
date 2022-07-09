@@ -1,11 +1,10 @@
 ﻿using Meeting.Core.Common.Abstractions.Chat;
 using Meeting.Core.Common.Abstractions.FrameCapture;
-using Meeting.Core.Common.Abstractions.Users;
 using Meeting.Core.Common.DataTypes;
 using System;
 using System.Threading.Tasks;
 
-namespace Meeting.Core.Common.Abstractions
+namespace Meeting.Core.Common
 {
     public enum UserConnectionState
     {
@@ -32,7 +31,7 @@ namespace Meeting.Core.Common.Abstractions
 
     public interface IMeetingUsers
     {
-        UsersServiceAbstract Users { get; }
+        IUsersService Users { get; }
     }
 
     public interface IMeetingChat

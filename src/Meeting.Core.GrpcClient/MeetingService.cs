@@ -3,8 +3,6 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using System.Threading.Tasks;
 using Meeting.Core.Common.DataTypes;
-
-using Meeting.Core.Common.Abstractions;
 using Meeting.Core.Common.Abstractions.Chat;
 using Meeting.Core.Common.Abstractions.Users;
 using Meeting.Core.Common.Abstractions.FrameCapture;
@@ -13,6 +11,7 @@ using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationCl
 using System.Net.Http;
 using Xamarin.Essentials;
 using Grpc.Net.Client.Web;
+using Meeting.Core.Common;
 
 namespace Meeting.Core.GrpcClient
 {

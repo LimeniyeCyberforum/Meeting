@@ -1,4 +1,4 @@
-﻿using Meeting.Core.Common.Abstractions;
+﻿using Meeting.Core.Common;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Reactive;
