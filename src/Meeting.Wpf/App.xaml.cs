@@ -1,5 +1,5 @@
-﻿using Meeting.Business.GrpcClient;
-using Meeting.Core.Common.Abstractions;
+﻿using Meeting.Core.Common.Abstractions;
+using Meeting.Core.GrpcClient;
 using Meeting.Wpf.ViewModels;
 using System.Windows;
 

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UsersClient = MeetingProtobuf.Protos.Users.UsersClient;
 
-namespace Meeting.Business.GrpcClient
+namespace Meeting.Core.GrpcClient
 {
     public class UsersService : UsersServiceAbstract
     {

@@ -6,7 +6,7 @@ using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesCl
 using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationClient;
 
 
-namespace Meeting.Business.GrpcClient
+namespace Meeting.Core.GrpcClient
 {
     public partial class MeetingService
     {

@@ -12,7 +12,7 @@ using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesCl
 using MeetingProtobuf.Protos;
 using Meeting.Core.Common.EventArgs;
 
-namespace Meeting.Business.GrpcClient
+namespace Meeting.Core.GrpcClient
 {
     public class CaptureFramesService : CaptureFramesServiceAbstract
     {

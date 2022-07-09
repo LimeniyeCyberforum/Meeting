@@ -14,7 +14,7 @@ using System.Net.Http;
 using Xamarin.Essentials;
 using Grpc.Net.Client.Web;
 
-namespace Meeting.Business.GrpcClient
+namespace Meeting.Core.GrpcClient
 {
     public sealed partial class MeetingService : IMeetingService
     {

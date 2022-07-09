@@ -2,7 +2,7 @@
 using MeetingProtobuf.Protos;
 using System;
 
-namespace Meeting.Business.GrpcClient
+namespace Meeting.Core.GrpcClient
 {
     internal static class TypeExtensions
     {

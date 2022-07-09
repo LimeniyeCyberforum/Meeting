@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ChatClient = MeetingProtobuf.Protos.Chat.ChatClient;
 
-namespace Meeting.Business.GrpcClient
+namespace Meeting.Core.GrpcClient
 {
     public class ChatService : ChatServiceAbstract
     {
