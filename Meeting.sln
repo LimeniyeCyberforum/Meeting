@@ -33,6 +33,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meeting.Core.GrpcClient", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingProtobuf.Protos", "sub\meeting-protobuf\MeetingProtobuf.Protos\MeetingProtobuf.Protos.csproj", "{DE4A3454-F4E4-4AF8-B535-5C70849A2552}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{469224EE-D409-4640-B77F-720ECC6CD1DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meeting.Core.GrpcClient.Tests", "Meeting.Core.GrpcClient.Tests\Meeting.Core.GrpcClient.Tests.csproj", "{884AB652-221D-42C2-BE92-C261793C6CAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +89,10 @@ Global
 		{DE4A3454-F4E4-4AF8-B535-5C70849A2552}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE4A3454-F4E4-4AF8-B535-5C70849A2552}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE4A3454-F4E4-4AF8-B535-5C70849A2552}.Release|Any CPU.Build.0 = Release|Any CPU
+		{884AB652-221D-42C2-BE92-C261793C6CAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{884AB652-221D-42C2-BE92-C261793C6CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{884AB652-221D-42C2-BE92-C261793C6CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{884AB652-221D-42C2-BE92-C261793C6CAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +109,7 @@ Global
 		{59DE7AAD-7D70-4404-8582-96391D37B6C3} = {13640C8F-0284-48D6-94ED-484EDED9F670}
 		{D011BCEE-7317-42F8-9963-C7A9E9614925} = {13640C8F-0284-48D6-94ED-484EDED9F670}
 		{DE4A3454-F4E4-4AF8-B535-5C70849A2552} = {13640C8F-0284-48D6-94ED-484EDED9F670}
+		{884AB652-221D-42C2-BE92-C261793C6CAF} = {469224EE-D409-4640-B77F-720ECC6CD1DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C8047A6-01EE-4859-B4C5-3BBFBA57F8F0}
