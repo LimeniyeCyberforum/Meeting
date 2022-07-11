@@ -1,7 +1,3 @@
 [submodule "meeting-protobuf"]
 	path = sub/meeting-protobuf
 	url = https://github.com/LimeniyeCyberforum/meeting-protobuf
-	
-[submodule "meeting-backend"]
-	path = sub/meeting-backend
-	url = https://github.com/LimeniyeCyberforum/meeting-backend

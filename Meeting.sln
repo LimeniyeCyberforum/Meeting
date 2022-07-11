@@ -37,8 +37,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{469224EE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meeting.Core.GrpcClient.Tests", "src\Meeting.Core.GrpcClient.Tests\Meeting.Core.GrpcClient.Tests.csproj", "{5667DC89-27A5-4248-BDFC-3513D19E3559}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeetingGrpc.Server", "sub\meeting-backend\src\MeetingServer.Grpc\MeetingGrpc.Server\MeetingGrpc.Server.csproj", "{D6855B8B-6277-4963-80F3-50E4C832FBDF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,10 +93,6 @@ Global
 		{5667DC89-27A5-4248-BDFC-3513D19E3559}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5667DC89-27A5-4248-BDFC-3513D19E3559}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5667DC89-27A5-4248-BDFC-3513D19E3559}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6855B8B-6277-4963-80F3-50E4C832FBDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6855B8B-6277-4963-80F3-50E4C832FBDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6855B8B-6277-4963-80F3-50E4C832FBDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6855B8B-6277-4963-80F3-50E4C832FBDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,7 +110,6 @@ Global
 		{D011BCEE-7317-42F8-9963-C7A9E9614925} = {13640C8F-0284-48D6-94ED-484EDED9F670}
 		{DE4A3454-F4E4-4AF8-B535-5C70849A2552} = {13640C8F-0284-48D6-94ED-484EDED9F670}
 		{5667DC89-27A5-4248-BDFC-3513D19E3559} = {469224EE-D409-4640-B77F-720ECC6CD1DF}
-		{D6855B8B-6277-4963-80F3-50E4C832FBDF} = {469224EE-D409-4640-B77F-720ECC6CD1DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C8047A6-01EE-4859-B4C5-3BBFBA57F8F0}
