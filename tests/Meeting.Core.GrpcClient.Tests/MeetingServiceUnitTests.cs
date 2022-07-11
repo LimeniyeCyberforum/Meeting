@@ -9,7 +9,7 @@ using static MeetingProtobuf.Protos.Authorization;
 
 namespace Meeting.Core.GrpcClient.Tests
 {
-    public sealed class MeetingServiceUnitTests
+    public sealed class MeetingServiceTests
     {
         [Fact]
         public void Connection_Test()
