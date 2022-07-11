@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.17.0" />
+    <PackageReference Include="Grpc.Core.Testing" Version="2.46.3" />
     <PackageReference Include="Grpc.Net.Client" Version="2.47.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
@@ -35,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\sub\meeting-backend\src\MeetingServer.Grpc\MeetingGrpc.Server\MeetingGrpc.Server.csproj" />
     <ProjectReference Include="..\Meeting.Core.Common\Meeting.Core.Common.csproj" />
     <ProjectReference Include="..\Meeting.Core.GrpcClient\Meeting.Core.GrpcClient.csproj" />
   </ItemGroup>
