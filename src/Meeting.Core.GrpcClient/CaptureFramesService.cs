@@ -249,10 +249,5 @@ namespace Meeting.Core.GrpcClient
             }
             disposed = true;
         }
-
-        ~CaptureFramesService()
-        {
-            Dispose(disposing: false);
-        }
     }
 }

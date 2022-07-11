@@ -140,10 +140,5 @@ namespace Meeting.Core.GrpcClient
             }
             disposed = true;
         }
-
-        ~MeetingService()
-        {
-            Dispose(disposing: false);
-        }
     }
 }

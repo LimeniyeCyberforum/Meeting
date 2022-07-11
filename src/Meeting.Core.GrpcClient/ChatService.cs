@@ -119,10 +119,5 @@ namespace Meeting.Core.GrpcClient
             }
             disposed = true;
         }
-
-        ~ChatService()
-        {
-            Dispose(disposing: false);
-        }
     }
 }

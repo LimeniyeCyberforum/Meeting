@@ -91,10 +91,5 @@ namespace Meeting.Core.GrpcClient
             }
             disposed = true;
         }
-
-        ~UsersService()
-        {
-            Dispose(disposing: false);
-        }
     }
 }
