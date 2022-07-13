@@ -1,5 +1,4 @@
-<a href="https://github.com/LimeniyeCyberforum/Meeting"><img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Docker"/></a>
-<a href="https://hub.docker.com/r/limeniye/meeting-grpc"><img src="https://img.shields.io/docker/pulls/limeniye/meeting-grpc" alt="docker"/></a>
+<a href="https://github.com/LimeniyeCyberforum/Meeting"><img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Teamcity"/></a>
 
 # Meeting
 
