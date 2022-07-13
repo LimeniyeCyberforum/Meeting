@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="app.xaml" />
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
   </ItemGroup>
@@ -36,7 +37,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Meeting.Core.Common\Meeting.Core.Common.csproj" />
+    <Page Include="app.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Meeting.Core.Common\Meeting.Core.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
