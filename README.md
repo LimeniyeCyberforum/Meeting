@@ -1,5 +1,3 @@
-<a href="https://github.com/LimeniyeCyberforum/Meeting"><img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Teamcity"/></a>
-
 # Meeting
 
 Meeting is a demonstration project of my skills and knowledge in the field of Xaml platforms.
