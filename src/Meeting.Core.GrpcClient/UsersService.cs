@@ -1,5 +1,5 @@
-﻿using Framework.EventArgs;
-using Framework.Extensions;
+﻿using Utils.EventArgs;
+using Utils.Extensions;
 using Google.Protobuf.WellKnownTypes;
 using Meeting.Core.Common;
 using Meeting.Core.Common.DataTypes;

@@ -20,8 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\sub\meeting-protobuf\MeetingProtobuf.Protos\MeetingProtobuf.Protos.csproj" />
-    <ProjectReference Include="..\Framework\Framework.csproj" />
     <ProjectReference Include="..\Meeting.Core.Common\Meeting.Core.Common.csproj" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
 
 </Project>

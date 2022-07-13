@@ -1,4 +1,4 @@
-﻿using Framework.DtoTypes;
+﻿using Utils.DtoTypes;
 using System;
 
 namespace Meeting.Core.Common.DataTypes

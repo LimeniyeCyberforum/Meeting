@@ -1,4 +1,4 @@
-﻿using Framework.EventArgs;
+﻿using Utils.EventArgs;
 using Meeting.Core.Common.DataTypes;
 using System;
 using System.Collections.Generic;

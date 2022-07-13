@@ -1,4 +1,4 @@
-﻿using Framework.Delegates;
+﻿using Utils.Delegates;
 using System;
 using System.ComponentModel;
 using System.Globalization;

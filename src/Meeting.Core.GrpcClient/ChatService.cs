@@ -1,5 +1,5 @@
-﻿using Framework.EventArgs;
-using Framework.Extensions;
+﻿using Utils.EventArgs;
+using Utils.Extensions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Meeting.Core.Common;

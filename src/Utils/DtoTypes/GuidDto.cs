@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Framework.DtoTypes
+namespace Utils.DtoTypes
 {
     public abstract class GuidDto : IEquatable<GuidDto>
     {

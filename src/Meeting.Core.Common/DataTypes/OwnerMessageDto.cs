@@ -1,4 +1,4 @@
-﻿using Framework.DtoTypes;
+﻿using Utils.DtoTypes;
 using System;
 using System.Collections.Generic;
 using System.Text;

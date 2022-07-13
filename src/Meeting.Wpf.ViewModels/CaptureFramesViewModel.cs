@@ -121,7 +121,7 @@ namespace Meeting.Wpf.ViewModels
                 _captureFramesService.SendFrameAsync(e, _currentUser.Guid, DateTime.UtcNow);
         }
 
-        private void OnUsersChanged(object? sender, Framework.EventArgs.NotifyDictionaryChangedEventArgs<Guid, UserDto> e)
+        private void OnUsersChanged(object? sender, Utils.EventArgs.NotifyDictionaryChangedEventArgs<Guid, UserDto> e)
         {
             lock (((ICollection)CaptureFrameAreas).SyncRoot)
             {

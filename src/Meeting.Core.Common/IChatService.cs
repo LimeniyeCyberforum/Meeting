@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Framework.EventArgs;
+using Utils.EventArgs;
 using Meeting.Core.Common.DataTypes;
 
 namespace Meeting.Core.Common
