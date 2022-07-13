@@ -1,10 +1,10 @@
-﻿using Meeting.Core.GrpcClient.Tests.App_Infrastructure.DelegatingHandlers;
+﻿using Meeting.Tests.App_Infrastructure.DelegatingHandlers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Mvc.Testing.Handlers;
 using System.Net;
 using System.Net.Http;
 
-namespace Meeting.Core.GrpcClient.Tests.App_Infrastructure.Extensions
+namespace Meeting.Tests.App_Infrastructure.Extensions
 {
     public static class WebApplicationFactoryExtensions
     {

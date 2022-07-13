@@ -7,7 +7,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Meeting.Core.GrpcClient.Tests.App_Infrastructure.ClassFixture
+namespace Meeting.Tests.App_Infrastructure.ClassFixture
 {
     public sealed class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {

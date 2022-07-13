@@ -36,8 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Meeting.Core.Common\Meeting.Core.Common.csproj" />
-    <ProjectReference Include="..\..\src\Meeting.Core.GrpcClient\Meeting.Core.GrpcClient.csproj" />
+    <ProjectReference Include="..\src\Meeting.Core.Common\Meeting.Core.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

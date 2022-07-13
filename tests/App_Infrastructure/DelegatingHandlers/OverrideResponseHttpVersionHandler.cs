@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Meeting.Core.GrpcClient.Tests.App_Infrastructure.DelegatingHandlers
+namespace Meeting.Tests.App_Infrastructure.DelegatingHandlers
 {
     public class OverrideResponseHttpVersionHandler : DelegatingHandler
     {
