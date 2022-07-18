@@ -1,6 +1,3 @@
-<a href="https://github.com/LimeniyeCyberforum/Meeting"><img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Docker"/></a>
-<a href="https://hub.docker.com/r/limeniye/meeting-grpc"><img src="https://img.shields.io/docker/pulls/limeniye/meeting-grpc" alt="docker"/></a>
-
 # Meeting
 
 Meeting is a demonstration project of my skills and knowledge in the field of Xaml platforms.
