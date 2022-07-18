@@ -8,8 +8,10 @@ using System.Net.Http;
 using Xamarin.Essentials;
 using Grpc.Net.Client.Web;
 using Meeting.Core.Common;
+using System.Runtime.CompilerServices;
 using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationClient;
 
+[assembly: InternalsVisibleTo("Meeting.Core.GrpcClient.Tests")]
 namespace Meeting.Core.GrpcClient
 {
     public sealed partial class MeetingService : IMeetingService
