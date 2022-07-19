@@ -46,7 +46,7 @@ namespace Meeting.Core.GrpcClient.Tests
                 .Returns(fakeCall);
 
             // Act
-            ChatService service = new ChatService(chatMockClient.Object);
+            ChatService service = new ChatService(chatMockClient.Object, new MetadataRepository());
 
             await service.ChatSubscribeAsync();
 
