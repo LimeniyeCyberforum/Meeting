@@ -21,22 +21,22 @@ namespace Meeting.Wpf.ViewModels
         private readonly CamStreaming? _cam;
         private UserDto? _currentUser;
 
-        private readonly IMeetingAuthorization _authorizationService;
-        private readonly IMeetingUsers _meetingUsers;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IUsersService _meetingUsers;
 
         [Reactive]
         public bool IsCameraOn { get; set; }
 
         public ObservableCollection<CaptureFrameViewModel> CaptureFrameAreas { get; } = new ObservableCollection<CaptureFrameViewModel>();
 
-        public CaptureFramesViewModel(ICaptureFramesService captureFramesService, IMeetingUsers users, IMeetingAuthorization authorizationService)
+        public CaptureFramesViewModel(ICaptureFramesService captureFramesService, IUsersService usersService, IAuthorizationService authorizationService)
         {
             CaptureFrameAreas.EnableCollectionSynchronization();
 
              _cam = CamInitializeTest();
             _authorizationService = authorizationService;
             _captureFramesService = captureFramesService;
-            _meetingUsers = users;
+            _meetingUsers = usersService;
 
             this.WhenAnyValue(x => x.IsCameraOn).Subscribe(x => IsCameraOnChanged());
 
@@ -51,7 +51,7 @@ namespace Meeting.Wpf.ViewModels
                 foreach (var item in _captureFramesService.ActiveCaptureFrames)
                     CaptureFrameAreas.Add(new CaptureFrameViewModel(item.Key, item.Value.OwnerGuid, String.Empty, null));
 
-                foreach (var item in _meetingUsers.Users.Users)
+                foreach (var item in _meetingUsers.Users)
                 {
                     var captureFrameArea = CaptureFrameAreas.FirstOrDefault(x => x.OwnerGuid == item.Key || x.AreaGuid == item.Key);
 
@@ -69,8 +69,8 @@ namespace Meeting.Wpf.ViewModels
             if (_cam != null)
                 _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
 
-            _meetingUsers.Users.UsersChanged += OnUsersChanged;
-            _authorizationService.Authorization.AuthorizationStateChanged += OnConnectionStateChanged;
+            _meetingUsers.UsersChanged += OnUsersChanged;
+            _authorizationService.AuthorizationStateChanged += OnConnectionStateChanged;
             _captureFramesService.CaptureFrameStateChanged += OnCaptureFrameStateChanged;
             _captureFramesService.CaptureFrameChanged += OnCaptureFrameChanged;
 
@@ -79,8 +79,8 @@ namespace Meeting.Wpf.ViewModels
                 if (_cam != null)
                     _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
 
-                _meetingUsers.Users.UsersChanged -= OnUsersChanged;
-                _authorizationService.Authorization.AuthorizationStateChanged -= OnConnectionStateChanged;
+                _meetingUsers.UsersChanged -= OnUsersChanged;
+                _authorizationService.AuthorizationStateChanged -= OnConnectionStateChanged;
                 _captureFramesService.CaptureFrameStateChanged -= OnCaptureFrameStateChanged;
                 _captureFramesService.CaptureFrameChanged -= OnCaptureFrameChanged;
             }));
@@ -91,7 +91,7 @@ namespace Meeting.Wpf.ViewModels
         {
             if (action == UserConnectionState.Connected)
             {
-                _currentUser = _authorizationService.Authorization.CurrentUser;
+                _currentUser = _authorizationService.CurrentUser;
             }
             else if (action == UserConnectionState.Disconnected)
             {
@@ -151,12 +151,12 @@ namespace Meeting.Wpf.ViewModels
                         }
                         else
                         {
-                            user = _meetingUsers.Users.Users[e.OwnerGuid];
+                            user = _meetingUsers.Users[e.OwnerGuid];
                             CaptureFrameAreas.Add(new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
                         }
                         break;
                     case Core.Common.EventArgs.CaptureFrameState.Created:
-                        user = _meetingUsers.Users.Users[e.OwnerGuid];
+                        user = _meetingUsers.Users[e.OwnerGuid];
                         CaptureFrameAreas.Add(new CaptureFrameViewModel(e.OwnerGuid, e.CaptureAreadGuid, user.UserName, null));
                         break;
                     case Core.Common.EventArgs.CaptureFrameState.Removed:

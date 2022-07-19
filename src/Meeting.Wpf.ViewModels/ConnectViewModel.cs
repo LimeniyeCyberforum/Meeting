@@ -8,7 +8,7 @@ namespace Meeting.Wpf.ViewModels
 {
     public class ConnectViewModel : ReactiveObject
     {
-        private readonly IMeetingAuthorization _meetingAuthorization;
+        private readonly IAuthorizationService _meetingAuthorization;
 
         [Reactive]
         public string? Name { get; set; }
@@ -24,16 +24,16 @@ namespace Meeting.Wpf.ViewModels
                 .Select(x => !string.IsNullOrWhiteSpace(Name) && IsValidName == true));
 
         private async Task OnJoinExecute() =>
-            await _meetingAuthorization.Authorization.JoinToLobbyAsync(Name);
+            await _meetingAuthorization.JoinToLobbyAsync(Name);
 
         #endregion
 
-        public ConnectViewModel(IMeetingAuthorization meetingAuthorization)
+        public ConnectViewModel(IAuthorizationService meetingAuthorization)
         {
             _meetingAuthorization = meetingAuthorization;
 
             this.WhenAnyValue(x => x.Name)
-                .Select(x => string.IsNullOrWhiteSpace(Name) ? null : (bool?)!_meetingAuthorization.Authorization.IsNameExists(Name))
+                .Select(x => string.IsNullOrWhiteSpace(Name) ? null : (bool?)!_meetingAuthorization.IsNameExists(Name))
                 .ToPropertyEx(this, x => x.IsValidName);
         }
     }

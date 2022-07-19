@@ -22,9 +22,9 @@ namespace Meeting.Wpf.ViewModels
         {
             _meetingService = meetingService;
 
-            ChatVM = new ChatViewModel(_meetingService.Chat, _meetingService);
-            ConnectVM = new ConnectViewModel(_meetingService);
-            CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames, _meetingService, _meetingService);
+            ChatVM = new ChatViewModel(_meetingService.Chat, _meetingService.Authorization);
+            ConnectVM = new ConnectViewModel(_meetingService.Authorization);
+            CaptureFramesVM = new CaptureFramesViewModel(_meetingService.CaptureFrames, _meetingService.Users, _meetingService.Authorization);
 
             Subscribe();
         }
