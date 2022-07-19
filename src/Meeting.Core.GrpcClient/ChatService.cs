@@ -16,13 +16,15 @@ using ChatClient = MeetingProtobuf.Protos.Chat.ChatClient;
 
 namespace Meeting.Core.GrpcClient
 {
-    internal partial class ChatService : IChatService
+    internal sealed class ChatService : IChatService
     {
-        protected readonly Dictionary<Guid, MessageDto> messages = new Dictionary<Guid, MessageDto>();
+        private readonly Dictionary<Guid, MessageDto> messages = new Dictionary<Guid, MessageDto>();
 
         private bool disposed = false;
 
         private int messagesChangedSyncNumber = 0;
+        
+        private readonly MetadataRepository _metadataRepos;
         
         private CancellationTokenSource _chatSubscribeCancellationToken;
 
@@ -34,17 +36,19 @@ namespace Meeting.Core.GrpcClient
 
         public event EventHandler<NotifyDictionaryChangedEventArgs<Guid, MessageDto>> MessagesChanged;
 
-        public ChatService(ChatClient client)
-            : base()
+        public ChatService(ChatClient client, MetadataRepository metadataRepos)
         {
             _client = client;
+
+            _metadataRepos = metadataRepos;
+            _metadataRepos.MetadataChanged += OnMetadataChanged;
+            _metadata = _metadataRepos.CurrentMetadata;
+
             Messages = new ReadOnlyDictionary<Guid, MessageDto>(messages);
         }
 
-        public void UpdateMetadata(Metadata newMetadata)
-        {
-            _metadata = newMetadata;
-        }
+        private void OnMetadataChanged(object sender, Metadata e)
+            => _metadata = e;
 
         public Task ChatSubscribeAsync()
         {
@@ -108,7 +112,7 @@ namespace Meeting.Core.GrpcClient
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposed)
                 return;
@@ -117,6 +121,9 @@ namespace Meeting.Core.GrpcClient
             {
                 ChatUnsubscribe();
             }
+
+            _metadataRepos.MetadataChanged -= OnMetadataChanged;
+
             disposed = true;
         }
     }

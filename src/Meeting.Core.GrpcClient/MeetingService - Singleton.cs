@@ -36,10 +36,10 @@ namespace Meeting.Core.GrpcClient
                     return;
 
                 var channel = GetGrpcChannel();
-                _authorizationClient = new AuthorizationClient(channel);
+                Authorization = new AuthorizationService(new AuthorizationClient(channel), metadataRepository);
                 Users = new UsersService(new UsersClient(channel));
-                Chat = new ChatService(new ChatClient(channel));
-                CaptureFrames = new CaptureFramesService(new CaptureFramesClient(channel), Users);
+                Chat = new ChatService(new ChatClient(channel), metadataRepository);
+                CaptureFrames = new CaptureFramesService(new CaptureFramesClient(channel), Users, metadataRepository);
 
                 isInitialized = true;
             }

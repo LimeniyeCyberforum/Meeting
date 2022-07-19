@@ -70,7 +70,7 @@ namespace Meeting.Wpf.ViewModels
                 _cam.CaptureFrameChanged += OnOwnCaptureFrameChanged;
 
             _meetingUsers.Users.UsersChanged += OnUsersChanged;
-            _authorizationService.AuthorizationStateChanged += OnConnectionStateChanged;
+            _authorizationService.Authorization.AuthorizationStateChanged += OnConnectionStateChanged;
             _captureFramesService.CaptureFrameStateChanged += OnCaptureFrameStateChanged;
             _captureFramesService.CaptureFrameChanged += OnCaptureFrameChanged;
 
@@ -80,7 +80,7 @@ namespace Meeting.Wpf.ViewModels
                     _cam.CaptureFrameChanged -= OnOwnCaptureFrameChanged;
 
                 _meetingUsers.Users.UsersChanged -= OnUsersChanged;
-                _authorizationService.AuthorizationStateChanged -= OnConnectionStateChanged;
+                _authorizationService.Authorization.AuthorizationStateChanged -= OnConnectionStateChanged;
                 _captureFramesService.CaptureFrameStateChanged -= OnCaptureFrameStateChanged;
                 _captureFramesService.CaptureFrameChanged -= OnCaptureFrameChanged;
             }));
@@ -91,7 +91,7 @@ namespace Meeting.Wpf.ViewModels
         {
             if (action == UserConnectionState.Connected)
             {
-                _currentUser = _authorizationService.CurrentUser;
+                _currentUser = _authorizationService.Authorization.CurrentUser;
             }
             else if (action == UserConnectionState.Disconnected)
             {

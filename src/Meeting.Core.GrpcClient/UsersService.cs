@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UsersClient = MeetingProtobuf.Protos.Users.UsersClient;
+using Grpc.Core;
 
 namespace Meeting.Core.GrpcClient
 {
@@ -22,9 +23,9 @@ namespace Meeting.Core.GrpcClient
 
         private bool disposed = false;
 
-        private CancellationTokenSource _usersSubscribeCancellationToken;
-
         private readonly UsersClient _usersClient;
+
+        private CancellationTokenSource _usersSubscribeCancellationToken;
 
         public IReadOnlyDictionary<Guid, UserDto> Users { get; }
 

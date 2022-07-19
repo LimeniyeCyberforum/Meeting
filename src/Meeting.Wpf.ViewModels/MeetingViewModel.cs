@@ -33,10 +33,10 @@ namespace Meeting.Wpf.ViewModels
         {
             eventSubscriptions.Disposable = null;
             CompositeDisposable disposable = new CompositeDisposable();
-            _meetingService.AuthorizationStateChanged += OnConnectionStateChanged;
+            _meetingService.Authorization.AuthorizationStateChanged += OnConnectionStateChanged;
             disposable.Add(Disposable.Create(delegate
             {
-                _meetingService.AuthorizationStateChanged -= OnConnectionStateChanged;
+                _meetingService.Authorization.AuthorizationStateChanged -= OnConnectionStateChanged;
             }));
             eventSubscriptions.Disposable = disposable;
         }

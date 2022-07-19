@@ -38,7 +38,7 @@ namespace Meeting.Wpf.ViewModels
             var message = Message;
             Message = string.Empty;
             var messageGuid = Guid.NewGuid();
-            var newMessage = new OwnerMessageDto(messageGuid, _meetingAuthorization.CurrentUser.Guid, message, _meetingAuthorization.CurrentUser.UserName, null, MessageStatus.Sending);
+            var newMessage = new OwnerMessageDto(messageGuid, _meetingAuthorization.Authorization.CurrentUser.Guid, message, _meetingAuthorization.Authorization.CurrentUser.UserName, null, MessageStatus.Sending);
 
             Messages.Add(newMessage);
 
@@ -56,7 +56,7 @@ namespace Meeting.Wpf.ViewModels
 
             foreach (var item in _messageService.Messages.Values)
             {
-                if (item.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
+                if (item.UserGuid == _meetingAuthorization.Authorization.CurrentUser?.Guid)
                 {
                     Messages.Add(new OwnerMessageDto(item.Guid, item.UserGuid, item.Message, item.UserName, item.DateTime, MessageStatus.Readed));
                 }
@@ -90,7 +90,7 @@ namespace Meeting.Wpf.ViewModels
             switch (e.Action)
             {
                 case NotifyDictionaryChangedAction.Added:
-                    if (newValue.UserGuid == _meetingAuthorization.CurrentUser?.Guid)
+                    if (newValue.UserGuid == _meetingAuthorization.Authorization.CurrentUser?.Guid)
                     {
                         MessageDto? message = Messages.FirstOrDefault(x => x.Guid == newValue.Guid);
                         int index = message is null ? -1 : Messages.IndexOf(message);

@@ -16,7 +16,7 @@ using CaptureFramesClient = MeetingProtobuf.Protos.CaptureFrames.CaptureFramesCl
 
 namespace Meeting.Core.GrpcClient
 {
-    internal sealed partial class CaptureFramesService : ICaptureFramesService
+    internal sealed class CaptureFramesService : ICaptureFramesService
     {
         private Dictionary<Guid, CaptureFrameAreaDto> activeCaptureFrames = new Dictionary<Guid, CaptureFrameAreaDto>();
         private bool disposed = false;
@@ -24,6 +24,7 @@ namespace Meeting.Core.GrpcClient
         private CancellationTokenSource _captureFramesSubscriptionCancelationToken;
         private CancellationTokenSource _captureFramesSubscribeCancelationToken;
 
+        private readonly MetadataRepository _metadataRepos;
         private readonly CaptureFramesClient _client;
         private readonly IUsersService _usersService;
         private Metadata _metadata;
@@ -33,20 +34,23 @@ namespace Meeting.Core.GrpcClient
 
         public IReadOnlyDictionary<Guid, CaptureFrameAreaDto> ActiveCaptureFrames { get; }
 
-        public CaptureFramesService(CaptureFramesClient client, IUsersService usersService)
+        public CaptureFramesService(CaptureFramesClient client, IUsersService usersService, MetadataRepository metadataRepos)
             : base()
         {
             _client = client;
             _usersService = usersService;
+
+            _metadataRepos = metadataRepos;
+            _metadataRepos.MetadataChanged += OnMetadataChanged;
+            _metadata = _metadataRepos.CurrentMetadata;
+
             ActiveCaptureFrames = new ReadOnlyDictionary<Guid, CaptureFrameAreaDto>(activeCaptureFrames);
         }
 
-        #region Methods
+        private void OnMetadataChanged(object sender, Metadata e)         
+            => _metadata = e;
 
-        public void UpdateMetadata(Metadata metadata)
-        {
-            _metadata = metadata;
-        }
+        #region Methods
 
         public Guid CreateCaptureArea()
         {
@@ -247,6 +251,9 @@ namespace Meeting.Core.GrpcClient
                 CaptureFrameAreasUnsubscribe();
                 CaptureFramesUnsubscribe();
             }
+
+            _metadataRepos.MetadataChanged -= OnMetadataChanged;
+
             disposed = true;
         }
     }

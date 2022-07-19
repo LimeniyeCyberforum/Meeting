@@ -1,28 +1,22 @@
 ﻿using System;
 using Grpc.Core;
 using Grpc.Net.Client;
-using System.Threading.Tasks;
-using Meeting.Core.Common.DataTypes;
 
 using System.Net.Http;
 using Xamarin.Essentials;
 using Grpc.Net.Client.Web;
 using Meeting.Core.Common;
 using System.Runtime.CompilerServices;
-using AuthorizationClient = MeetingProtobuf.Protos.Authorization.AuthorizationClient;
 
 [assembly: InternalsVisibleTo("Meeting.Core.GrpcClient.Tests")]
 namespace Meeting.Core.GrpcClient
 {
     public sealed partial class MeetingService : IMeetingService
     {
+        private readonly MetadataRepository metadataRepository = new MetadataRepository();
         private bool disposed = false;
 
-        private AuthorizationClient _authorizationClient;
-
-        public UserDto CurrentUser { get; private set; }
-
-        public UserConnectionState CurrentConnectionState { get; private set; }
+        public IAuthorizationService Authorization { get; private set; }
 
         public IChatService Chat { get; private set; }
 
@@ -30,58 +24,9 @@ namespace Meeting.Core.GrpcClient
 
         public IUsersService Users { get; private set; }
 
-        public event EventHandler<UserConnectionState> AuthorizationStateChanged;
-
-        public void JoinToLobby(string username)
-        {
-            var authReply = _authorizationClient.Connect(new MeetingProtobuf.Protos.ConnectRequest { Username = username });
-            var metadata = new Metadata();
-            metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
-            UpdateMetadata(metadata);
-
-            CurrentUser = new UserDto(Guid.Parse(authReply.UserGuid), username);
-            CurrentConnectionState = UserConnectionState.Connected;
-            RaiseAuthorizationStateChangedEvent(UserConnectionState.Connected);
-        }
-
-        public async Task JoinToLobbyAsync(string username)
-        {
-            var authReply = await _authorizationClient.ConnectAsync(new MeetingProtobuf.Protos.ConnectRequest { Username = username });
-            var metadata = new Metadata();
-            metadata.Add("Authorization", $"Bearer {authReply.JwtToken}");
-            UpdateMetadata(metadata);
-
-            CurrentUser = new UserDto(Guid.Parse(authReply.UserGuid), username);
-            CurrentConnectionState = UserConnectionState.Connected;
-            RaiseAuthorizationStateChangedEvent(UserConnectionState.Connected);
-        }
-
-        public bool IsNameExists(string username)
-        {
-            return _authorizationClient.IsNameExists(new MeetingProtobuf.Protos.CheckNameRequest { Username = username }).IsExists;
-        }
-
-        public async Task<bool> IsNameExistsAsync(string username)
-        {
-            var response = await _authorizationClient.IsNameExistsAsync(new MeetingProtobuf.Protos.CheckNameRequest { Username = username });
-            return response.IsExists;
-        }
-
-        private void UpdateMetadata(Metadata metadata)
-        {
-            ((ChatService)Chat).UpdateMetadata(metadata);
-            ((CaptureFramesService)CaptureFrames).UpdateMetadata(metadata);
-        }
-
-        private void RaiseAuthorizationStateChangedEvent(UserConnectionState newState)
-        {
-            AuthorizationStateChanged?.Invoke(this, newState);
-        }
-
         private string GetServerAddress()
         {
             var address = "https://3.72.127.66:5010";
-
 #if UseLocalConnect
             address = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:5010" : "https://localhost:5010";
 #endif
@@ -121,7 +66,6 @@ namespace Meeting.Core.GrpcClient
                 Credentials = ChannelCredentials.SecureSsl
             });
         }
-
 
         public void Dispose()
         {
